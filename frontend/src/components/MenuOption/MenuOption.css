@@ -1,0 +1,13 @@
+.MenuOption {
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: left;
+    font: inherit;
+}
+.MenuOption:hover {
+    background-color: var(--gray4);
+}

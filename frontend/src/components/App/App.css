@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+/* reset */
+body {
+  margin: 0px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* theme */
+#root {
+  --gray1: #1d1d1d;
+  --gray2: #222222;
+  --gray3: #272727;
+  --gray4: #2c2c2c;
+  --gray5: #373737;
+
+  --white1: #f5f4f3;
+  --white2: rgb(220,220,220);
+  --white3: rgb(190,190,190);
+  --white4: rgb(170, 170, 170);
+  --white5: rgb(150, 150, 150);
+
+  --accent: rgb(218, 62, 0);
+
+  --border1: 1px var(--gray1) solid;
+  --border2: 1px var(--gray2) solid;
+
+  --round: 10px;
+  --toolbar-height: 40px;
+  --button-height: 30px;
+}
+
+@font-face {
+  font-family: Ubuntu-Regular;
+  src: url('../../assets/Ubuntu-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: Ubuntu-Bold;
+  src: url('../../assets/Ubuntu-Bold.ttf') format('truetype');
+}
+
+#root {
+  background-color: var(--gray3);
+  color: var(--white1);
+  font-family: Ubuntu-Regular;
+}

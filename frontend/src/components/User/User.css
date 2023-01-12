@@ -1,0 +1,7 @@
+#user {
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    z-index: 1040;
+    margin: 10px;
+}

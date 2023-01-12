@@ -1,0 +1,26 @@
+.File {
+    margin: 0px;
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: var(--FileList-columns);
+
+    color: var(--white5);
+    border-bottom: var(--border2);
+}
+.File > *:first-child{
+    color: var(--white1);
+}
+.File span {
+    display: inline-flex;
+    align-items: center;
+}
+.File button {
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+}
+
+.File:hover {
+    background-color: var(--gray4);
+}

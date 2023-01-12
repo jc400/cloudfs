@@ -1,0 +1,25 @@
+.Button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: var(--button-height);
+    margin: 0;
+    padding: 0px 5px;
+
+    border: var(--border1);
+    border-radius: 5px;
+
+    color: var(--white1);
+    background-color: var(--gray4);
+}
+.Button:hover {
+    cursor: pointer;
+    background-color: var(--gray5);
+}
+.Button.deactivated {
+    background-color: var(--gray1);
+    color: var(--white5);
+    cursor: default;
+}

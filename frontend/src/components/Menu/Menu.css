@@ -1,0 +1,12 @@
+.Menu {
+    z-index: 10;
+    position: absolute;
+    width: 250px;
+    padding: 8px 0;
+    border-radius: var(--round);
+    border: 1px var(--gray5) solid;
+    background: var(--gray1);
+}
+.Menu > * {
+    width: 100%;
+}

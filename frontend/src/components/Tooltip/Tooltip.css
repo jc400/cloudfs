@@ -1,0 +1,18 @@
+.Tooltip {
+    position: absolute;
+    z-index: 20;
+
+    min-width: 200px;
+    padding: 10px;
+
+    color: var(--white2);
+    background-color: var(--gray1);
+    opacity: 0.9;
+
+    text-align: left;
+    font-family: Ubuntu-Regular;
+    font-size: default;
+
+    border-radius: var(--round);
+    box-shadow: 0px 2px 5px var(--gray1);
+}
