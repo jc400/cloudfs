@@ -17,6 +17,8 @@ services:
       context: backend
       dockerfile: Dockerfile
     command: gunicorn -b 0.0.0.0:5000 app.wsgi:app
+    ports:
+      - 5000:5000
     tty: true
     volumes:
       - type: bind
@@ -30,14 +32,11 @@ services:
       context: frontend
       dockerfile: Dockerfile
     stdin_open: true
+    ports:
+      - 3000:3000
     volumes:
       - type: bind 
         source: ./frontend
         target: /app
-      #- './frontend/node_modules:/app/node_modules:cached'
     environment:
       - NODE_ENV=development
-
-
-#volumes:
-#  db-data:
