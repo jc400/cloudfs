@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:1.17
+    volumes:
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
+      - frontend
+
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    command: gunicorn -b 0.0.0.0:5000 app.wsgi:app
+    tty: true
+    volumes:
+      - type: bind
+        source: ./backend
+        target: /app/
+    environment:
+      PYTHONPATH: .
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    stdin_open: true
+    volumes:
+      - type: bind 
+        source: ./frontend
+        target: /app
+      #- './frontend/node_modules:/app/node_modules:cached'
+    environment:
+      - NODE_ENV=development
+
+
+#volumes:
+#  db-data:
