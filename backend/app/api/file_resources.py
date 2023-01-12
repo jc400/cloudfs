@@ -2,8 +2,8 @@ from flask import g, abort, current_app
 from flask_restful import Resource, reqparse, fields, marshal
 import time
 from sys import getsizeof
-from . import db
-from . import auth
+from .. import db
+from .. import auth
 
 # explicitly define which data fields to pass back via marshal()
 file_fields = {

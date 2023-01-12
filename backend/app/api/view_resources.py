@@ -1,7 +1,7 @@
 from flask import g, abort
 from flask_restful import Resource, fields, marshal
-from . import db
-from . import auth
+from .. import db
+from .. import auth
 
 # explicitly define which data fields to pass back via marshal()
 file_fields = {
