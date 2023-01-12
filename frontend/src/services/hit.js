@@ -1,7 +1,7 @@
-const ENDPOINT = '';
+import { BACKEND_URL } from '../config/config';
 
 export default async function hit(method, route, file_id=null, data=null) {
-    let url = `${ENDPOINT}/${route}`;
+    let url = `${BACKEND_URL}/${route}`;
     let options = {
         method: method,
         mode: 'cors',
