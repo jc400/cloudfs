@@ -31,6 +31,7 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+    command: npm start
     stdin_open: true
     ports:
       - 3000:3000
