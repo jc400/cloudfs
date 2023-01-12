@@ -2,11 +2,11 @@ import pytest
 from app.db import get_db
 
 def test_get_access(client):
-    assert client.get("/list/1").status_code == 404
-    assert client.get("/path/4").status_code == 404
-    assert client.get("/files/2").status_code == 404
-    assert client.get("/starred").status_code == 400
-    assert client.get("/recent").status_code == 400
+    assert client.get("/api/list/1").status_code == 404
+    assert client.get("/api/path/4").status_code == 404
+    assert client.get("/api/files/2").status_code == 404
+    assert client.get("/api/starred").status_code == 400
+    assert client.get("/api/recent").status_code == 400
 
 
 @pytest.mark.parametrize(
@@ -23,7 +23,7 @@ def test_put_file_unauth(app, client, json):
     title, content, starred, parent) as well as validation.
     Ensure no errors, and that change is in DB.
     """
-    response = client.put("/files/2", json=json)
+    response = client.put("/api/files/2", json=json)
     assert response.status_code == 404
 
     with app.app_context():
@@ -39,7 +39,7 @@ def test_put_file_unauth(app, client, json):
 
 def test_delete_file_unauth(app, client):
     """Ensure file disappears from DB"""
-    response = client.delete("/files/2")
+    response = client.delete("/api/files/2")
     assert response.status_code == 404
 
     with app.app_context():
@@ -56,7 +56,7 @@ def test_post_filelist_unauth(app, client):
         "file_type": "f",
     }
     with client:
-        response = client.post("/files", json=newfile)
+        response = client.post("/api/files", json=newfile)
         assert response.status_code == 401
 
     with app.app_context():

@@ -8,7 +8,7 @@ def test_get_file(client, auth):
     matches what is in DB.
     """
     auth.login()
-    response = client.get("/files/2")
+    response = client.get("/api/files/2")
     assert response.status_code == 200
     assert b"f1 title" in response.data
     assert b"f1 content" in response.data
@@ -29,7 +29,7 @@ def test_put_file(app, client, auth, json):
     Ensure no errors, and that change is in DB.
     """
     auth.login()
-    response = client.put("/files/2", json=json)
+    response = client.put("/api/files/2", json=json)
     assert response.status_code == 200
 
     with app.app_context():
@@ -52,7 +52,7 @@ def test_put_file(app, client, auth, json):
 )
 def test_put_file_invalid(app, client, auth, json):
     auth.login()
-    response = client.put("/files/4", json=json)
+    response = client.put("/api/files/4", json=json)
     assert response.status_code != 200
 
     with app.app_context():
@@ -69,14 +69,14 @@ def test_put_file_invalid(app, client, auth, json):
 def test_put_constraints(app, client, auth):
     app.config['SIZE_ALLOWANCE'] = 200
     auth.login()
-    response = client.put("/files/3", json={"content":"hello world"*100})
+    response = client.put("/api/files/3", json={"content":"hello world"*100})
     assert response.status_code == 400
 
 
 def test_delete_file(app, client, auth):
     """Ensure file disappears from DB"""
     auth.login()
-    response = client.delete("/files/2")
+    response = client.delete("/api/files/2")
     assert response.status_code == 200
 
     with app.app_context():
@@ -87,7 +87,7 @@ def test_delete_file(app, client, auth):
 
 def test_delete_file_home(app, client, auth):
     auth.login()
-    response = client.delete("/files/1")
+    response = client.delete("/api/files/1")
     assert response.status_code == 400
 
     with app.app_context():
@@ -105,7 +105,7 @@ def test_post_filelist(app, client, auth):
         "parent": 4,
         "file_type": "f",
     }
-    response = client.post("/files", json=newfile)
+    response = client.post("/api/files", json=newfile)
     assert response.status_code == 200
 
     with app.app_context():
@@ -127,5 +127,5 @@ def test_post_filelist_constraints(app, client, auth):
         "file_type": "f",
     }
     auth.login()
-    response = client.post("/files", json=newfile)
+    response = client.post("/api/files", json=newfile)
     assert response.status_code == 400

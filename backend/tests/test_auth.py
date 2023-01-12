@@ -13,7 +13,7 @@ def test_login(auth):
 def test_session_cookie(client, auth):
     auth.login()
     with client:
-        response = client.get("/auth/check_login")
+        response = client.get("/api/auth/check_login")
         assert response.json["logged in"] == True
         assert session["user_id"] == 1
 
@@ -28,7 +28,7 @@ def test_logout(client, auth):
 
 def test_register(app, client):
     creds = {"username":"Jimmy", "password":"beans"}
-    response = client.post("/auth/register", json=creds)
+    response = client.post("/api/auth/register", json=creds)
     assert response.status_code == 200
     assert response.json['success'] == True
 
