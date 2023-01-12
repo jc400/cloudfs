@@ -1,14 +1,14 @@
 import hit from './hit';
 
 export async function register(username, password){
-    return hit("POST", "auth/register", "", {
+    return hit("POST", "auth/register", {
         username: username,
         password: password,
     });
 } 
 
 export async function login(username, password){
-    return hit("POST", "auth/login", "", {
+    return hit("POST", "auth/login", {
         username: username,
         password: password,
     });
