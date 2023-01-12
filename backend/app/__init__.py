@@ -1,13 +1,11 @@
 import os
 from flask import Flask
-from flask_restful import Api
 
 
 def create_app(test_config=None):
     """App factory, sets up Flask app and returns it."""
 
     app = Flask(__name__, instance_relative_config=True)
-    api = Api(app)
 
     # config
     app.config.from_mapping(
@@ -27,22 +25,13 @@ def create_app(test_config=None):
         pass
 
     # set up db, auth, api resources
-    from . import db, auth
-    from .file_resources import File, FileList
-    from .view_resources import List, Path, Starred, Recent, Home
+    from . import db, auth, api
 
     app.cli.add_command(db.init_db_command)
     app.teardown_appcontext(db.close_db)
 
     app.register_blueprint(auth.bp)
-
-    api.add_resource(File, "/api/files/<int:file_id>")
-    api.add_resource(FileList, "/api/files")
-    api.add_resource(List, "/api/list/<int:file_id>")
-    api.add_resource(Path, "/api/path/<int:file_id>")
-    api.add_resource(Starred, "/api/starred")
-    api.add_resource(Recent, "/api/recent")
-    api.add_resource(Home, "/api/home")
+    app.register_blueprint(api.bp)
 
     import time
     #if not app.testing:
