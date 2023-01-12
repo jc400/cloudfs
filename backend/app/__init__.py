@@ -36,16 +36,20 @@ def create_app(test_config=None):
 
     app.register_blueprint(auth.bp)
 
-    api.add_resource(File, "/files/<int:file_id>")
-    api.add_resource(FileList, "/files")
-    api.add_resource(List, "/list/<int:file_id>")
-    api.add_resource(Path, "/path/<int:file_id>")
-    api.add_resource(Starred, "/starred")
-    api.add_resource(Recent, "/recent")
-    api.add_resource(Home, "/home")
+    api.add_resource(File, "/api/files/<int:file_id>")
+    api.add_resource(FileList, "/api/files")
+    api.add_resource(List, "/api/list/<int:file_id>")
+    api.add_resource(Path, "/api/path/<int:file_id>")
+    api.add_resource(Starred, "/api/starred")
+    api.add_resource(Recent, "/api/recent")
+    api.add_resource(Home, "/api/home")
 
     import time
     #if not app.testing:
     #    app.before_request(lambda: time.sleep(1.5))
+
+    @app.route("/")
+    def hello():
+        return "hello world"
 
     return app
