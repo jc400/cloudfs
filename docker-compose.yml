@@ -16,7 +16,7 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
-    command: gunicorn -b 0.0.0.0:5000 app.wsgi:app
+    command: flask --debug --app app.wsgi run --port 5000 --host 0.0.0.0
     ports:
       - 5000:5000
     tty: true
