@@ -24,21 +24,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # set up db, auth, api resources
-    from . import db, auth, api
-
-    app.cli.add_command(db.init_db_command)
-    app.teardown_appcontext(db.close_db)
-
+    # set up blueprints
+    from . import auth, api
     app.register_blueprint(auth.bp)
     app.register_blueprint(api.bp)
 
-    import time
-    #if not app.testing:
-    #    app.before_request(lambda: time.sleep(1.5))
-
-    @app.route("/")
-    def hello():
-        return "hello world"
+    # set up db
+    from . import db
+    app.cli.add_command(db.init_db_command)
+    app.teardown_appcontext(db.close_db)
 
     return app
