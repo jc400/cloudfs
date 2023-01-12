@@ -1,7 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api
-from .file_resources import File, FileList
-from .view_resources import List, Path, Starred, Recent, Home
+from .file_resources import File, FileList, List, Path, Starred, Recent, Home
 
 
 bp = Blueprint("api", __name__, url_prefix="")

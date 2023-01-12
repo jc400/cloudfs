@@ -154,3 +154,72 @@ class FileList(Resource):
                 "message": "",
                 "file": marshal(dict(result), file_fields),
             }
+
+
+class List(Resource):
+    method_decorators = [auth.login_required, auth.user_owns_wrapper]
+
+    def get(self, file_id):
+        dbh = db.get_db()
+        result = dbh.execute(
+            "SELECT * FROM files WHERE parent = ?", (file_id,)
+        ).fetchall()
+        return [marshal(dict(f), file_fields) for f in result]
+
+
+class Path(Resource):
+    method_decorators = [auth.login_required, auth.user_owns_wrapper]
+
+    def get(self, file_id):
+        result = []
+        dbh = db.get_db()
+        curr_file = file_id
+
+        while curr_file:
+            file_data = dbh.execute(
+                "SELECT * FROM files WHERE file_id = ?", (curr_file,)
+            ).fetchone()
+            result.append(marshal(dict(file_data), file_fields))
+            curr_file = file_data["parent"]
+
+        return result
+
+
+class Starred(Resource):
+    def get(self):
+        """Retrieve list of starred files"""
+        dbh = db.get_db()
+        if g.user_id is None:
+            abort(400)
+        else:
+            result = dbh.execute(
+                "SELECT * FROM files WHERE starred = TRUE AND user_id = ?",
+                (g.user_id,)
+            ).fetchall()
+            return [marshal(dict(f), file_fields) for f in result]
+
+
+class Recent(Resource):
+    def get(self):
+        dbh = db.get_db()
+        if g.user_id is None:
+            abort(400)
+        else:
+            result = dbh.execute(
+                "SELECT * FROM files WHERE user_id = ? ORDER BY updated DESC LIMIT 5",
+                (g.user_id,)
+            ).fetchall()
+            return [marshal(dict(f), file_fields) for f in result]
+
+
+class Home(Resource):
+    def get(self):
+        dbh = db.get_db()
+        if g.user_id is None:
+            abort(400)
+        else:
+            result = dict(dbh.execute(
+                "SELECT home FROM users WHERE user_id = ?",
+                (g.user_id,)
+            ).fetchone())
+            return {'home': result.get('home', None)}
