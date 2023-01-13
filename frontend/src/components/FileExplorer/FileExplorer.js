@@ -40,13 +40,12 @@ export default function FileExplorer() {
     // callbacks
     const change = (action, file) => {
         // could make target file implicit, just reference selectedFile
-        let prom;
         let file_id = file?.file_id;
 
         switch (action) {
             case 'open':
                 if (file?.file_type === 'd') {
-                    prom = setPwd(file_id);
+                    setPwd(file_id);
                 } else {
                     navigate('/text-editor/' + file_id);
                 }
@@ -93,7 +92,7 @@ export default function FileExplorer() {
                 break;
         }
 
-        prom?.then(() => setUpdate());
+        setUpdate();
 
     }
 
