@@ -30,6 +30,7 @@ export function get_home(db){
     return db.files[0];
 }
 
+
 export function create_file(parent, title='Untitled document', content='', db){
     let file = {
         "parent":parent,
@@ -43,6 +44,7 @@ export function create_file(parent, title='Untitled document', content='', db){
         "tags":[]
     };
     db.files.push(file);
+    return db;
 } 
 
 export function create_dir(parent, title='Untitled directory', db){
@@ -58,31 +60,38 @@ export function create_dir(parent, title='Untitled directory', db){
         "tags":[]
     };
     db.files.push(dir);
+    return db;
 } 
 
 export function move(file_id, parent, db){
     // update parent of file 
     db.files[file_id].parent = parent;
+    return db;
 } 
 
 export function rename(file_id, title, db){
     // update title of file 
     db.files[file_id].title = title;
+    return db;
 } 
 
 export function modify(file_id, content, db){
-// update content of file 
-db.files[file_id].content = content;
+    // update content of file 
+    db.files[file_id].content = content;
+    return db;
 } 
 
 export function star(file_id, db){
     db.files[file_id].starred = true;
+    return db;
 }
 
 export function unstar(file_id){
     db.files[file_id].starred = false;
+    return db;
 }
 
 export function delete_(file_id, db){
     db.files.pop(file_id);
+    return db;
 } 
