@@ -5,9 +5,7 @@ export function read(file_id, db){
 
 export function list(file_id, db){
     // return list of file objects with given parent
-    return db.files.filter(f => {
-        f.parent === file_id;
-    });
+    return db.files.filter(f => f.parent === file_id);
 } 
 
 export function get_path(file_id, db){
@@ -86,7 +84,7 @@ export function star(file_id, db){
     return db;
 }
 
-export function unstar(file_id){
+export function unstar(file_id, db){
     db.files[file_id].starred = false;
     return db;
 }
