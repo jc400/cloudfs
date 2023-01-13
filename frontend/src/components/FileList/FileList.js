@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { DBContext } from '../App/App';
+import { list } from '../../services/db';
 
 import './FileList.css';
 import File from '../File/File';
-import { list } from '../../services/crud';
 
 
 export default function FileList({selectedFile, pwd, update, callbacks}) {
-    const [files, setFiles] = useState([]);
-
-    // read all the docs from server, save to files state
-    const refresh = () => {
-        list(pwd)
-        .then( resp => setFiles(resp) )
-        .catch( e => {} );
-    }
-    useEffect( () => {
-        if (pwd !== null){
-            refresh();
-        }
-    }, [pwd, update]);
+    const { db } = useContext(DBContext);
 
     return (
         <div className="FileList">
@@ -31,7 +20,7 @@ export default function FileList({selectedFile, pwd, update, callbacks}) {
             </div>
 
             <div className="FileList-items">
-                {files
+                {list(pwd, db)
                     ?.sort((a, b) => (b?.file_type === 'd') - (a?.file_type === 'd'))
                     ?.map(file => (
                         <File 
