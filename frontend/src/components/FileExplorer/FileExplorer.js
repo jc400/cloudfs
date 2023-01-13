@@ -1,6 +1,7 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { get_home, create_file, create_dir, rename, move, star, unstar, delete_, } from '../../services/crud';
+import { get_home, create_file, create_dir, rename, move, star, unstar, delete_, } from '../../services/db';
+import { DBContext } from '../App/App';
 
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import ContextMenu from '../ContextMenu/ContextMenu';
@@ -24,8 +25,10 @@ import MenuIcon from '../../assets/menu.svg';
 export default function FileExplorer() {
     const navigate = useNavigate();
 
+    const {db, setDB} = useContext(DBContext);
+
     const [selectedFile, setSelectedFile] = useState({});
-    const [pwd, setPwd] = useState(null);
+    const [pwd, setPwd] = useState(0);
     const [cut, setCut] = useState(null);
 
     const [showFileCM, setShowFileCM] = useState(false); // for context menu
@@ -33,12 +36,6 @@ export default function FileExplorer() {
     const [pos, setPos] = useState({});
 
     const [update, setUpdate] = useReducer(st => !st, false); // updates file list
-
-    useEffect(()=>{
-        get_home()
-        .then(resp => setPwd(resp?.home))
-        .catch( e => {} );
-    }, []);
 
     // callbacks
     const change = (action, file) => {
@@ -56,17 +53,16 @@ export default function FileExplorer() {
                 break;
 
             case 'createDocument':
-                create_file(pwd)
-                    .then(resp => navigate("/text-editor/" + resp.file_id));
+                setDB(create_file(db, pwd))
                 break;
 
             case 'createDirectory':
-                prom = create_dir(pwd);
+                setDB(create_dir(db, pwd));
                 break;
 
             case 'rename':
                 let newTitle = window.prompt('Enter new name: ');
-                prom = rename(file_id, newTitle);
+                setDB(rename(db, file_id, newTitle));
                 break;
 
             case 'cut':
@@ -77,20 +73,20 @@ export default function FileExplorer() {
                 if (cut) {
                     let file_to_move = cut;
                     let new_dir = file_id || pwd;
-                    prom = move(file_to_move, new_dir);
+                    setDB(move(db, file_to_move, new_dir));
                 }
                 break;
 
             case 'delete':
-                prom = delete_(file_id);
+                setDB(delete_(db, file_id));
                 break;
 
             case 'star':
-                prom = star(file_id);
+                setDB(star(db, file_id));
                 break;
 
             case 'unstar':
-                prom = unstar(file_id);
+                setDB(unstar(db, file_id));
                 break;
 
             default:
