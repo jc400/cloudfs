@@ -29,7 +29,7 @@ export function get_home(db){
 }
 
 
-export function create_file(parent, title='Untitled document', content='', db){
+export function create_file(db, parent, title='Untitled document', content=''){
     let file = {
         "parent":parent,
         "file_type":"f",
@@ -45,7 +45,7 @@ export function create_file(parent, title='Untitled document', content='', db){
     return db;
 } 
 
-export function create_dir(parent, title='Untitled directory', db){
+export function create_dir(db, parent, title='Untitled directory'){
     let dir = {
         "parent":parent,
         "file_type":"d",
@@ -61,35 +61,35 @@ export function create_dir(parent, title='Untitled directory', db){
     return db;
 } 
 
-export function move(file_id, parent, db){
+export function move(db, file_id, parent){
     // update parent of file 
     db.files[file_id].parent = parent;
     return db;
 } 
 
-export function rename(file_id, title, db){
+export function rename(db, file_id, title){
     // update title of file 
     db.files[file_id].title = title;
     return db;
 } 
 
-export function modify(file_id, content, db){
+export function modify(db, file_id, content){
     // update content of file 
     db.files[file_id].content = content;
     return db;
 } 
 
-export function star(file_id, db){
+export function star(db, file_id){
     db.files[file_id].starred = true;
     return db;
 }
 
-export function unstar(file_id, db){
+export function unstar(db, file_id){
     db.files[file_id].starred = false;
     return db;
 }
 
-export function delete_(file_id, db){
+export function delete_(db, file_id){
     db.files.pop(file_id);
     return db;
 } 
