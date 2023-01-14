@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { DBContext } from '../App/App';
 import MenuOption from '../MenuOption/MenuOption';
-import { get_path } from '../../services/crud';
 import './Breadcrumbs.css';
 
 
 export default function Breadcrumbs({ pwd, open }) {
-    const [pathFiles, setPathFiles] = useState([]);
+    const { db } = useContext(DBContext);
 
-    useEffect( () => {
-        if (pwd !== null){
-            get_path(pwd)
-            .then(resp => setPathFiles(resp?.reverse()))
-            .catch(e => {});
-        }
-    }, [pwd])
+    let pathFiles = [pwd,];
+    let cursor = pwd
+    while (cursor !== "home") {
+        cursor = db.files[cursor].parent;
+        pathFiles.push(cursor);
+    }
 
     return (
         <div id="breadcrumbs-outer">
             <span id="breadcrumbs-inner">
-                {pathFiles.map( file => {
-                    return (
-                        <span key={file?.file_id}>
+                {pathFiles
+                    .reverse()
+                    .map(file_key => (
+                        <span key={file_key}>
                             &nbsp;
                             <MenuOption
-                                onClick={() => open(file)}
-                                name={file?.title}
-                                style={{display: 'inline', padding: '0px'}}
+                                onClick={() => open(file_key)}
+                                name={db.files[file_key].title}
+                                style={{ display: 'inline', padding: '0px' }}
                             />
                             &nbsp;/
                         </span>
-                    )}
-                )}
+                    ))
+                }
             </span>
         </div>
     )
