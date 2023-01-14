@@ -2,6 +2,7 @@ import React, { useState, createContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { template } from '../../config/config';
+import { getBlob, putBlob } from '../../services/api';
 
 import FileExplorer from '../FileExplorer/FileExplorer';
 import Login from '../Login/Login';
@@ -30,8 +31,8 @@ function App() {
         "file_type":  kwargs.file_type ?? "f",
         "title":      kwargs.title ?? "Untitled",
         "content":    kwargs.content ?? "",
-        "created":    new Date(),
-        "updated":    new Date(),
+        "created":    new Date().toUTCString(),
+        "updated":    new Date().toUTCString(),
         "starred":    kwargs.starred ?? false,
         "tags":       kwargs.tags ?? []
       };
@@ -58,6 +59,15 @@ function App() {
       })
     }
   }
+  const createDB = () => setDB(template);
+  const loadDB = () => getBlob().then(n => setDB(n));
+  const saveDB = () => putBlob(db);
+
+  const userCallbacks = {
+    createDB: createDB,
+    loadDB: loadDB,
+    saveDB: saveDB
+  }
 
 
   return (
@@ -67,6 +77,7 @@ function App() {
           <User
             authenticated={authenticated}
             setAuthenticated={setAuthenticated}
+            callbacks={userCallbacks}
           />
           <Routes>
             <Route path="/" element={<Redirect url="/file-explorer" />} />

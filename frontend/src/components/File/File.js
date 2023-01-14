@@ -20,7 +20,8 @@ export default function File({ file, file_key, callbacks, columns, style }) {
     const size = file?.file_type === 'f' 
         ? displaySize(new Blob([file.content]).size) 
         : `${Object.values(db.files).filter(v => v.parent === file_key).length} items`;
-    const updated = file?.updated ? file.updated.toDateString() : '';
+    
+    const updated = file?.updated ? new Date(file.updated).toDateString() : "";
 
     // validate callbacks
     const handleClick = callbacks?.handleClick || function(){};
