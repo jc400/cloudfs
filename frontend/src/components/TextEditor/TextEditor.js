@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { read, create_file, rename, modify } from '../../services/crud';
+import { DBContext } from '../App/App';
 
 import Button from '../Button/Button';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
@@ -14,22 +14,20 @@ import './TextEditor.css';
 
 
 export default function TextEditor() {
-    const { file_id } = useParams();
-    const [ document, setDocument ] = useState({});
     const navigate = useNavigate();
+    const {db, changeDB} = useContext(DBContext);
+    const { file_key } = useParams();
+    const [ document, setDocument ] = useState({});
     const [showOFD, setShowOFD] = useState(false);
     const [showSFD, setShowSFD] = useState(false);
     const messageRef = useRef();
-
     const [fontSize, setFontSize] = useState(16);
 
-    // fetch document content from API
+    // clone file from db
     useEffect( () => {
-        if (file_id) {
-            read(file_id)
-            .then(resp => setDocument(resp));
-        }
-    }, [file_id]);
+        const doc = structuredClone(db.files[file_key]);
+        setDocument(doc);
+    }, [file_key]);
 
 
     // callbacks
@@ -42,27 +40,31 @@ export default function TextEditor() {
 
     const saveDocument = () => {
         messageRef.current.innerText = "Saving...";
-        rename(file_id, document.title);
-        modify(file_id, document.content)
-        .then( () => {
-            messageRef.current.innerText = 'Saved!';
-            window.setTimeout(() => {messageRef.current.innerText = ''}, 2 * 1000);
+        changeDB.edit(file_key, {
+            title: document.title,
+            content: document.content,
         });
+        messageRef.current.innerText = 'Saved!';
+        window.setTimeout(() => {messageRef.current.innerText = ''}, 2 * 1000);
     };
 
     const saveDocumentAs = (newParent, newTitle) => {
-        create_file(newParent, newTitle, document?.content)
-        .then( resp => openDocument(resp.file_id) )
+        let new_file_key = changeDB.add({
+            parent: newParent,
+            title: newTitle,
+            content: document.content
+        })
+        openDocument(new_file_key)
     }
 
-    const openDocument = file_id => {
+    const openDocument = file_key => {
         setDocument({});
-        navigate(`/text-editor/${file_id}`);
+        navigate(`/text-editor/${file_key}`);
     }
 
     const createDocument = () => {
-        create_file(1)                  // PLACEHOLDER, HARDCODING ROOT. FIX LATER.
-        .then(resp => openDocument(resp.file_id) )
+        let new_file_key = changeDB.add();
+        openDocument(new_file_key);
     }
 
 
