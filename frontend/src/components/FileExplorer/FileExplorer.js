@@ -63,16 +63,16 @@ export default function FileExplorer() {
     // Pass CRUD changes up to db
     const create_file = () => changeDB.add({file_type:"f", parent: pwd});
     const create_dir = () => changeDB.add({file_type:"d", parent: pwd});
-    const star = file_key => changeDB.edit({file_key: file_key, starred: true});
-    const unstar = file_key => changeDB.edit({file_key: file_key, starred: false});
+    const star = file_key => changeDB.edit(file_key, {starred: true});
+    const unstar = file_key => changeDB.edit(file_key, {starred: false});
     const rename = file_key => {
         let newTitle = window.prompt('Enter new name: ');
-        changeDB.edit({file_key: file_key, title: newTitle});
+        changeDB.edit(file_key, {title: newTitle});
     }
     const remove = file_key => changeDB.remove(file_key);
     const move = (target, dest) => {
         if (db.files[dest].file_type === 'd'){
-            changeDB.edit({file_key: target, parent: dest});
+            changeDB.edit(target, {parent: dest});
         }
     }
 

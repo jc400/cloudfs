@@ -43,8 +43,12 @@ function App() {
         return {...prev, "files": newFiles}
       })
     },
-    edit: kwargs => {
-      console.log(kwargs);
+    edit: (file_key, kwargs) => {
+      setDB(prev => {
+        let newFiles = structuredClone(prev.files);
+        newFiles[file_key] = {...newFiles[file_key], ...kwargs};
+        return {...prev, "files": newFiles};
+      })
     },
     remove: file_key => {
       setDB(prev => {
