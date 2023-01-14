@@ -7,7 +7,6 @@ def test_login(auth):
     response = auth.login()
     assert response.status_code == 200
     assert response.json["message"] == "Logged in"
-    assert response.json["home"] == 1
 
 
 def test_session_cookie(client, auth):

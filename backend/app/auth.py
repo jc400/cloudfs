@@ -26,16 +26,8 @@ def register():
     if message is None:
         try:
             dbh.execute(
-                "INSERT INTO users (username, password) VALUES (?, ?)",
-                (username, generate_password_hash(password)),
-            )
-            dbh.execute(
-                "INSERT INTO files (title, created, updated, file_type, parent, user_id)"
-                "VALUES ( 'Home', ?, ?, 'd', 0, LAST_INSERT_ROWID() )",
-                (now, now),
-            )
-            dbh.execute(
-                "UPDATE users SET home = LAST_INSERT_ROWID()"
+                "INSERT INTO users (username, password, blob) VALUES (?, ?, ?)",
+                (username, generate_password_hash(password), ""),
             )
             dbh.commit()
         except dbh.IntegrityError:
@@ -66,7 +58,7 @@ def login():
     if message is None:
         session.clear()
         session['user_id'] = user['user_id']
-        return {"success":True, "message":"Logged in", "home":user['home']}
+        return {"success":True, "message":"Logged in"}
 
     return {"success":False, "message":message}
 
@@ -110,25 +102,3 @@ def login_required(view):
 
     return wrapped_view
 
-
-def user_owns(file_id, user_id):
-    """Determines access to a file. Return true if user owns (and can manipulate)
-    the file, false if not. Implement as wrapper (and grab file_id from args)??
-    """
-    dbh = get_db()
-    result = dbh.execute(
-        "SELECT * FROM files WHERE file_id = ?", 
-        (file_id,)
-    ).fetchone()
-    return result and user_id == result['user_id']
-
-
-def user_owns_wrapper(view):
-    """Returns new view function that wraps target view. """
-    @functools.wraps(view)
-    def wrapped_view(*args, **kwargs):
-        file_id = kwargs.get("file_id", None)
-        if not user_owns(file_id, g.user_id):
-            abort(404)
-        return view(*args, **kwargs)
-    return wrapped_view
