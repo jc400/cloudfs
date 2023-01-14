@@ -30,8 +30,8 @@ function App() {
         "file_type":  kwargs.file_type ?? "f",
         "title":      kwargs.title ?? "Untitled",
         "content":    kwargs.content ?? "",
-        "created":    Date(),
-        "updated":    Date(),
+        "created":    new Date(),
+        "updated":    new Date(),
         "size":       null,
         "starred":    kwargs.starred ?? false,
         "tags":       kwargs.tags ?? []
@@ -64,7 +64,6 @@ function App() {
   return (
     <>
       <DBContext.Provider value={{ db, changeDB }}>
-      <button onClick={() => console.log(db)} style={{zIndex: 3000, position: "absolute"}}>DEBUG</button>
         <BrowserRouter>
           <User
             authenticated={authenticated}

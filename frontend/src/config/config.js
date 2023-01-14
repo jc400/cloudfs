@@ -8,19 +8,8 @@ export const template = {
             "file_type": "d",
             "title": "home",
             "content": null,
-            "created": "",
-            "updated": "",
-            "size": "",
-            "starred": false,
-            "tags": []
-        },
-        "5k2j8gj40g": {
-            "parent": "home",
-            "file_type": "d",
-            "title": "mee",
-            "content": null,
-            "created": "",
-            "updated": "",
+            "created": null,
+            "updated": null,
             "size": "",
             "starred": false,
             "tags": []

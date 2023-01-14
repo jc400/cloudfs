@@ -16,7 +16,7 @@ export default function File({ file, file_key, callbacks, columns, style }) {
     const img = file?.file_type === 'f' ? fileIcon : dirIcon;
     const star = file?.starred ? fullStar : emptyStar;
     const size = file?.size ? displaySize(file.size) : '';
-    const updated = new Date(file?.updated * 1000).toDateString();
+    const updated = file?.updated ? file.updated.toDateString() : '';
 
     const handleClick = callbacks?.handleClick || function(){};
     const handleDoubleClick = callbacks?.handleDoubleClick || function(){};
