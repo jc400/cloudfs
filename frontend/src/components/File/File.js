@@ -11,7 +11,7 @@ import fullStar from '../../assets/full_star_gold.png';
 import displaySize from '../../services/displaySize';
 
 
-export default function File({ file, callbacks, columns, style }) {
+export default function File({ file, file_key, callbacks, columns, style }) {
 
     const img = file?.file_type === 'f' ? fileIcon : dirIcon;
     const star = file?.starred ? fullStar : emptyStar;
@@ -26,9 +26,9 @@ export default function File({ file, callbacks, columns, style }) {
     return (
         <div 
             className="File"
-            onClick={ev => handleClick(ev, file)}
-            onDoubleClick={ev => handleDoubleClick(ev, file)}
-            onContextMenu={ev => handleCM(ev, file)}
+            onClick={ev => handleClick(ev, file_key)}
+            onDoubleClick={ev => handleDoubleClick(ev, file_key)}
+            onContextMenu={ev => handleCM(ev, file_key)}
             style={style}
         >
             {columns.name && 
@@ -44,7 +44,7 @@ export default function File({ file, callbacks, columns, style }) {
 
             {columns.starred &&
                 <Button 
-                    onClick={ev=>handleStar(ev, file)}
+                    onClick={ev=>handleStar(ev, file_key)}
                     tooltip="Star a file to make it accessible from the sidebar"
                 >
                     <img src={star} width="20px" height="20px"></img>

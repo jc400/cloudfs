@@ -1,31 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import File from '../File/File';
-import { get_starred } from '../../services/crud';
+import { DBContext } from '../App/App';
 import './Starred.css';
 
-export default function Starred({update, callbacks}) {
-    const [starredFiles, setStarredFiles] = useState([]);
+export default function Starred({callbacks}) {
+    const { db } = useContext(DBContext);
 
-    useEffect( () => {
-        get_starred()
-        .then(resp => setStarredFiles(resp))
-        .catch(e => {} );
-    }, [update])
+    const starredFiles = Object.entries(db.files)
+    .filter(([k, v]) => v.starred);
 
     return (
         <>
             <div id="starred-title">Starred</div>
-            {starredFiles.map( file => {
-                return (
+            {starredFiles.map(([k, v]) => (
                     <File 
-                        key={file.file_id}
-                        file={file} 
+                        key={k}
+                        file={v} 
+                        file_key={k}
                         callbacks={callbacks}
                         columns={{name: true, size: false, updated: false, starred: false}}
                         style={{fontSize: '0.85em', border: 'none'}}
                     />
-                )
-            })}
+            ))}
         </>
     )
 }

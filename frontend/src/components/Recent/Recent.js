@@ -1,31 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { DBContext } from '../App/App';
 import File from '../File/File';
-import { get_recent } from '../../services/crud';
 import './Recent.css';
 
-export default function Recent({update, callbacks}) {
-    const [recentFiles, setRecentFiles] = useState([]);
+export default function Recent({ callbacks}) {
+    const { db } = useContext(DBContext);
 
-    useEffect( () => {
-        get_recent()
-        .then(resp => setRecentFiles(resp))
-        .catch( e => {} );
-    }, [update])
+    const recentFiles = Object.entries(db.files)
+    .filter(([k, v]) => true);
 
     return (
         <>
             <div id="recent-title">Recent Files</div>
-            {recentFiles.map( file => {
-                return (
+            {recentFiles.map(([k, v]) => (
                     <File 
-                        key={file.file_id}
-                        file={file} 
+                        key={k}
+                        file={v} 
+                        file_key={k}
                         callbacks={callbacks}
                         columns={{name: true, size: false, updated: false, starred: false}}
                         style={{fontSize: '0.85em', border: 'none'}}
                     />
-                )
-            })}
+            ))}
         </>
     )
 }
