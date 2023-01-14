@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { DBContext } from '../App/App';
 
 import './SaveFileDialog.css';
 import Button from '../Button/Button';
@@ -11,29 +12,29 @@ import NotSidebar from '../NotSidebar/NotSidebar';
 import Starred from '../Starred/Starred';
 
 export default function SaveFileDialog({ show, setShow, saveDocumentAs }) {
+    const {db} = useContext(DBContext);
     const [newTitle, setNewTitle] = useState('');
-    const [pwd, setPwd] = useState(1);
+    const [pwd, setPwd] = useState("home");
 
     // callbacks 
     const close = () => setShow(false);
-
     const submit = () => {
         if (newTitle !== '') {
             saveDocumentAs(pwd, newTitle);
             setShow(false);
         }
     }
-
+    const open = file_key => {
+        if (db.files[file_key].file_type === 'd') {
+            setPwd(file_key);
+        }
+    }
     const handleTitleChange = ev => {
         setNewTitle(ev.target.value);
     }
 
     const callbacks = {
-        handleDoubleClick: (ev, file) => {
-            if (file.file_type === 'd') {
-                setPwd(file.file_id);
-            }
-        }
+        handleDoubleClick: (ev, file_key) => open(file_key),
     }
 
     return (
@@ -62,9 +63,9 @@ export default function SaveFileDialog({ show, setShow, saveDocumentAs }) {
 
                 <NotSidebar>
                     <div id="SFD-nav">
-                        <History pwd={pwd} open={file_id => setPwd(file_id)} />
+                        <History pwd={pwd} open={open} />
                         &nbsp;
-                        <Breadcrumbs pwd={pwd} open={file => setPwd(file.file_id)} />
+                        <Breadcrumbs pwd={pwd} open={open} />
                     </div>
 
                      <FileList 
