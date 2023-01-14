@@ -3,7 +3,7 @@ import Menu from '../Menu/Menu';
 import MenuOption from '../MenuOption/MenuOption';
 
 
-export default function ContextMenu({show, setShow, pos, selectedFile, change}){
+export default function ContextMenu({show, setShow, pos, callbacks}){
 
     useEffect(() => {
         if (show) {
@@ -18,15 +18,13 @@ export default function ContextMenu({show, setShow, pos, selectedFile, change}){
         {show && (
             <div style={{ position: 'absolute', top: pos.y, left: pos.x }}>
                 <Menu style={pos.style}>
-                    <MenuOption onClick={() => change('open', selectedFile)} name='Open' />
-                    <MenuOption onClick={() => change('cut', selectedFile)} name='Cut' />
-                    <MenuOption onClick={() => change('paste', selectedFile)} name='Paste' />
-                    <MenuOption onClick={() => change('rename', selectedFile)} name='Rename' />
-                    {selectedFile?.starred
-                        ? <MenuOption onClick={() => change('unstar', selectedFile)} name='Unstar' />
-                        : <MenuOption onClick={() => change('star', selectedFile)} name='Star' />
-                    }
-                    <MenuOption onClick={() => change('delete', selectedFile)} name='Delete' />
+                    <MenuOption onClick={callbacks.open} name='Open' />
+                    <MenuOption onClick={callbacks.cut} name='Cut' />
+                    <MenuOption onClick={callbacks.paste} name='Paste' />
+                    <MenuOption onClick={callbacks.rename} name='Rename' />
+                    <MenuOption onClick={callbacks.star} name='Star' />
+                    <MenuOption onClick={callbacks.unstar} name='Unstar' />
+                    <MenuOption onClick={callbacks.remove} name='Delete' />
                 </Menu>
             </div>
         )}

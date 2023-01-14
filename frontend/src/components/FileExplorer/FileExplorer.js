@@ -27,6 +27,9 @@ export default function FileExplorer() {
     const {db, changeDB} = useContext(DBContext);
     const [selectedFile, setSelectedFile] = useState(null); // file key
     const [pwd, setPwd] = useState("home"); // file key
+    const [cutFile, setCutFile] = useState(null); // file key
+    const [CMshow, setCMshow] = useState(false);
+    const [CMpos, setCMpos] = useState({});
 
 
     // Internal updates to FileExplorer state
@@ -44,19 +47,53 @@ export default function FileExplorer() {
             setSelectedFile(null);
         }
     }
+    const openContextMenu = (ev, file_key) => {
+        ev.preventDefault();
+
+        let style = {};
+        if (ev.clientX > window.screen.availWidth / 2) style['right'] = 0;
+        if (ev.clientY > window.screen.availHeight / 2) style['bottom'] = 0;
+        setCMpos({x: ev.clientX, y: ev.clientY, style: style});
+
+        setSelectedFile(file_key);
+        setCMshow(true);
+    }
+    const cut = file_key => setCutFile(file_key);
 
     // Pass CRUD changes up to db
     const create_file = () => changeDB.add({file_type:"f", parent: pwd});
     const create_dir = () => changeDB.add({file_type:"d", parent: pwd});
     const star = file_key => changeDB.edit({file_key: file_key, starred: true});
     const unstar = file_key => changeDB.edit({file_key: file_key, starred: false});
+    const rename = file_key => {
+        let newTitle = window.prompt('Enter new name: ');
+        changeDB.edit({file_key: file_key, title: newTitle});
+    }
+    const remove = file_key => changeDB.remove(file_key);
+    const move = (target, dest) => {
+        if (db.files[dest].file_type === 'd'){
+            changeDB.edit({file_key: target, parent: dest});
+        }
+    }
+
+
 
     // callbacks to pass down to children
     const FileCallbacks = {
         handleClick: (ev, file_key) => select(file_key),
         handleDoubleClick: (ev, file_key) => open(file_key),
+        handleCM: (ev, file_key) => openContextMenu(ev, file_key),
         handleStar: (ev, file_key) => star(file_key),
         handleUnstar: (ev, file_key) => unstar(file_key),
+    }
+    const CMactions = {
+        open: () => open(selectedFile),
+        cut: () => cut(selectedFile),
+        paste: () => move(cutFile, selectedFile),
+        rename: () => rename(selectedFile),
+        star: () => star(selectedFile),
+        unstar: () => unstar(selectedFile),
+        remove: () => remove(selectedFile),
     }
 
 
@@ -86,6 +123,13 @@ export default function FileExplorer() {
                 </NotSidebar>
 
             </NotToolbar>
+
+            <ContextMenu 
+                show={CMshow} 
+                setShow={setCMshow} 
+                pos={CMpos} 
+                callbacks={CMactions}
+            />
 
         </div>
     )
