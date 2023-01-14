@@ -32,7 +32,6 @@ export default function FileExplorer() {
     const [cut, setCut] = useState(null);
 
     const [showFileCM, setShowFileCM] = useState(false); // for context menu
-    const [showDirCM, setShowDirCM] = useState(false);
     const [pos, setPos] = useState({});
 
     const [update, setUpdate] = useReducer(st => !st, false); // updates file list
@@ -171,15 +170,6 @@ export default function FileExplorer() {
                 change={change} 
             />
 
-            {showDirCM && (
-                <div style={{ position: 'absolute', top: pos.y, left: pos.x }}>
-                    <Menu style={pos.style}>
-                        <MenuOption onClick={() => change('createDocument')} name='New Document' />
-                        <MenuOption onClick={() => change('createDirectory')} name='New Directory' />
-                        <MenuOption onClick={() => change('paste', selectedFile)} name='Paste Here' />
-                    </Menu>
-                </div>
-            )}
         </div>
     )
 
