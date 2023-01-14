@@ -7,7 +7,7 @@ import MenuOption from '../MenuOption/MenuOption';
 import './User.css';
 
 
-export default function User({ authenticated, setAuthenticated }) {
+export default function User({ authenticated, setAuthenticated, callbacks }) {
     const handleLogout = () => {
         logout()
         .then( () => setAuthenticated(false));
@@ -18,7 +18,9 @@ export default function User({ authenticated, setAuthenticated }) {
             <div id="user">
                 <MenuDropdown title="User" tooltip="View user settings">
                     <MenuOption name="Log out" onClick={handleLogout} />
-                    <MenuOption name="Dummy" onClick={() => { }} />
+                    <MenuOption name="Create DB" onClick={callbacks.createDB} />
+                    <MenuOption name="Save DB" onClick={callbacks.saveDB} />
+                    <MenuOption name="Load DB" onClick={callbacks.loadDB} />
                 </MenuDropdown>
             </div>
         }</>
