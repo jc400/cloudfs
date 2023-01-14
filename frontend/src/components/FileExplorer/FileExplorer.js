@@ -1,6 +1,5 @@
 import React, { useState, useReducer, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { get_home, create_file, create_dir, rename, move, star, unstar, delete_, } from '../../services/db';
 import { DBContext } from '../App/App';
 
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
@@ -23,152 +22,70 @@ import MenuIcon from '../../assets/menu.svg';
 
 
 export default function FileExplorer() {
+    // FileExplorer's internal state
     const navigate = useNavigate();
+    const {db, changeDB} = useContext(DBContext);
+    const [selectedFile, setSelectedFile] = useState(null); // file key
+    const [pwd, setPwd] = useState("home"); // file key
 
-    const {db, setDB} = useContext(DBContext);
 
-    const [selectedFile, setSelectedFile] = useState({});
-    const [pwd, setPwd] = useState(0);
-    const [cut, setCut] = useState(null);
-
-    const [showFileCM, setShowFileCM] = useState(false); // for context menu
-    const [pos, setPos] = useState({});
-
-    const [update, setUpdate] = useReducer(st => !st, false); // updates file list
-
-    // callbacks
-    const change = (action, file) => {
-        // could make target file implicit, just reference selectedFile
-        let file_id = file?.file_id;
-
-        switch (action) {
-            case 'open':
-                if (file?.file_type === 'd') {
-                    setPwd(file_id);
-                } else {
-                    navigate('/text-editor/' + file_id);
-                }
-                break;
-
-            case 'createDocument':
-                setDB(create_file(db, pwd))
-                break;
-
-            case 'createDirectory':
-                setDB(create_dir(db, pwd));
-                break;
-
-            case 'rename':
-                let newTitle = window.prompt('Enter new name: ');
-                setDB(rename(db, file_id, newTitle));
-                break;
-
-            case 'cut':
-                setCut(file_id);
-                break;
-
-            case 'paste':
-                if (cut) {
-                    let file_to_move = cut;
-                    let new_dir = file_id || pwd;
-                    setDB(move(db, file_to_move, new_dir));
-                }
-                break;
-
-            case 'delete':
-                setDB(delete_(db, file_id));
-                break;
-
-            case 'star':
-                setDB(star(db, file_id));
-                break;
-
-            case 'unstar':
-                setDB(unstar(db, file_id));
-                break;
-
-            default:
-                break;
+    // Internal updates to FileExplorer state
+    const open = file_key => {
+        if (db.files[file_key].file_type === 'd') {
+            setPwd(file_key);
+        } else {
+            navigate('/text-editor/' + file_key);
         }
-
-        setUpdate();
-
+    }
+    const select = file_key => {
+        if (file_key !== "" && file_key !== selectedFile) {
+            setSelectedFile(file_key);
+        } else {
+            setSelectedFile(null);
+        }
     }
 
-    const callbacks = {
-        handleClick: (ev, file) => {
-            let file_id = file?.file_id;
-            if (file_id !== "" && file !== selectedFile) {
-                setSelectedFile(file);
-            } else {
-                setSelectedFile(null);
-            }
-        },
-        handleDoubleClick: (ev, file) => {
-            change('open', file);
-        },
-        handleCM: (ev, file) => {
-            ev.preventDefault();
-           
-            let style = {};
-            if (ev.clientX > window.screen.availWidth / 2) style['right'] = 0;
-            if (ev.clientY > window.screen.availHeight / 2) style['bottom'] = 0;
-            setPos({x: ev.clientX, y: ev.clientY, style: style});
+    // Pass CRUD changes up to db
+    const create_file = () => changeDB.add({file_type:"f", parent: pwd});
+    const create_dir = () => changeDB.add({file_type:"d", parent: pwd});
+    const star = file_key => changeDB.edit({file_key: file_key, starred: true});
+    const unstar = file_key => changeDB.edit({file_key: file_key, starred: false});
 
-            if (file) {
-                setSelectedFile(file)
-                setShowFileCM(true);
-            } else {
-                setShowDirCM(true);
-            }
-
-        },
-        handleStar: (ev, file) => {
-            ev.preventDefault();
-            if (file?.starred) {
-                change('unstar', file);
-            } else {
-                change('star', file);
-            }
-        },
-        openDir: file_id => setPwd(file_id),
+    // callbacks to pass down to children
+    const FileCallbacks = {
+        handleClick: (ev, file_key) => select(file_key),
+        handleDoubleClick: (ev, file_key) => open(file_key),
+        handleStar: (ev, file_key) => star(file_key),
+        handleUnstar: (ev, file_key) => unstar(file_key),
     }
 
 
     return (
         <div className="FileExplorer">
             <Toolbar style={{justifyContent: 'start'}}>
-                <History pwd={pwd} open={file_id => callbacks.openDir(file_id)} />
-                <Breadcrumbs pwd={pwd} open={file => change('open', file)} />
+                <History pwd={pwd} open={open} />
+                <Breadcrumbs pwd={pwd} open={open} />
                 <MenuDropdown 
                     title={<Icon src={MenuIcon} />}
                     tooltip="Menu options for this directory"
                 >
-                    <MenuOption name='New File' onClick={() => change('createDocument')} />
-                    <MenuOption name='New Directory' onClick={() => change('createDirectory')} />
+                    <MenuOption name='New File' onClick={create_file} />
+                    <MenuOption name='New Directory' onClick={create_dir} />
                 </MenuDropdown>
             </Toolbar>
 
             <NotToolbar>
                 <Sidebar show={true}>
-                    <Starred update={update} callbacks={callbacks} />
+                    <Starred callbacks={FileCallbacks} />
                     <div style={{borderTop: 'var(--border2)', margin: '15px 0px'}}></div>
-                    <Recent update={update} callbacks={callbacks} />
+                    <Recent callbacks={FileCallbacks} />
                 </Sidebar>
 
                 <NotSidebar>
-                    <FileList selectedFile={selectedFile} pwd={pwd} update={update} callbacks={callbacks} />
+                    <FileList selectedFile={selectedFile} pwd={pwd} callbacks={FileCallbacks} />
                 </NotSidebar>
 
             </NotToolbar>
-
-            <ContextMenu 
-                show={showFileCM} 
-                setShow={setShowFileCM} 
-                pos={pos} 
-                selectedFile={selectedFile} 
-                change={change} 
-            />
 
         </div>
     )
