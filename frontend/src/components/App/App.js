@@ -41,7 +41,8 @@ function App() {
         let newFiles = structuredClone(prev.files);
         newFiles[file_key] = file;
         return {...prev, "files": newFiles}
-      })
+      });
+      return file_key;
     },
     edit: (file_key, kwargs) => {
       setDB(prev => {
@@ -82,7 +83,7 @@ function App() {
               }
             />
             <Route
-              path="/text-editor/:file_id"
+              path="/text-editor/:file_key"
               element={
                 <PrivateRoute authenticated={authenticated}>
                   <TextEditor />
