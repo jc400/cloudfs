@@ -19,9 +19,44 @@ function App() {
   const [authenticated, setAuthenticated] = useState(null);
   const [db, setDB] = useState(template);
 
+
+  const changeDB = { 
+    // consolidates logic for making changes to data store. Wrapper 
+    // around setDB() method
+    add: kwargs => {
+      let file = {
+        "parent":     kwargs.parent ?? 0,
+        "file_type":  kwargs.parent ?? "f",
+        "title":      kwargs.parent ?? "Untitled document",
+        "content":    kwargs.parent ?? "",
+        "created":    Date(),
+        "updated":    Date(),
+        "size":       null,
+        "starred":    kwargs.parent ?? false,
+        "tags":       kwargs.parent ?? []
+      };
+      setDB(prev => {
+        let newFiles = structureCopy(prev.files);
+        newFiles.push(file);
+        return {...prev, "files": newFiles}
+      })
+    },
+    edit: kwargs => {
+      console.log(kwargs);
+    },
+    remove: file_idx => {
+      setDB(prev => {
+        let newFiles = structureCopy(prev.files);
+        newFiles.pop(file_idx);
+        return {...prev, "files": newFiles}
+      })
+    }
+  }
+
+
   return (
     <>
-      <DBContext.Provider value={{ db, setDB }}>
+      <DBContext.Provider value={{ db, changeDB }}>
         <BrowserRouter>
           <User
             authenticated={authenticated}
