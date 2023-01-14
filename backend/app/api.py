@@ -1,16 +1,14 @@
-from flask import g, abort, current_app
-from flask_restful import Resource, reqparse, fields, marshal
-import time
+from flask import Blueprint, g, abort, current_app
+from flask_restful import Api, Resource, reqparse, fields, marshal
 from sys import getsizeof
-from .. import db
-from .. import auth
-from .utils import is_directory, is_file, exceeds_size_allowance, exceeds_file_allowance
+from . import db
+from . import auth
+
 
 # explicitly define which data fields to pass back via marshal()
 file_fields = {
     "blob": fields.String
 }
-
 
 class Blob(Resource):
     method_decorators = [auth.login_required]
@@ -37,3 +35,6 @@ class Blob(Resource):
         return {"success": True, "message": ""}
 
 
+bp = Blueprint("api", __name__, url_prefix="")
+api = Api(bp)
+api.add_resource(Blob, "/api/blob")
