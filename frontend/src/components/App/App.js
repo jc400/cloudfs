@@ -1,5 +1,6 @@
 import React, { useState, createContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import { template } from '../../config/config';
 
 import FileExplorer from '../FileExplorer/FileExplorer';
@@ -25,29 +26,30 @@ function App() {
     // around setDB() method
     add: kwargs => {
       let file = {
-        "parent":     kwargs.parent ?? 0,
-        "file_type":  kwargs.parent ?? "f",
-        "title":      kwargs.parent ?? "Untitled document",
-        "content":    kwargs.parent ?? "",
+        "parent":     kwargs.parent ?? "home",
+        "file_type":  kwargs.file_type ?? "f",
+        "title":      kwargs.title ?? "Untitled",
+        "content":    kwargs.content ?? "",
         "created":    Date(),
         "updated":    Date(),
         "size":       null,
-        "starred":    kwargs.parent ?? false,
-        "tags":       kwargs.parent ?? []
+        "starred":    kwargs.starred ?? false,
+        "tags":       kwargs.tags ?? []
       };
+      let file_key = uuidv4();
       setDB(prev => {
-        let newFiles = structureCopy(prev.files);
-        newFiles.push(file);
+        let newFiles = structuredClone(prev.files);
+        newFiles[file_key] = file;
         return {...prev, "files": newFiles}
       })
     },
     edit: kwargs => {
       console.log(kwargs);
     },
-    remove: file_idx => {
+    remove: file_key => {
       setDB(prev => {
-        let newFiles = structureCopy(prev.files);
-        newFiles.pop(file_idx);
+        let newFiles = structuredClone(prev.files);
+        delete(newFiles[file_key]);
         return {...prev, "files": newFiles}
       })
     }
@@ -57,6 +59,7 @@ function App() {
   return (
     <>
       <DBContext.Provider value={{ db, changeDB }}>
+      <button onClick={() => console.log(db)} style={{zIndex: 3000, position: "absolute"}}>DEBUG</button>
         <BrowserRouter>
           <User
             authenticated={authenticated}
