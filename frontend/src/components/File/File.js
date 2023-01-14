@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { DBContext } from '../App/App';
 
 import './File.css';
 import Button from '../Button/Button';
@@ -12,16 +13,31 @@ import displaySize from '../../services/displaySize';
 
 
 export default function File({ file, file_key, callbacks, columns, style }) {
+    const {db, changeDB} = useContext(DBContext);
 
+    // calculate data to display
     const img = file?.file_type === 'f' ? fileIcon : dirIcon;
-    const star = file?.starred ? fullStar : emptyStar;
-    const size = file?.size ? displaySize(file.size) : '';
+    const size = file?.file_type === 'f' 
+        ? displaySize(new Blob([file.content]).size) 
+        : `${Object.values(db.files).filter(v => v.parent === file_key).length} items`;
     const updated = file?.updated ? file.updated.toDateString() : '';
 
+    // validate callbacks
     const handleClick = callbacks?.handleClick || function(){};
     const handleDoubleClick = callbacks?.handleDoubleClick || function(){};
     const handleCM = callbacks?.handleCM || function(){};
-    const handleStar = callbacks?.handleStar || function(){};
+
+    // switch if starred
+    let star;
+    let handleStarButton;
+    if (file?.starred) {
+        star = fullStar;
+        handleStarButton = callbacks.handleUnstar || function(){};
+    } else {
+        star = emptyStar;
+        handleStarButton = callbacks.handleStar || function(){};
+    }
+    
 
     return (
         <div 
@@ -44,7 +60,7 @@ export default function File({ file, file_key, callbacks, columns, style }) {
 
             {columns.starred &&
                 <Button 
-                    onClick={ev=>handleStar(ev, file_key)}
+                    onClick={ev=>handleStarButton(ev, file_key)}
                     tooltip="Star a file to make it accessible from the sidebar"
                 >
                     <img src={star} width="20px" height="20px"></img>

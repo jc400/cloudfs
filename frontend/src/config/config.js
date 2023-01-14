@@ -10,7 +10,6 @@ export const template = {
             "content": null,
             "created": null,
             "updated": null,
-            "size": "",
             "starred": false,
             "tags": []
         }

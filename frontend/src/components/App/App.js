@@ -32,7 +32,6 @@ function App() {
         "content":    kwargs.content ?? "",
         "created":    new Date(),
         "updated":    new Date(),
-        "size":       null,
         "starred":    kwargs.starred ?? false,
         "tags":       kwargs.tags ?? []
       };
