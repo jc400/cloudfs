@@ -2,8 +2,8 @@ export const BACKEND_URL = "/api";
 
 export const template = {
     "metadata": "",
-    "files": [
-        {
+    "files": {
+        "home": {
             "parent": null,
             "file_type": "d",
             "title": "home",
@@ -13,6 +13,17 @@ export const template = {
             "size": "",
             "starred": false,
             "tags": []
+        },
+        "5k2j8gj40g": {
+            "parent": "home",
+            "file_type": "d",
+            "title": "mee",
+            "content": null,
+            "created": "",
+            "updated": "",
+            "size": "",
+            "starred": false,
+            "tags": []
         }
-    ]
+    }
 }
