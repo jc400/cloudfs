@@ -53,9 +53,11 @@ function App() {
       })
     }
   }
-  const createDB = () => setDB(template);
-  const loadDB = () => getBlob().then(n => setDB(n));
-  const saveDB = () => putBlob(db);
+  const VaultActions = {
+    createDB: () => setDB(template),
+    loadDB: () => getBlob().then(n => setDB(n)),
+    saveDB: () => putBlob(db),
+  }
 
   // UI state
   const [activeMid, setActiveMid] = useReducer((st, n) => st === n ? null : n, null);
@@ -67,7 +69,11 @@ function App() {
     <DBContext.Provider value={{ db, changeDB }}>
       <div style={{ display: "flex" }}>
 
-        <Sidebar activeMid={activeMid} setActiveMid={setActiveMid} />
+        <Sidebar 
+          activeMid={activeMid} 
+          setActiveMid={setActiveMid} 
+          VaultActions={VaultActions}
+        />
 
         <FileExplorer activeMid={activeMid} />
 
