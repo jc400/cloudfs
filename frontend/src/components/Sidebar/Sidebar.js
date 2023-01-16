@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Button from '../Button/Button';
 import Icon from '../Icon/Icon';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
 import MenuOption from '../MenuOption/MenuOption';
@@ -13,30 +12,23 @@ import settings from '../../assets/settings.svg';
 
 export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
 
-    const bg = {backgroundColor: "var(--gray1)"};
     return (
         <div id="Sidebar">
             <ul>
                 <li>
-                    <Button
+                    <button
                         onClick={() => setActiveMid("FileExplorer")}
-                        tooltip="Show the File Explorer"
-                        style={bg}
-                    ><Icon src={folder} /></Button>
+                    ><Icon src={folder} /></button>
                 </li>
                 <li>
-                    <Button
+                    <button
                         onClick={() => setActiveMid("Search")}
-                        tooltip="Search"
-                        style={bg}
-                    ><Icon src={search} /></Button>
+                    ><Icon src={search} /></button>
                 </li>
                 <li>
-                    <Button
+                    <button
                         onClick={() => setActiveMid("Starred")}
-                        tooltip="Show starred files"
-                        style={bg}
-                    ><Icon src={star} /></Button>
+                    ><Icon src={star} /></button>
                 </li>
                 <li>
                     <MenuDropdown 
