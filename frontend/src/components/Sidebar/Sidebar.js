@@ -1,4 +1,5 @@
 import React from 'react';
+import { login, logout } from '../../services/auth';
 
 import Icon from '../Icon/Icon';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
@@ -35,6 +36,8 @@ export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
                         title={<Icon src={settings} />}
                         tooltip="Show settings"
                     >
+                        <MenuOption name="Login" onClick={() => login(prompt("Username: "), prompt("Password: "))} />
+                        <MenuOption name="Logout" onClick={()=>logout()} />
                         <MenuOption name="Create DB" onClick={VaultActions.createDB} />
                         <MenuOption name="Save DB" onClick={VaultActions.saveDB} />
                         <MenuOption name="Load DB" onClick={VaultActions.loadDB} />
