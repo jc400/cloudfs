@@ -67,6 +67,7 @@ function App() {
 
   return (
     <DBContext.Provider value={{ db, changeDB }}>
+      <button onClick={() => console.log(db)} style={{zIndex: 3000, position: "absolute", right: 0}}>DEBUG</button>
       <div style={{ display: "flex" }}>
 
         <Sidebar 
@@ -75,7 +76,7 @@ function App() {
           VaultActions={VaultActions}
         />
 
-        <FileExplorer activeMid={activeMid} />
+        <FileExplorer activeMid={activeMid} setActiveFile={setActiveFile} />
 
         <Workspace activeFile={activeFile} />
 

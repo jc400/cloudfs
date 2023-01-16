@@ -13,7 +13,7 @@ import './FileExplorer.css';
 import MenuIcon from '../../assets/menu.svg';
 
 
-export default function FileExplorer({ activeMid }) {
+export default function FileExplorer({ activeMid, setActiveFile }) {
     // FileExplorer's internal state
     const { db, changeDB } = useContext(DBContext);
     const [selectedFile, setSelectedFile] = useState(null); // file key
@@ -28,7 +28,7 @@ export default function FileExplorer({ activeMid }) {
         if (db.files[file_key].file_type === 'd') {
             setPwd(file_key);
         } else {
-
+            setActiveFile(file_key);
         }
     }
     const select = file_key => {
