@@ -17,8 +17,8 @@ export default function Starred({ activeMid, setActiveFile }) {
         <>
             {activeMid === "Starred" &&
                 <div className="Starred">
-                    <div id="Starred-header">Starred</div>
-                    <div id="Starred-items">
+                    <div className="Starred-header">Starred</div>
+                    <div className="Starred-items">
                         {starredFiles.map(([k, v]) => (
                             <File
                                 key={k}
