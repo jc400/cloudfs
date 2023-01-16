@@ -7,12 +7,13 @@ import './Breadcrumbs.css';
 export default function Breadcrumbs({ pwd, open }) {
     const { db } = useContext(DBContext);
 
-    let pathFiles = [pwd,];
+    let pathFiles = [];
     let cursor = pwd
-    while (cursor !== "home") {
-        cursor = db.files[cursor].parent;
+    while (cursor && (cursor !== "home")) {
         pathFiles.push(cursor);
+        cursor = db.files[cursor].parent;
     }
+    pathFiles.push("home");
 
     return (
         <div id="breadcrumbs-outer">
