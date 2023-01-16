@@ -5,6 +5,7 @@ import { getBlob, putBlob } from '../../services/api';
 
 import Sidebar from '../Sidebar/Sidebar';
 import FileExplorer from '../FileExplorer/FileExplorer';
+import Starred from '../Starred/Starred';
 import Workspace from '../Workspace/Workspace';
 
 import './App.css';
@@ -77,6 +78,7 @@ function App() {
         />
 
         <FileExplorer activeMid={activeMid} setActiveFile={setActiveFile} />
+        <Starred activeMid={activeMid} setActiveFile={setActiveFile} />
 
         <Workspace activeFile={activeFile} setActiveFile={setActiveFile} />
 
