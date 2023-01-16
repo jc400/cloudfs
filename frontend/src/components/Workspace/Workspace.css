@@ -3,6 +3,7 @@
     flex: 1 1 auto;
     height: 100%;
     overflow-y: scroll;
+    background-color: var(--gray2);
 }
 
 #title {

@@ -2,59 +2,79 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { DBContext } from '../App/App';
 
 import Button from '../Button/Button';
-import MenuDropdown from '../MenuDropdown/MenuDropdown';
-import MenuOption from '../MenuOption/MenuOption';
-import Toolbar from '../Toolbar/Toolbar';
-import NotToolbar from '../NotToolbar/NotToolbar';
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
+import File from '../File/File';
 
 import './Workspace.css';
 
 
-export default function TextEditor({activeFile}) {
+export default function TextEditor({activeFile, setActiveFile}) {
     const {db, changeDB} = useContext(DBContext);
-    const file_key = activeFile
     const [ document, setDocument ] = useState({});
-    const messageRef = useRef();
-    const [fontSize, setFontSize] = useState(16);
+    const [ tabs, setTabs ] = useState([]);
 
-    // clone file from db
+    
     useEffect( () => {
-        const doc = structuredClone(db.files[file_key]);
+        // clone file from db
+        const doc = structuredClone(db.files[activeFile]);
         setDocument(doc);
-    }, [file_key]);
+
+        // add new file to tabs
+        if (activeFile && !tabs.includes(activeFile)){
+            setTabs(prev => [...prev, activeFile]);
+        }
+    }, [activeFile]);
 
 
     // callbacks
-    const handleTitleChange = ev => setDocument(st => { 
-        return {...st, title: ev.target.value} 
-    });
     const handleContentChange = ev => setDocument(st => { 
         return {...st, content: ev.target.value}
     });
 
     const saveDocument = () => {
-        messageRef.current.innerText = "Saving...";
-        changeDB.edit(file_key, {
-            title: document.title,
+        changeDB.edit(activeFile, {
             content: document.content,
         });
-        messageRef.current.innerText = 'Saved!';
-        window.setTimeout(() => {messageRef.current.innerText = ''}, 2 * 1000);
+    };
+
+    const removeTab = file_key => {
+        setTabs(prev => {
+            return prev.splice(prev.indexOf(file_key));
+        })
+    }
+
+    const TabCallbacks = {
+        handleClick: (ev, file_key) => setActiveFile(file_key),
     };
 
 
     return (
         <div id="Workspace">
-            <Button 
-                onClick={saveDocument}
-            >Save</Button>
-            <span ref={messageRef} />
+            <div id="Workspace-tabs">
+                {tabs.map(file_key => (
+                    <span key={file_key}>
+                        <File 
+                            file={db.files[file_key]}
+                            file_key={file_key}
+                            callbacks={TabCallbacks}
+                            style={file_key === activeFile ? { backgroundColor: 'var(--gray2)' } : {}}
+                        />
+                    </span>
+                ))}
+                <Button 
+                    onClick={saveDocument}
+                    style={{float: "right"}}
+                >Save</Button>
+            </div>
+            <Breadcrumbs 
+                pwd={activeFile}
+                open={() => {}}
+            ></Breadcrumbs>
             <textarea
                 id="content"
                 name="content"
                 rows="25"
                 cols="50"
-                style={{fontSize: fontSize }}
                 value={document?.content || ''}
                 onChange={handleContentChange}
             ></textarea>

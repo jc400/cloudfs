@@ -78,7 +78,7 @@ function App() {
 
         <FileExplorer activeMid={activeMid} setActiveFile={setActiveFile} />
 
-        <Workspace activeFile={activeFile} />
+        <Workspace activeFile={activeFile} setActiveFile={setActiveFile} />
 
       </div>
     </DBContext.Provider>
