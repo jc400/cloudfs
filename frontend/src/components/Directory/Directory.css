@@ -1,4 +1,4 @@
-.File {
+.Directory {
     margin: 0px;
     padding: 5px;
 
@@ -7,14 +7,14 @@
 
     color: var(--white5);
 }
-.File > *:first-child{
+.Directory > *:first-child{
     color: var(--white1);
 }
-.File span {
+.Directory span {
     display: inline-flex;
     align-items: center;
 }
 
-.File:hover {
+.Directory:hover {
     background-color: var(--gray4);
 }
