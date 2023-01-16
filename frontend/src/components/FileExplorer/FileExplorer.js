@@ -132,15 +132,17 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
                             <MenuOption name='New Directory' onClick={create_dir} />
                         </MenuDropdown>
                     </div>
-                    {getChildren("home")}
+                    <div className="FileExplorer-items">
+                        {getChildren("home")}
+                    </div>
+                    <ContextMenu
+                        show={CMshow}
+                        setShow={setCMshow}
+                        pos={CMpos}
+                        callbacks={CMactions}
+                    />
                 </div>
             }
-            <ContextMenu
-                show={CMshow}
-                setShow={setCMshow}
-                pos={CMpos}
-                callbacks={CMactions}
-            />
         </>
     )
 
