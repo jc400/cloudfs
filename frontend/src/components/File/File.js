@@ -1,20 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { DBContext } from '../App/App';
 
 import './File.css';
-import Button from '../Button/Button';
 import fileIcon from '../../assets/file.svg';
-import dirIcon from '../../assets/folder.svg';
-
-import displaySize from '../../services/displaySize';
 
 
 export default function File({ file, file_key, callbacks, columns, style }) {
-    const {db, changeDB} = useContext(DBContext);
-
-    // calculate data to display
-    const img = file?.file_type === 'f' ? fileIcon : dirIcon;
 
     // validate callbacks
     const handleClick = callbacks?.handleClick || function(){};
@@ -31,7 +22,7 @@ export default function File({ file, file_key, callbacks, columns, style }) {
             style={style}
         >
                 <span>
-                    <img src={img} width="20px" height="20px" style={{marginRight: "10px"}} />
+                    <img src={fileIcon} width="15px" height="15px" style={{marginRight: "7px"}} />
                     <span>{file?.title}</span>
                 </span>
         </div>

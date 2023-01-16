@@ -1,13 +1,6 @@
 .File {
     margin: 0px;
     padding: 5px;
-
-    display: grid;
-    grid-template-columns: var(--FileList-columns);
-
-    color: var(--white5);
-}
-.File > *:first-child{
     color: var(--white1);
 }
 .File span {

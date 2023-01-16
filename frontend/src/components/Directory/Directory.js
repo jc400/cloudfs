@@ -2,18 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import './Directory.css';
-import Button from '../Button/Button';
-import fileIcon from '../../assets/file.svg';
-import dirIcon from '../../assets/folder.svg';
-
-import displaySize from '../../services/displaySize';
+import chevRight from '../../assets/chevron-right.svg';
+import chevDown from '../../assets/chevron-down.svg';
 
 
 export default function Directory({ children, file, file_key, callbacks, columns, style }) {
     const [expand, setExpand] = useState(true);
-
-    // calculate data to display
-    const img = dirIcon;
 
     // validate callbacks
     const handleClick = callbacks?.handleClick || function(){};
@@ -31,7 +25,14 @@ export default function Directory({ children, file, file_key, callbacks, columns
                 style={style}
             >
                     <span>
-                        <img src={img} width="20px" height="20px" style={{marginRight: "10px"}} />
+                        <button onClick={() => setExpand(!expand)}>
+                            <img 
+                                src={expand ? chevDown : chevRight} 
+                                width="15px" 
+                                height="15px" 
+                                style={{marginRight: "7px"}} 
+                            />
+                        </button>
                         <span>{file?.title}</span>
                     </span>
             </div>

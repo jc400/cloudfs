@@ -1,20 +1,18 @@
 .Directory {
     margin: 0px;
     padding: 5px;
-
-    display: grid;
-    grid-template-columns: var(--FileList-columns);
-
-    color: var(--white5);
-}
-.Directory > *:first-child{
     color: var(--white1);
 }
 .Directory span {
     display: inline-flex;
     align-items: center;
 }
-
 .Directory:hover {
     background-color: var(--gray4);
+}
+.Directory > span > button {
+    border: none;
+    padding: 0px;
+    background-color: inherit;
+    cursor: pointer;
 }
