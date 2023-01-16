@@ -1,6 +1,0 @@
-#NotToolbar {
-    height: 100vh;
-    width: 100vw;
-    padding-top: var(--toolbar-height);
-    display: flex;
-}
