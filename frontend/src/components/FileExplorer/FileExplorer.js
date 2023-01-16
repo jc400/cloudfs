@@ -8,6 +8,7 @@ import MenuDropdown from '../MenuDropdown/MenuDropdown';
 import MenuOption from '../MenuOption/MenuOption';
 import File from '../File/File';
 import Directory from '../Directory/Directory';
+import ScrollArea from '../ScrollArea/ScrollArea';
 
 import './FileExplorer.css';
 import MenuIcon from '../../assets/menu.svg';
@@ -132,9 +133,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
                             <MenuOption name='New Directory' onClick={create_dir} />
                         </MenuDropdown>
                     </div>
-                    <div className="FileExplorer-items">
+                    <ScrollArea bgColor="var(--gray3)">
                         {getChildren("home")}
-                    </div>
+                    </ScrollArea>
                     <ContextMenu
                         show={CMshow}
                         setShow={setCMshow}

@@ -3,6 +3,7 @@ import { DBContext } from '../App/App';
 
 import File from '../File/File';
 import Directory from '../Directory/Directory';
+import ScrollArea from '../ScrollArea/ScrollArea';
 
 import './Search.css';
 
@@ -29,7 +30,7 @@ export default function Search({ activeMid, setActiveFile }) {
                         Search
                         <input value={query || ''} onChange={handleSearchChange} />
                     </div>
-                    <div className="Search-items">
+                    <ScrollArea bgColor="var(--gray3)">
                         {search().map(([k, v]) => (
                             <File
                                 key={k}
@@ -40,7 +41,7 @@ export default function Search({ activeMid, setActiveFile }) {
                                 style={{ fontSize: '0.85em', border: 'none' }}
                             />
                         ))}
-                    </div>
+                    </ScrollArea>
                 </div>
             }
         </>

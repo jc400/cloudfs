@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
-import File from '../File/File';
 import { DBContext } from '../App/App';
+
+import ScrollArea from '../ScrollArea/ScrollArea'
+import File from '../File/File';
+
 import './Starred.css';
 
 export default function Starred({ activeMid, setActiveFile }) {
@@ -18,7 +21,7 @@ export default function Starred({ activeMid, setActiveFile }) {
             {activeMid === "Starred" &&
                 <div className="Starred">
                     <div className="Starred-header">Starred</div>
-                    <div className="Starred-items">
+                    <ScrollArea bgColor="var(--gray3)">
                         {starredFiles.map(([k, v]) => (
                             <File
                                 key={k}
@@ -29,7 +32,7 @@ export default function Starred({ activeMid, setActiveFile }) {
                                 style={{ fontSize: '0.85em', border: 'none' }}
                             />
                         ))}
-                    </div>
+                    </ScrollArea>
                 </div>
             }
         </>
