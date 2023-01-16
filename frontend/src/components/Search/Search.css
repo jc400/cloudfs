@@ -1,0 +1,44 @@
+.Search {
+    flex: 0 0 200px;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--gray3);
+}
+
+.Search-header {
+    color: var(--white5);
+    font-family: Ubuntu-Bold;
+    border-bottom: var(--border2);
+}
+
+.Search-items {
+    overflow-y: scroll;
+}
+
+.Search-items {
+    /* https://css-tricks.com/books/greatest-css-tricks/scroll-shadows/ */
+    --bg: var(--gray3);
+    --shadow: var(--gray1);
+    --clear: rgba(0,0,0,0);
+
+    background:
+        /* Shadow Cover TOP */
+        linear-gradient( var(--bg) 30%, var(--clear) ) center top,
+
+        /* Shadow Cover BOTTOM */
+        linear-gradient( var(--clear), var(--bg) 70% ) center bottom,
+
+        /* Shadow TOP */
+        linear-gradient( var(--shadow) 30%, var(--clear)) center top,
+
+        /* Shadow BOTTOM */
+        linear-gradient( var(--clear), var(--shadow) 70% ) center bottom;
+  
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 5px, 100% 5px;
+    background-attachment: local, local, scroll, scroll;
+}
