@@ -1,8 +1,11 @@
 .File {
-    display: block;
     width: 100%;
     margin: 0px;
-    padding: 5px;
+    padding: 5px 5px 5px 3px;
+
+    display: flex;
+    align-items: center;
+    justify-content: left;
 
     border: none;
     color: var(--white1);

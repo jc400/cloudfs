@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import IconButton from '../IconButton/IconButton';
+
 import './File.css';
+import FileIcon from '../../assets/file.svg';
 
 
 export default function File({ file, file_key, callbacks, style }) {
@@ -19,7 +22,11 @@ export default function File({ file, file_key, callbacks, style }) {
             onDoubleClick={ev => handleDoubleClick(ev, file_key)}
             onContextMenu={ev => handleCM(ev, file_key)}
             style={style}
-        >{file?.title}</button>
+        >
+            <IconButton src={FileIcon} size="14px" />
+            &nbsp;
+            <span>{file?.title}</span>
+        </button>
     )
 }
 

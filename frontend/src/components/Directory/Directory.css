@@ -1,7 +1,7 @@
-.Directory {
+.Directory-button {
     width: 100%;
     margin: 0px;
-    padding: 5px;
+    padding: 5px 0px;
 
     display: flex;
     align-items: center;
@@ -14,8 +14,11 @@
     font-size: inherit;
     text-align: left;
 }
-
-
-.Directory:hover {
+.Directory-button:hover {
     background-color: var(--gray4);
+}
+
+.Directory-children {
+    margin-left: 9px;
+    border-left: 1px var(--gray5) solid;
 }
