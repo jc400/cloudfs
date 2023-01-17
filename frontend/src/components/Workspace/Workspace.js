@@ -28,16 +28,13 @@ export default function TextEditor({activeFile, setActiveFile}) {
 
 
     // callbacks
-    const handleContentChange = ev => setDocument(st => { 
-        return {...st, content: ev.target.value}
-    });
-
-    const saveDocument = () => {
-        changeDB.edit(activeFile, {
-            content: document.content,
+    const handleContentChange = ev => {
+        setDocument(st => { 
+            return {...st, content: ev.target.value}
         });
-    };
 
+        changeDB.edit(activeFile, {content: document.content});
+    } 
     const addTab = file_key => {
         if (!tabs.includes(file_key)){
             setTabs(prev => [...prev, activeFile]);
@@ -78,10 +75,6 @@ export default function TextEditor({activeFile, setActiveFile}) {
                         />
                     </span>
                 ))}
-                <Button 
-                    onClick={saveDocument}
-                    style={{float: "right"}}
-                >Save</Button>
             </div>
             <div className="Workspace-file-info">
                 <Breadcrumbs 
