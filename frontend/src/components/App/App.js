@@ -44,6 +44,9 @@ function App() {
       setDB(prev => {
         let newFiles = structuredClone(prev.files);
         newFiles[file_key] = { ...newFiles[file_key], ...kwargs };
+        if (kwargs.content){
+          newFiles[file_key].updated = new Date().toUTCString();
+        }
         return { ...prev, "files": newFiles };
       })
     },
