@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DBContext } from '../App/App';
 
-import Button from '../Button/Button';
+import Tag from '../Tag/Tag';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import IconButton from '../IconButton/IconButton';
 
@@ -35,6 +35,7 @@ export default function TextEditor({activeFile, setActiveFile}) {
 
         changeDB.edit(activeFile, {content: document.content});
     } 
+
     const addTab = file_key => {
         if (!tabs.includes(file_key)){
             setTabs(prev => [...prev, activeFile]);
@@ -55,6 +56,17 @@ export default function TextEditor({activeFile, setActiveFile}) {
         })
     }
     const openTab = file_key => setActiveFile(file_key);
+
+    const addTag = () => {
+        const tag = prompt("Enter the new tag: ");
+        const newTags = [...db.files[activeFile].tags, tag];
+        changeDB.edit(activeFile, {tags: newTags});
+    }
+    const removeTag = tag => {
+        const newTags = [...db.files[activeFile].tags];
+        newTags.splice(newTags.indexOf(tag), 1);
+        changeDB.edit(activeFile, {tags: newTags});
+    }
 
 
     return (
@@ -80,6 +92,12 @@ export default function TextEditor({activeFile, setActiveFile}) {
                 <Breadcrumbs 
                     file_key={activeFile}
                 ></Breadcrumbs>
+                <span>
+                    {db.files[activeFile].tags.map(tag => (
+                        <Tag name={tag} onClick={()=>{}} remove={()=>removeTag(tag)} />
+                    ))}
+                    <Tag onClick={addTag} name="+New" />
+                </span>
             </div>
 
             <textarea
