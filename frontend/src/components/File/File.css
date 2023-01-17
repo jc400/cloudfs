@@ -15,4 +15,5 @@
 
 .File:hover {
     background-color: var(--gray4);
+    cursor: pointer;
 }
