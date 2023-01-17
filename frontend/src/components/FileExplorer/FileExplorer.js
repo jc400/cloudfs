@@ -1,9 +1,9 @@
-import React, { useState, useReducer, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { DBContext } from '../App/App';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
 import Icon from '../Icon/Icon';
-import Menu from '../Menu/Menu';
+import IconButton from '../IconButton/IconButton';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
 import MenuOption from '../MenuOption/MenuOption';
 import File from '../File/File';
@@ -12,6 +12,8 @@ import ScrollArea from '../ScrollArea/ScrollArea';
 
 import './FileExplorer.css';
 import MenuIcon from '../../assets/menu.svg';
+import FileAdd from '../../assets/file-plus.svg';
+import DirAdd from '../../assets/folder-plus.svg';
 
 
 export default function FileExplorer({ activeMid, setActiveFile }) {
@@ -123,19 +125,30 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         <>
             {activeMid === "FileExplorer" &&
                 <div className="FileExplorer">
+
                     <div className="FileExplorer-header">
-                        <span>HOME</span>
-                        <MenuDropdown
-                            title={<Icon src={MenuIcon} />}
-                            tooltip="Menu options for this directory"
-                        >
-                            <MenuOption name='New File' onClick={create_file} />
-                            <MenuOption name='New Directory' onClick={create_dir} />
-                        </MenuDropdown>
+                        <span>NOTES</span>
+                        <span>
+                            <IconButton
+                                src={FileAdd}
+                                size="18px"
+                                onClick={create_file}
+                                tooltip="New file"
+                            />
+                            &nbsp;
+                            <IconButton
+                                src={DirAdd}
+                                size="18px"
+                                onClick={create_dir}
+                                tooltip="New directory"
+                            />
+                        </span>
                     </div>
+
                     <ScrollArea bgColor="var(--gray3)">
                         {getChildren("home")}
                     </ScrollArea>
+
                     <ContextMenu
                         show={CMshow}
                         setShow={setCMshow}
