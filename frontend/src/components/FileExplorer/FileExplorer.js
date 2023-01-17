@@ -2,16 +2,12 @@ import React, { useState, useContext } from 'react';
 import { DBContext } from '../App/App';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
-import Icon from '../Icon/Icon';
 import IconButton from '../IconButton/IconButton';
-import MenuDropdown from '../MenuDropdown/MenuDropdown';
-import MenuOption from '../MenuOption/MenuOption';
 import File from '../File/File';
 import Directory from '../Directory/Directory';
 import ScrollArea from '../ScrollArea/ScrollArea';
 
 import './FileExplorer.css';
-import MenuIcon from '../../assets/menu.svg';
 import FileAdd from '../../assets/file-plus.svg';
 import DirAdd from '../../assets/folder-plus.svg';
 
