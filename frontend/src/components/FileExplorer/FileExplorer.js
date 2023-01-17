@@ -57,8 +57,6 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : "home";
         changeDB.add({ file_type: "d", parent: dest });
     }
-    const star = file_key => changeDB.edit(file_key, { starred: true });
-    const unstar = file_key => changeDB.edit(file_key, { starred: false });
     const rename = file_key => {
         let newTitle = window.prompt('Enter new name: ');
         changeDB.edit(file_key, { title: newTitle });
@@ -75,16 +73,12 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         handleClick: (ev, file_key) => select(file_key),
         handleDoubleClick: (ev, file_key) => open(file_key),
         handleCM: (ev, file_key) => openContextMenu(ev, file_key),
-        handleStar: (ev, file_key) => star(file_key),
-        handleUnstar: (ev, file_key) => unstar(file_key),
     }
     const CMactions = {
         open: () => open(selectedFile),
         cut: () => cut(selectedFile),
         paste: () => move(cutFile, selectedFile),
         rename: () => rename(selectedFile),
-        star: () => star(selectedFile),
-        unstar: () => unstar(selectedFile),
         remove: () => remove(selectedFile),
     }
 

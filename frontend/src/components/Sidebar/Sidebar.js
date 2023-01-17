@@ -34,14 +34,6 @@ export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
                     ></IconButton>
                 </li>
                 <li>
-                    <IconButton
-                        src={star}
-                        size="25px"
-                        onClick={() => setActiveMid("Starred")}
-                        tooltip="View starred files"
-                    ></IconButton>
-                </li>
-                <li>
                     <MenuDropdown 
                         title={<Icon src={settings} />}
                         tooltip="Show settings"

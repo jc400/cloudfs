@@ -5,7 +5,6 @@ import { getBlob, putBlob } from '../../services/api';
 
 import Sidebar from '../Sidebar/Sidebar';
 import FileExplorer from '../FileExplorer/FileExplorer';
-import Starred from '../Starred/Starred';
 import Search from '../Search/Search';
 import Workspace from '../Workspace/Workspace';
 
@@ -29,7 +28,6 @@ function App() {
         "content": kwargs.content ?? "",
         "created": new Date().toUTCString(),
         "updated": new Date().toUTCString(),
-        "starred": kwargs.starred ?? false,
         "tags": kwargs.tags ?? []
       };
       let file_key = uuidv4();
@@ -82,7 +80,6 @@ function App() {
         />
 
         <FileExplorer activeMid={activeMid} setActiveFile={setActiveFile} />
-        <Starred activeMid={activeMid} setActiveFile={setActiveFile} />
         <Search activeMid={activeMid} setActiveFile={setActiveFile} />
 
         <Workspace activeFile={activeFile} setActiveFile={setActiveFile} />
