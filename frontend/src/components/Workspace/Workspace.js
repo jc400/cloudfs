@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { DBContext } from '../App/App';
 
 import Button from '../Button/Button';
@@ -57,10 +57,7 @@ export default function TextEditor({activeFile, setActiveFile}) {
             return update;
         })
     }
-
-    const TabCallbacks = {
-        handleClick: (ev, file_key) => setActiveFile(file_key),
-    };
+    const openTab = file_key => setActiveFile(file_key);
 
 
     return (
@@ -70,7 +67,7 @@ export default function TextEditor({activeFile, setActiveFile}) {
                     <span 
                         key={file_key} 
                         id={file_key === activeFile ? "Workspace-tab-active" : null}
-                        onClick={() => setActiveFile(file_key)}    
+                        onClick={() => openTab(file_key)}    
                     >
                         {db.files[file_key].title}
                         &nbsp;
