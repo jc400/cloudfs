@@ -40,7 +40,9 @@ export default function TextEditor({activeFile, setActiveFile}) {
 
     const removeTab = file_key => {
         setTabs(prev => {
-            return prev.splice(prev.indexOf(file_key));
+            const update = [...prev];
+            update.splice(update.indexOf(file_key), 1);
+            return update;
         })
     }
 
@@ -63,7 +65,7 @@ export default function TextEditor({activeFile, setActiveFile}) {
                         <IconButton 
                             src={CloseIcon}
                             size={"15px"}
-                            onClick={() => removeTab(file_key)}
+                            onClick={ev => {ev.stopPropagation(); removeTab(file_key)}}
                         />
                     </span>
                 ))}
