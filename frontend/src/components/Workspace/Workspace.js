@@ -21,8 +21,8 @@ export default function TextEditor({activeFile, setActiveFile}) {
         setDocument(doc);
 
         // add new file to tabs
-        if (activeFile && !tabs.includes(activeFile)){
-            setTabs(prev => [...prev, activeFile]);
+        if (activeFile){
+            addTab(activeFile);
         }
     }, [activeFile]);
 
@@ -38,7 +38,19 @@ export default function TextEditor({activeFile, setActiveFile}) {
         });
     };
 
+    const addTab = file_key => {
+        if (!tabs.includes(file_key)){
+            setTabs(prev => [...prev, activeFile]);
+        }
+    }
     const removeTab = file_key => {
+        // re-set activeFile
+        if (file_key === activeFile) {
+            const AFidx = tabs.indexOf(file_key);
+            const newAF = tabs[AFidx - 1] || tabs[AFidx + 1] || null;
+            setActiveFile(newAF);
+        }
+        // remove tab from list
         setTabs(prev => {
             const update = [...prev];
             update.splice(update.indexOf(file_key), 1);
