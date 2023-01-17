@@ -33,7 +33,11 @@
 .Workspace-file-info {
     padding: 5px;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
+    border-bottom: var(--border1);
+}
+.Workspace-file-info > * {
+    margin: 0px 15px;
 }
 
 textarea#content {

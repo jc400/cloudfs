@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DBContext } from '../App/App';
+import displayDate from '../../services/displayDate';
 
 import Tag from '../Tag/Tag';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
@@ -92,6 +93,9 @@ export default function TextEditor({activeFile, setActiveFile}) {
                 <Breadcrumbs 
                     file_key={activeFile}
                 ></Breadcrumbs>
+                <span>
+                    Updated: {displayDate(db.files[activeFile]?.updated)}
+                </span>
                 <span>
                     {db.files[activeFile]?.tags.map(tag => (
                         <Tag key={tag} name={tag} onClick={()=>{}} remove={()=>removeTag(tag)} />
