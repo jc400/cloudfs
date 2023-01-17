@@ -16,7 +16,6 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
     // FileExplorer's internal state
     const { db, changeDB } = useContext(DBContext);
     const [selectedFile, setSelectedFile] = useState(null); // file key
-    const [pwd, setPwd] = useState("home"); // file key
     const [cutFile, setCutFile] = useState(null); // file key
     const [CMshow, setCMshow] = useState(false);
     const [CMpos, setCMpos] = useState({});
@@ -50,8 +49,14 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
     const cut = file_key => setCutFile(file_key);
 
     // Pass CRUD changes up to db
-    const create_file = () => changeDB.add({ file_type: "f", parent: pwd });
-    const create_dir = () => changeDB.add({ file_type: "d", parent: pwd });
+    const create_file = () => {
+        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : "home";
+        changeDB.add({ file_type: "f", parent: dest });
+    }
+    const create_dir = () => {
+        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : "home";
+        changeDB.add({ file_type: "d", parent: dest });
+    }
     const star = file_key => changeDB.edit(file_key, { starred: true });
     const unstar = file_key => changeDB.edit(file_key, { starred: false });
     const rename = file_key => {
