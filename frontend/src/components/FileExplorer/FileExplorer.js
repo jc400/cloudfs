@@ -23,10 +23,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
 
 
     // Internal updates to FileExplorer state
+    const isDirectory = file_key => db.files[file_key].file_type === 'd';
     const open = file_key => {
-        if (db.files[file_key].file_type === 'd') {
-            setPwd(file_key);
-        } else {
+        if (!isDirectory(file_key)){
             setActiveFile(file_key);
         }
     }
