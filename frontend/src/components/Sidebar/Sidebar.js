@@ -2,6 +2,7 @@ import React from 'react';
 import { login, logout } from '../../services/auth';
 
 import Icon from '../Icon/Icon';
+import IconButton from '../IconButton/IconButton';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
 import MenuOption from '../MenuOption/MenuOption';
 
@@ -17,19 +18,25 @@ export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
         <div id="Sidebar">
             <ul>
                 <li>
-                    <button
+                    <IconButton 
+                        src={folder}
+                        size="25px"
                         onClick={() => setActiveMid("FileExplorer")}
-                    ><Icon src={folder} /></button>
+                    />
                 </li>
                 <li>
-                    <button
+                    <IconButton
+                        src={search}
+                        size="25px"
                         onClick={() => setActiveMid("Search")}
-                    ><Icon src={search} /></button>
+                    ></IconButton>
                 </li>
                 <li>
-                    <button
+                    <IconButton
+                        src={star}
+                        size="25px"
                         onClick={() => setActiveMid("Starred")}
-                    ><Icon src={star} /></button>
+                    ></IconButton>
                 </li>
                 <li>
                     <MenuDropdown 
