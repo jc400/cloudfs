@@ -75,8 +75,8 @@ export default function TextEditor({activeFile, setActiveFile}) {
             <textarea
                 id="content"
                 name="content"
-                rows="25"
                 cols="50"
+                rows="30"
                 value={document?.content || ''}
                 onChange={handleContentChange}
             ></textarea>
