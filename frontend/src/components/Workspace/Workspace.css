@@ -1,29 +1,9 @@
 @charset "utf-8";
-#Workspace {
+.Workspace {
     flex: 1 1 auto;
     height: 100%;
     overflow-y: scroll;
     background-color: var(--gray2);
-}
-
-#title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-    border: none;
-    outline: none;
-    color: inherit;
-    background-color: inherit;
-}
-#title:hover {
-    cursor: pointer;
-    background-color: var(--gray3);
-}
-#title:focus:hover {
-    cursor: text;
-}
-#title:focus {
-    background-color: var(--gray4);
 }
 
 

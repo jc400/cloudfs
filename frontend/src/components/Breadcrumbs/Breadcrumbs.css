@@ -1,23 +1,7 @@
-#breadcrumbs-outer {
-    width: 40%;
-    padding: 5px;
-
-    border: var(--border1);
-    border-radius: var(--round);
-    background-color: var(--gray4);
+.breadcrumbs {
+    margin-left: 10px;
     color: var(--white5);
-    font-family: Ubuntu-Bold;
-
-    direction: rtl;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
-#breadcrumbs-inner {
-    white-space: nowrap; 
-    direction: ltr; 
-    display: inline-block;
-    min-width: 100%;
-}
-#breadcrumbs-inner span:last-child {
+.breadcrumbs > span:last-child {
     color: var(--white1);
 }

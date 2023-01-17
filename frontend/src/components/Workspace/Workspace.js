@@ -49,8 +49,8 @@ export default function TextEditor({activeFile, setActiveFile}) {
 
 
     return (
-        <div id="Workspace">
-            <div id="Workspace-tabs">
+        <div className="Workspace">
+            <div className="Workspace-tabs">
                 {tabs.map(file_key => (
                     <span key={file_key}>
                         <File 
@@ -66,10 +66,12 @@ export default function TextEditor({activeFile, setActiveFile}) {
                     style={{float: "right"}}
                 >Save</Button>
             </div>
-            <Breadcrumbs 
-                pwd={activeFile}
-                open={() => {}}
-            ></Breadcrumbs>
+            <div className="Workspace-file-info">
+                <Breadcrumbs 
+                    file_key={activeFile}
+                ></Breadcrumbs>
+            </div>
+
             <textarea
                 id="content"
                 name="content"
