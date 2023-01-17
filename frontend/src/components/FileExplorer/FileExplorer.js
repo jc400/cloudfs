@@ -10,6 +10,7 @@ import ScrollArea from '../ScrollArea/ScrollArea';
 import './FileExplorer.css';
 import FileAdd from '../../assets/file-plus.svg';
 import DirAdd from '../../assets/folder-plus.svg';
+import SearchIcon from '../../assets/search.svg';
 
 
 export default function FileExplorer({ activeMid, setActiveFile }) {
@@ -19,6 +20,8 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
     const [cutFile, setCutFile] = useState(null); // file key
     const [CMshow, setCMshow] = useState(false);
     const [CMpos, setCMpos] = useState({});
+    const [queryShow, setQueryShow] = useState(false);
+    const [queryString, setQueryString] = useState('');
 
 
     // Internal updates to FileExplorer state
@@ -35,6 +38,8 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
             setSelectedFile(null);
         }
     }
+    const cut = file_key => setCutFile(file_key);
+
     const openContextMenu = (ev, file_key) => {
         ev.preventDefault();
 
@@ -46,7 +51,8 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         setSelectedFile(file_key);
         setCMshow(true);
     }
-    const cut = file_key => setCutFile(file_key);
+    const handleQueryChange = ev => setQueryString(ev.target.value);
+    
 
     // Pass CRUD changes up to db
     const create_file = () => {
@@ -82,7 +88,7 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         remove: () => remove(selectedFile),
     }
 
-    // calculate the directory tree 
+    // calculate results
     const getChildren = file_key => {
         return Object.entries(db.files)
             .filter(([k, v]) => v.parent === file_key)
@@ -113,7 +119,41 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
                 }
             });
     }
-
+    const getSearch = () => {
+        return Object.entries(db.files)
+        .filter(([k, v]) => {
+            if (v.title?.includes(queryString)) return true;
+            if (v.content?.includes(queryString)) return true;
+            if (v.tags?.includes(queryString)) return true;
+        })
+        .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
+        .map(([k, v]) => {
+            if (v.file_type === 'f') {
+                return (
+                    <File
+                        key={k}
+                        file_key={k}
+                        file={v}
+                        callbacks={FileCallbacks}
+                        style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                    />
+                )
+            } else {
+                return (
+                    <Directory
+                        key={k}
+                        file_key={k}
+                        file={v}
+                        callbacks={FileCallbacks}
+                        style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                    >
+                        {getChildren(k)}
+                    </Directory>
+                )
+                }
+            });
+    }
+    const fileList = queryShow ? getSearch() : getChildren("home");
 
     return (
         <>
@@ -121,26 +161,41 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
                 <div className="FileExplorer">
 
                     <div className="FileExplorer-header">
-                        <span>NOTES</span>
-                        <span>
-                            <IconButton
-                                src={FileAdd}
-                                size="18px"
-                                onClick={create_file}
-                                tooltip="New file"
-                            />
-                            &nbsp;
-                            <IconButton
-                                src={DirAdd}
-                                size="18px"
-                                onClick={create_dir}
-                                tooltip="New directory"
-                            />
-                        </span>
+                        <div className="FileExplorer-header-top">
+                            <span>NOTES</span>
+                            <span>
+                                <IconButton
+                                    src={FileAdd}
+                                    size="18px"
+                                    onClick={create_file}
+                                    tooltip="New note"
+                                />
+                                &nbsp;
+                                <IconButton
+                                    src={DirAdd}
+                                    size="18px"
+                                    onClick={create_dir}
+                                    tooltip="New directory"
+                                />
+                                &nbsp;
+                                <IconButton
+                                    src={SearchIcon}
+                                    size="18px"
+                                    onClick={() => setQueryShow(!queryShow)}
+                                    tooltip="Search notes"
+                                />
+                            </span>
+                        </div>
+                        {queryShow && 
+                            <div className="FileExplorer-header-search">
+                                <input value={queryString || ''} onChange={handleQueryChange} />
+                                <div>{fileList.length} results</div>
+                            </div>
+                        }
                     </div>
 
                     <ScrollArea bgColor="var(--gray3)">
-                        {getChildren("home")}
+                        {fileList}
                     </ScrollArea>
 
                     <ContextMenu

@@ -8,8 +8,6 @@ import MenuOption from '../MenuOption/MenuOption';
 
 import './Sidebar.css';
 import folder from '../../assets/folder.svg';
-import search from '../../assets/search.svg';
-import star from '../../assets/empty_star.png';
 import settings from '../../assets/settings.svg';
 
 export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
@@ -24,14 +22,6 @@ export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
                         onClick={() => setActiveMid("FileExplorer")}
                         tooltip="View notes"
                     />
-                </li>
-                <li>
-                    <IconButton
-                        src={search}
-                        size="25px"
-                        onClick={() => setActiveMid("Search")}
-                        tooltip="Search notes"
-                    ></IconButton>
                 </li>
                 <li>
                     <MenuDropdown 

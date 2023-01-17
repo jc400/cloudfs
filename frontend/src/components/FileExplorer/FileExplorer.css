@@ -11,6 +11,9 @@
 
 .FileExplorer-header {
     padding: 15px;
+    border-bottom: var(--border2);
+}
+.FileExplorer-header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,6 +21,18 @@
     color: var(--white5);
     font-family: Ubuntu-Bold;
     font-weight: bold;
-    border-bottom: var(--border2);
-    
+}
+.FileExplorer-header-search {
+    margin-top: 15px;
+} 
+.FileExplorer-header-search > input {
+    max-width: 160px;
+    display: block;
+    text-align: right;
+    margin-left: auto;
+}
+.FileExplorer-header-search > div {
+    text-align: right;
+    color: var(--white5);
+    margin-top: 5px;
 }
