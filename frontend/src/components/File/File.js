@@ -16,7 +16,7 @@ export default function File({ file, file_key, callbacks, style }) {
     
 
     return (
-        <button 
+        <div 
             className="File"
             onClick={ev => handleClick(ev, file_key)}
             onDoubleClick={ev => handleDoubleClick(ev, file_key)}
@@ -26,7 +26,7 @@ export default function File({ file, file_key, callbacks, style }) {
             <IconButton src={FileIcon} size="14px" />
             &nbsp;
             <span>{file?.title}</span>
-        </button>
+        </div>
     )
 }
 

@@ -19,8 +19,8 @@ export default function Directory({ children, file, file_key, callbacks, style }
 
     return (
         <div>
-            <button 
-                className="Directory-button"
+            <div 
+                className="Directory"
                 onClick={ev => handleClick(ev, file_key)}
                 onDoubleClick={ev => handleDoubleClick(ev, file_key)}
                 onContextMenu={ev => handleCM(ev, file_key)}
@@ -32,7 +32,7 @@ export default function Directory({ children, file, file_key, callbacks, style }
                     onClick={ev => {ev.stopPropagation(); setExpand(!expand);}}
                 />
                 <span>{file?.title}</span>
-            </button>
+            </div>
             {expand && <div className="Directory-children">{children}</div>}
         </div>
     )
