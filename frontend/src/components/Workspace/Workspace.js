@@ -93,8 +93,8 @@ export default function TextEditor({activeFile, setActiveFile}) {
                     file_key={activeFile}
                 ></Breadcrumbs>
                 <span>
-                    {db.files[activeFile].tags.map(tag => (
-                        <Tag name={tag} onClick={()=>{}} remove={()=>removeTag(tag)} />
+                    {db.files[activeFile]?.tags.map(tag => (
+                        <Tag key={tag} name={tag} onClick={()=>{}} remove={()=>removeTag(tag)} />
                     ))}
                     <Tag onClick={addTag} name="+New" />
                 </span>
