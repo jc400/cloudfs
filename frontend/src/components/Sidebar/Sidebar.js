@@ -22,6 +22,7 @@ export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
                         src={folder}
                         size="25px"
                         onClick={() => setActiveMid("FileExplorer")}
+                        tooltip="View notes"
                     />
                 </li>
                 <li>
@@ -29,6 +30,7 @@ export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
                         src={search}
                         size="25px"
                         onClick={() => setActiveMid("Search")}
+                        tooltip="Search notes"
                     ></IconButton>
                 </li>
                 <li>
@@ -36,6 +38,7 @@ export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
                         src={star}
                         size="25px"
                         onClick={() => setActiveMid("Starred")}
+                        tooltip="View starred files"
                     ></IconButton>
                 </li>
                 <li>
