@@ -1,11 +1,15 @@
 .File {
+    display: block;
+    width: 100%;
     margin: 0px;
     padding: 5px;
+
+    border: none;
     color: var(--white1);
-}
-.File span {
-    display: inline-flex;
-    align-items: center;
+    background-color: inherit;
+
+    font-size: inherit;
+    text-align: left;
 }
 
 .File:hover {

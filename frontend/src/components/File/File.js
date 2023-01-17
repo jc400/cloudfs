@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import './File.css';
-import fileIcon from '../../assets/file.svg';
 
 
-export default function File({ file, file_key, callbacks, columns, style }) {
+export default function File({ file, file_key, callbacks, style }) {
 
     // validate callbacks
     const handleClick = callbacks?.handleClick || function(){};
@@ -14,18 +13,13 @@ export default function File({ file, file_key, callbacks, columns, style }) {
     
 
     return (
-        <div 
+        <button 
             className="File"
             onClick={ev => handleClick(ev, file_key)}
             onDoubleClick={ev => handleDoubleClick(ev, file_key)}
             onContextMenu={ev => handleCM(ev, file_key)}
             style={style}
-        >
-                <span>
-                    <img src={fileIcon} width="15px" height="15px" style={{marginRight: "7px"}} />
-                    <span>{file?.title}</span>
-                </span>
-        </div>
+        >{file?.title}</button>
     )
 }
 
