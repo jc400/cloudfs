@@ -3,9 +3,10 @@ import { DBContext } from '../App/App';
 
 import Button from '../Button/Button';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
-import File from '../File/File';
+import IconButton from '../IconButton/IconButton';
 
 import './Workspace.css';
+import CloseIcon from '../../assets/x.svg';
 
 
 export default function TextEditor({activeFile, setActiveFile}) {
@@ -52,12 +53,17 @@ export default function TextEditor({activeFile, setActiveFile}) {
         <div className="Workspace">
             <div className="Workspace-tabs">
                 {tabs.map(file_key => (
-                    <span key={file_key}>
-                        <File 
-                            file={db.files[file_key]}
-                            file_key={file_key}
-                            callbacks={TabCallbacks}
-                            style={file_key === activeFile ? { backgroundColor: 'var(--gray2)' } : {}}
+                    <span 
+                        key={file_key} 
+                        id={file_key === activeFile ? "Workspace-tab-active" : null}
+                        onClick={() => setActiveFile(file_key)}    
+                    >
+                        {db.files[file_key].title}
+                        &nbsp;
+                        <IconButton 
+                            src={CloseIcon}
+                            size={"15px"}
+                            onClick={() => removeTab(file_key)}
                         />
                     </span>
                 ))}
