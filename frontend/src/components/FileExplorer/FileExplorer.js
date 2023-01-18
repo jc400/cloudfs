@@ -83,9 +83,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
 
     // callbacks to pass down to children
     const FileCallbacks = {
-        handleClick: (ev, file_key) => select(file_key),
-        handleDoubleClick: (ev, file_key) => open(file_key),
-        handleCM: (ev, file_key) => openContextMenu(ev, file_key),
+        select: select,
+        open: open,
+        openContextMenu: openContextMenu
     }
     const CMactions = {
         open: () => open(selectedFile),

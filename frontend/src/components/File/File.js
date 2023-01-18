@@ -10,17 +10,17 @@ import FileIcon from '../../assets/file.svg';
 export default function File({ file, file_key, callbacks, style }) {
 
     // validate callbacks
-    const handleClick = callbacks?.handleClick || function(){};
-    const handleDoubleClick = callbacks?.handleDoubleClick || function(){};
-    const handleCM = callbacks?.handleCM || function(){};
+    //const handleClick = callbacks?.handleClick || function(){};
+    //const handleDoubleClick = callbacks?.handleDoubleClick || function(){};
+    //const handleCM = callbacks?.handleCM || function(){};
     
 
     return (
         <div 
             className="File"
-            onClick={ev => handleClick(ev, file_key)}
-            onDoubleClick={ev => handleDoubleClick(ev, file_key)}
-            onContextMenu={ev => handleCM(ev, file_key)}
+            onClick={() => callbacks.select(file_key)}
+            onDoubleClick={() => callbacks.open(file_key)}
+            onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
             style={style}
         >
             <IconButton src={FileIcon} size="14px" />
