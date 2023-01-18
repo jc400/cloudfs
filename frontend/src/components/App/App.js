@@ -78,7 +78,6 @@ function App() {
 
   return (
     <DBContext.Provider value={{ db, changeDB }}>
-      <button onClick={() => console.log(db)} style={{zIndex: 3000, position: "absolute", right: 0}}>DEBUG</button>
       <div style={{ display: "flex", height: "100vh" }}>
 
         <Sidebar UIState={UIState} VaultActions={VaultActions} />
