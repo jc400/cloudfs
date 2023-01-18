@@ -13,15 +13,13 @@ import DirAdd from '../../assets/folder-plus.svg';
 import SearchIcon from '../../assets/search.svg';
 
 
-export default function FileExplorer({ activeMid, setActiveFile }) {
+export default function FileExplorer({ UIState }) {
     // FileExplorer's internal state
     const { db, changeDB } = useContext(DBContext);
     const [selectedFile, setSelectedFile] = useState(null); // file key
     const [cutFile, setCutFile] = useState(null); // file key
     const [CMshow, setCMshow] = useState(false);
     const [CMpos, setCMpos] = useState({});
-    const [queryShow, setQueryShow] = useState(false);
-    const [queryString, setQueryString] = useState('');
 
 
     // Internal updates to FileExplorer state
@@ -30,7 +28,7 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
     }
     const open = file_key => {
         if (!isDirectory(file_key)){
-            setActiveFile(file_key);
+            UIState.setActiveFile(file_key);
         }
     }
     const select = file_key => {
@@ -55,7 +53,7 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         setCMshow(true);
     }
     const handleQueryChange = ev => {
-        setQueryString(ev.target.value);
+        UIState.setSearchString(ev.target.value);
     }
     
 
@@ -129,9 +127,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
     const getSearch = () => {
         return Object.entries(db.files)
         .filter(([k, v]) => {
-            if (v.title?.includes(queryString)) return true;
-            if (v.content?.includes(queryString)) return true;
-            if (v.tags?.includes(queryString)) return true;
+            if (v.title?.includes(UIState.searchString)) return true;
+            if (v.content?.includes(UIState.searchString)) return true;
+            if (v.tags?.includes(UIState.searchString)) return true;
         })
         .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
         .map(([k, v]) => {
@@ -160,11 +158,11 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
                 }
             });
     }
-    const fileList = queryShow ? getSearch() : getChildren("home");
+    const fileList = UIState.searchString !== null ? getSearch() : getChildren("home");
 
     return (
         <>
-            {activeMid === "FileExplorer" &&
+            {UIState.activeMid === "FileExplorer" &&
                 <div className="FileExplorer">
 
                     <div className="FileExplorer-header">
@@ -188,14 +186,14 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
                                 <IconButton
                                     src={SearchIcon}
                                     size="18px"
-                                    onClick={() => setQueryShow(!queryShow)}
+                                    onClick={() => UIState.setSearchString(UIState.searchString === null ? '' : null)}
                                     tooltip="Search notes"
                                 />
                             </span>
                         </div>
-                        {queryShow && 
+                        {UIState.searchString !== null && 
                             <div className="FileExplorer-header-search">
-                                <input value={queryString || ''} onChange={handleQueryChange} />
+                                <input value={UIState.searchString || ''} onChange={handleQueryChange} />
                                 <div>{fileList.length} results</div>
                             </div>
                         }

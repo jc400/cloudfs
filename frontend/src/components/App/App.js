@@ -64,6 +64,15 @@ function App() {
   // UI state
   const [activeMid, setActiveMid] = useReducer((st, n) => st === n ? null : n, null);
   const [activeFile, setActiveFile] = useState(null);
+  const [searchString, setSearchString] = useState(null);
+  const UIState = {
+    activeMid: activeMid,
+    setActiveMid: setActiveMid,
+    activeFile: activeFile,
+    setActiveFile: setActiveFile,
+    searchString: searchString,
+    setSearchString: setSearchString
+  }
 
 
 
@@ -73,12 +82,11 @@ function App() {
       <div style={{ display: "flex", height: "100vh" }}>
 
         <Sidebar 
-          activeMid={activeMid} 
-          setActiveMid={setActiveMid} 
+          UIState={UIState}
           VaultActions={VaultActions}
         />
 
-        <FileExplorer activeMid={activeMid} setActiveFile={setActiveFile} />
+        <FileExplorer UIState={UIState} />
 
         <Workspace activeFile={activeFile} setActiveFile={setActiveFile} />
 

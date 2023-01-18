@@ -7,25 +7,34 @@ import MenuDropdown from '../MenuDropdown/MenuDropdown';
 import MenuOption from '../MenuOption/MenuOption';
 
 import './Sidebar.css';
-import folder from '../../assets/folder.svg';
-import settings from '../../assets/settings.svg';
+import FolderIcon from '../../assets/folder.svg';
+import SearchIcon from '../../assets/search.svg';
+import SettingsIcon from '../../assets/settings.svg';
 
-export default function Sidebar({activeMid, setActiveMid, VaultActions}) {
+export default function Sidebar({UIState, VaultActions}) {
 
     return (
         <div id="Sidebar">
             <ul>
                 <li>
                     <IconButton 
-                        src={folder}
+                        src={FolderIcon}
                         size="25px"
-                        onClick={() => setActiveMid("FileExplorer")}
+                        onClick={() => UIState.setActiveMid("FileExplorer")}
                         tooltip="View notes"
                     />
                 </li>
                 <li>
+                    <IconButton 
+                        src={SearchIcon}
+                        size="25px"
+                        onClick={() => {UIState.setActiveMid("FileExplorer"); UIState.setSearchString("")}}
+                        tooltip="Search notes"
+                    />
+                </li>
+                <li>
                     <MenuDropdown 
-                        title={<Icon src={settings} />}
+                        title={<Icon src={SettingsIcon} />}
                         tooltip="Show settings"
                     >
                         <MenuOption name="Login" onClick={() => login(prompt("Username: "), prompt("Password: "))} />
