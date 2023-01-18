@@ -25,7 +25,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
 
 
     // Internal updates to FileExplorer state
-    const isDirectory = file_key => db.files[file_key].file_type === 'd';
+    const isDirectory = file_key => {
+        return db.files[file_key].file_type === 'd';
+    }
     const open = file_key => {
         if (!isDirectory(file_key)){
             setActiveFile(file_key);
@@ -38,8 +40,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
             setSelectedFile(null);
         }
     }
-    const cut = file_key => setCutFile(file_key);
-
+    const cut = file_key => {
+        setCutFile(file_key);
+    }
     const openContextMenu = (ev, file_key) => {
         ev.preventDefault();
 
@@ -51,7 +54,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         setSelectedFile(file_key);
         setCMshow(true);
     }
-    const handleQueryChange = ev => setQueryString(ev.target.value);
+    const handleQueryChange = ev => {
+        setQueryString(ev.target.value);
+    }
     
 
     // Pass CRUD changes up to db
@@ -67,7 +72,9 @@ export default function FileExplorer({ activeMid, setActiveFile }) {
         let newTitle = window.prompt('Enter new name: ');
         changeDB.edit(file_key, { title: newTitle });
     }
-    const remove = file_key => changeDB.remove(file_key);
+    const remove = file_key => {
+        changeDB.remove(file_key);
+    }
     const move = (target, dest) => {
         if (db.files[dest].file_type === 'd') {
             changeDB.edit(target, { parent: dest });
