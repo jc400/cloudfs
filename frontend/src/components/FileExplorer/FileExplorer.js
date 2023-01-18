@@ -202,7 +202,11 @@ export default function FileExplorer({ UIState }) {
 
                     <div className="FE-header-search">
                         <label for="search"><h2>SEARCH</h2></label>
-                        <input id="search" name="search" value={UIState.searchString || ''} onChange={handleQueryChange} />
+                        <input 
+                            name="search files"
+                            type="search"
+                            value={UIState.searchString || ''} 
+                            onChange={handleQueryChange} />
                         <div>{getSearch().length} results</div>
                     </div>
 
