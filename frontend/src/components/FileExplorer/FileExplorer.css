@@ -14,6 +14,7 @@
     border-bottom: var(--border2);
 }
 .FileExplorer-header-top {
+    height: 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,6 +23,14 @@
     font-family: Ubuntu-Bold;
     font-weight: bold;
 }
+
+.FileExplorer-header-buttons {
+    display: none;
+}
+.FileExplorer-header:hover > div > span.FileExplorer-header-buttons {
+    display: inline;
+}
+
 .FileExplorer-header-search {
     margin-top: 15px;
 } 

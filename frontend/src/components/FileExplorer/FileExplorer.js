@@ -167,7 +167,7 @@ export default function FileExplorer({ UIState }) {
                     <div className="FileExplorer-header">
                         <div className="FileExplorer-header-top">
                             <span>NOTES</span>
-                            <span>
+                            <span className="FileExplorer-header-buttons">
                                 <IconButton
                                     src={FileAdd}
                                     size="18px"
