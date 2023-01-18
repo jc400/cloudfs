@@ -81,14 +81,11 @@ function App() {
       <button onClick={() => console.log(db)} style={{zIndex: 3000, position: "absolute", right: 0}}>DEBUG</button>
       <div style={{ display: "flex", height: "100vh" }}>
 
-        <Sidebar 
-          UIState={UIState}
-          VaultActions={VaultActions}
-        />
+        <Sidebar UIState={UIState} VaultActions={VaultActions} />
 
         <FileExplorer UIState={UIState} />
 
-        <Workspace activeFile={activeFile} setActiveFile={setActiveFile} />
+        <Workspace UIState={UIState} />
 
       </div>
     </DBContext.Provider>
