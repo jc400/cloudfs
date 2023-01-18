@@ -96,13 +96,12 @@ export default function TextEditor({ UIState }) {
                 ))}
             </div>
             <div className="Workspace-file-info">
-                <Breadcrumbs 
-                    file_key={UIState.activeFile}
-                ></Breadcrumbs>
-                <span>
-                    Updated: {displayDate(db.files[UIState.activeFile]?.updated)}
+                <span className="WS-fileinfo-breadcrumbs">
+                    <Breadcrumbs 
+                        file_key={UIState.activeFile}
+                    ></Breadcrumbs>
                 </span>
-                <span>
+                <span className="WS-fileinfo-tags">
                     {db.files[UIState.activeFile]?.tags.map(tag => (
                         <Tag 
                             key={tag} 

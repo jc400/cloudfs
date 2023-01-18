@@ -33,11 +33,14 @@
 .Workspace-file-info {
     padding: 5px;
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: var(--border1);
 }
-.Workspace-file-info > * {
-    margin: 0px 15px;
+
+.WS-fileinfo-breadcrumbs {
+    flex: 0 0 auto;
+    margin: 0px 30px 0px 15px;
 }
 
 textarea#content {
