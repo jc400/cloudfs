@@ -30,7 +30,7 @@ body {
   --border2: 1px var(--gray2) solid;
 
   --round: 10px;
-  --toolbar-height: 40px;
+  --toolbar-height: 60px;
   --button-height: 30px;
 }
 

@@ -15,7 +15,9 @@
 }
 .WS-tabs > span {
     margin: 0px;
-    padding: 10px;
+    padding: 0px 10px;
+    height: 35px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -31,7 +33,9 @@
 }
 
 .WS-fileinfo {
-    padding: 5px;
+    padding: 2px 5px;
+    min-height: 25px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
