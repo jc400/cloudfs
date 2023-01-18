@@ -1,15 +1,29 @@
-#Sidebar {
+.SB {
     flex: 0 0 50px;
     height: 100vh;
-    background-color: var(--gray4);
+    background-color: var(--bg);
+
+    --bg: var(--gray4);
 }
 
-#Sidebar ul {
+.SB ul {
     list-style: none;
     padding: 0px;
     margin: 0px;
     text-align: center;
 }
-#Sidebar li {
-    margin: 10px 0px;
+.SB li {
+    padding: 10px 0px;
+}
+
+.SB-selector {
+    position: absolute;
+    height: 28px;
+    width: 3px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: var(--bg);
+}
+.SB-selector-active {
+    background-color: var(--accent); 
 }

@@ -14,9 +14,10 @@ import SettingsIcon from '../../assets/settings.svg';
 export default function Sidebar({UIState, VaultActions}) {
 
     return (
-        <div id="Sidebar">
+        <div className="SB">
             <ul>
                 <li>
+                    <div className={UIState.activeMid === "FileExplorer" ? "SB-selector SB-selector-active" : "SB-selector"} />
                     <IconButton 
                         src={FolderIcon}
                         size="25px"
@@ -25,6 +26,7 @@ export default function Sidebar({UIState, VaultActions}) {
                     />
                 </li>
                 <li>
+                    <div className={UIState.activeMid === "Search" ? "SB-selector SB-selector-active" : "SB-selector"} />
                     <IconButton 
                         src={SearchIcon}
                         size="25px"
