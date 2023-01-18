@@ -68,6 +68,12 @@ export default function TextEditor({ UIState }) {
         newTags.splice(newTags.indexOf(tag), 1);
         changeDB.edit(UIState.activeFile, {tags: newTags});
     }
+    const TagSearch = tag => {
+        UIState.setSearchString(tag);
+        if (UIState.activeMid !== "Search"){
+            UIState.setActiveMid("Search");
+        }
+    }
 
 
     return (
@@ -101,7 +107,7 @@ export default function TextEditor({ UIState }) {
                         <Tag 
                             key={tag} 
                             name={tag} 
-                            onClick={() => UIState.openSearch(tag)}
+                            onClick={() => TagSearch(tag)}
                             remove={()=>removeTag(tag)} 
                         />
                     ))}
