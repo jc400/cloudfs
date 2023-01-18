@@ -77,8 +77,8 @@ export default function TextEditor({ UIState }) {
 
 
     return (
-        <div className="Workspace">
-            <div className="Workspace-tabs">
+        <div className="WS">
+            <div className="WS-tabs">
                 {tabs.map(file_key => (
                     <span 
                         key={file_key} 
@@ -95,7 +95,7 @@ export default function TextEditor({ UIState }) {
                     </span>
                 ))}
             </div>
-            <div className="Workspace-file-info">
+            <div className="WS-fileinfo">
                 <span className="WS-fileinfo-breadcrumbs">
                     <Breadcrumbs 
                         file_key={UIState.activeFile}
@@ -115,8 +115,8 @@ export default function TextEditor({ UIState }) {
             </div>
 
             <textarea
-                id="content"
-                name="content"
+                id="WS-content"
+                name="WS-content"
                 cols="50"
                 rows="30"
                 value={document?.content || ''}
