@@ -164,26 +164,26 @@ export default function FileExplorer({ UIState }) {
             {UIState.activeMid === "FileExplorer" &&
                 <div className="FE">
 
-                    <div className="FE-header">
-                        <div className="FE-header-top">
-                            <span>NOTES</span>
-                            <span className="FE-header-buttons">
-                                <IconButton
-                                    src={FileAdd}
-                                    size="18px"
-                                    onClick={create_file}
-                                    tooltip="New note"
-                                />
-                                &nbsp;
-                                <IconButton
-                                    src={DirAdd}
-                                    size="18px"
-                                    onClick={create_dir}
-                                    tooltip="New directory"
-                                />
-                            </span>
-                        </div>
+
+                    <div className="FE-header-notes">
+                        <h2>NOTES</h2>
+                        <span className="FE-header-buttons">
+                            <IconButton
+                                src={FileAdd}
+                                size="18px"
+                                onClick={create_file}
+                                tooltip="New note"
+                            />
+                            &nbsp;
+                            <IconButton
+                                src={DirAdd}
+                                size="18px"
+                                onClick={create_dir}
+                                tooltip="New directory"
+                            />
+                        </span>
                     </div>
+
 
                     <ScrollArea bgColor="var(--gray3)">
                         {getChildren("home")}
@@ -200,14 +200,10 @@ export default function FileExplorer({ UIState }) {
             {UIState.activeMid === "Search" &&
                 <div className="FE">
 
-                    <div className="FE-header">
-                        <div className="FE-header-top">
-                            <span>SEARCH</span>
-                        </div>
-                        <div className="FE-header-search">
-                            <input value={UIState.searchString || ''} onChange={handleQueryChange} />
-                            <div>{getSearch().length} results</div>
-                        </div>
+                    <div className="FE-header-search">
+                        <label for="search"><h2>SEARCH</h2></label>
+                        <input id="search" name="search" value={UIState.searchString || ''} onChange={handleQueryChange} />
+                        <div>{getSearch().length} results</div>
                     </div>
 
                     <ScrollArea bgColor="var(--gray3)">
