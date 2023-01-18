@@ -65,13 +65,20 @@ function App() {
   const [activeMid, setActiveMid] = useReducer((st, n) => st === n ? null : n, null);
   const [activeFile, setActiveFile] = useState(null);
   const [searchString, setSearchString] = useState(null);
+  const openSearch = query => {
+    setSearchString(query);
+    if (activeMid !== "FileExplorer"){
+      setActiveMid("FileExplorer");
+    }
+  }
   const UIState = {
     activeMid: activeMid,
     setActiveMid: setActiveMid,
     activeFile: activeFile,
     setActiveFile: setActiveFile,
     searchString: searchString,
-    setSearchString: setSearchString
+    setSearchString: setSearchString,
+    openSearch: openSearch
   }
 
 

@@ -98,7 +98,12 @@ export default function TextEditor({ UIState }) {
                 </span>
                 <span>
                     {db.files[UIState.activeFile]?.tags.map(tag => (
-                        <Tag key={tag} name={tag} onClick={()=>{}} remove={()=>removeTag(tag)} />
+                        <Tag 
+                            key={tag} 
+                            name={tag} 
+                            onClick={() => UIState.openSearch(tag)}
+                            remove={()=>removeTag(tag)} 
+                        />
                     ))}
                     <Tag onClick={addTag} name="+New" />
                 </span>
