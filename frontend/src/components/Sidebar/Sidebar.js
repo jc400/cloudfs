@@ -28,7 +28,7 @@ export default function Sidebar({UIState, VaultActions}) {
                     <IconButton 
                         src={SearchIcon}
                         size="25px"
-                        onClick={() => {UIState.openSearch("")}}
+                        onClick={() => UIState.setActiveMid("Search")}
                         tooltip="Search notes"
                     />
                 </li>

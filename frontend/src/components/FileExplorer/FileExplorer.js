@@ -158,7 +158,6 @@ export default function FileExplorer({ UIState }) {
                 }
             });
     }
-    const fileList = UIState.searchString !== null ? getSearch() : getChildren("home");
 
     return (
         <>
@@ -182,25 +181,37 @@ export default function FileExplorer({ UIState }) {
                                     onClick={create_dir}
                                     tooltip="New directory"
                                 />
-                                &nbsp;
-                                <IconButton
-                                    src={SearchIcon}
-                                    size="18px"
-                                    onClick={() => UIState.setSearchString(UIState.searchString === null ? '' : null)}
-                                    tooltip="Search notes"
-                                />
                             </span>
                         </div>
-                        {UIState.searchString !== null && 
-                            <div className="FileExplorer-header-search">
-                                <input value={UIState.searchString || ''} onChange={handleQueryChange} />
-                                <div>{fileList.length} results</div>
-                            </div>
-                        }
                     </div>
 
                     <ScrollArea bgColor="var(--gray3)">
-                        {fileList}
+                        {getChildren("home")}
+                    </ScrollArea>
+
+                    <ContextMenu
+                        show={CMshow}
+                        setShow={setCMshow}
+                        pos={CMpos}
+                        callbacks={CMactions}
+                    />
+                </div>
+            }
+            {UIState.activeMid === "Search" &&
+                <div className="FileExplorer">
+
+                    <div className="FileExplorer-header">
+                        <div className="FileExplorer-header-top">
+                            <span>SEARCH</span>
+                        </div>
+                        <div className="FileExplorer-header-search">
+                            <input value={UIState.searchString || ''} onChange={handleQueryChange} />
+                            <div>{getSearch().length} results</div>
+                        </div>
+                    </div>
+
+                    <ScrollArea bgColor="var(--gray3)">
+                        {getSearch()}
                     </ScrollArea>
 
                     <ContextMenu
