@@ -162,12 +162,12 @@ export default function FileExplorer({ UIState }) {
     return (
         <>
             {UIState.activeMid === "FileExplorer" &&
-                <div className="FileExplorer">
+                <div className="FE">
 
-                    <div className="FileExplorer-header">
-                        <div className="FileExplorer-header-top">
+                    <div className="FE-header">
+                        <div className="FE-header-top">
                             <span>NOTES</span>
-                            <span className="FileExplorer-header-buttons">
+                            <span className="FE-header-buttons">
                                 <IconButton
                                     src={FileAdd}
                                     size="18px"
@@ -198,13 +198,13 @@ export default function FileExplorer({ UIState }) {
                 </div>
             }
             {UIState.activeMid === "Search" &&
-                <div className="FileExplorer">
+                <div className="FE">
 
-                    <div className="FileExplorer-header">
-                        <div className="FileExplorer-header-top">
+                    <div className="FE-header">
+                        <div className="FE-header-top">
                             <span>SEARCH</span>
                         </div>
-                        <div className="FileExplorer-header-search">
+                        <div className="FE-header-search">
                             <input value={UIState.searchString || ''} onChange={handleQueryChange} />
                             <div>{getSearch().length} results</div>
                         </div>

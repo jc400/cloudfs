@@ -1,4 +1,6 @@
-.FileExplorer {
+.FE {
+    --bg: var(--gray3);
+
     flex: 0 0 200px;
     max-width: 200px;
     height: 100%;
@@ -7,15 +9,14 @@
     display: flex;
     flex-direction: column;
 
-    background-color: var(--gray3);
+    background-color: var(--bg);
 }
 
-.FileExplorer-header {
-    padding: 15px;
+.FE-header {
+    padding: 16px;
     border-bottom: var(--border2);
 }
-.FileExplorer-header-top {
-    height: 22px;
+.FE-header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,23 +26,23 @@
     font-weight: bold;
 }
 
-.FileExplorer-header-buttons {
+.FE-header-buttons {
     display: none;
 }
-.FileExplorer-header:hover > div > span.FileExplorer-header-buttons {
+.FE-header:hover > div > span.FE-header-buttons {
     display: inline;
 }
 
-.FileExplorer-header-search {
+.FE-header-search {
     margin-top: 15px;
 } 
-.FileExplorer-header-search > input {
+.FE-header-search > input {
     width: 100%;
     display: block;
     text-align: right;
     margin-left: auto;
 }
-.FileExplorer-header-search > div {
+.FE-header-search > div {
     text-align: right;
     color: var(--white5);
     margin-top: 5px;
