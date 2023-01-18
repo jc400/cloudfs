@@ -82,7 +82,7 @@ export default function TextEditor({ UIState }) {
                 {tabs.map(file_key => (
                     <span 
                         key={file_key} 
-                        id={file_key === UIState.activeFile ? "Workspace-tab-active" : null}
+                        id={file_key === UIState.activeFile ? "WS-tab-active" : null}
                         onClick={() => openTab(file_key)}    
                     >
                         {db.files[file_key].title}
