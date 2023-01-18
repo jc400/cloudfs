@@ -46,7 +46,7 @@
 #WS-content {
     width: 100%;
     padding: 10px 30px;
-    overflow-y: scroll;
+    overflow-y: visible;
 
     border: none;
     outline: none;

@@ -5,6 +5,7 @@ import displayDate from '../../services/displayDate';
 import Tag from '../Tag/Tag';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import IconButton from '../IconButton/IconButton';
+import ScrollArea from '../ScrollArea/ScrollArea';
 
 import './Workspace.css';
 import CloseIcon from '../../assets/x.svg';
@@ -95,6 +96,7 @@ export default function TextEditor({ UIState }) {
                     </span>
                 ))}
             </div>
+
             <div className="WS-fileinfo">
                 <span className="WS-fileinfo-breadcrumbs">
                     <Breadcrumbs 
@@ -113,15 +115,17 @@ export default function TextEditor({ UIState }) {
                     <Tag onClick={addTag} name="+New" />
                 </span>
             </div>
-
-            <textarea
-                id="WS-content"
-                name="WS-content"
-                cols="50"
-                rows="30"
-                value={document?.content || ''}
-                onChange={handleContentChange}
-            ></textarea>
+            
+            <ScrollArea bgColor="var(--gray2)">
+                <textarea
+                    id="WS-content"
+                    name="WS-content"
+                    cols="50"
+                    rows={document?.content.split('').filter(c => c === '\n').length + 10}
+                    value={document?.content || ''}
+                    onChange={handleContentChange}
+                ></textarea>
+            </ScrollArea>
         </div>
     )
 }
