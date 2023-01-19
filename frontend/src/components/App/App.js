@@ -2,6 +2,7 @@ import React, { useState, useReducer, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { template } from '../../config/config';
 import { getBlob, putBlob } from '../../services/api';
+import { logout as authlogout } from '../../services/auth';
 
 import Sidebar from '../Sidebar/Sidebar';
 import FileExplorer from '../FileExplorer/FileExplorer';
@@ -63,6 +64,20 @@ function App() {
 
   // user state 
   const [user, setUser] = useState({"logged in": false, "username":""});
+  const logout = () => {
+    // save and clear current vault
+    VaultActions.saveDB();
+    setDB(template);
+
+    // log out from server, reset userState
+    authlogout();
+    setUser({"logged in": false, "username":""});
+  }
+  const UserState = {
+    user: user, 
+    setUser: setUser,
+    logout: logout
+  }
 
   // UI state
   const [activeMid, setActiveMid] = useReducer((st, n) => st === n ? null : n, null);
@@ -83,7 +98,7 @@ function App() {
     <DBContext.Provider value={{ db, changeDB }}>
       <div style={{ display: "flex", height: "100vh" }}>
 
-        <Sidebar UIState={UIState} VaultActions={VaultActions} user={user} setUser={setUser} />
+        <Sidebar UIState={UIState} VaultActions={VaultActions} UserState={UserState} />
 
         <FileExplorer UIState={UIState} />
 

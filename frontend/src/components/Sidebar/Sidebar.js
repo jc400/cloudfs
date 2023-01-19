@@ -11,19 +11,15 @@ import FolderIcon from '../../assets/folder.svg';
 import SearchIcon from '../../assets/search.svg';
 import SettingsIcon from '../../assets/settings.svg';
 
-export default function Sidebar({UIState, VaultActions, user, setUser}) {
+export default function Sidebar({UIState, VaultActions, UserState}) {
 
     const [showLogin, setShowLogin] = useState(false);
-    const logoutUser = () => {
-        logout();
-        setUser({"logged in": false, "username":""})
-    }
 
     const loggedInMenu = (
         <>
             <div>
-                Logged in as {user?.username}.
-                (<a href="#" onClick={logoutUser}>log out</a>)
+                Logged in as {UserState.user?.username}.
+                (<a href="#" onClick={UserState?.logout}>log out</a>)
             </div>
             <MenuOption name="Load vault" onClick={VaultActions.loadDB} />
             <MenuOption name="Save vault" onClick={VaultActions.saveDB} />
@@ -72,13 +68,13 @@ export default function Sidebar({UIState, VaultActions, user, setUser}) {
                             icon={SettingsIcon}
                             tooltip="Show settings"
                         >
-                            {user["logged in"] ? loggedInMenu : loggedOutMenu }
+                            {UserState.user["logged in"] ? loggedInMenu : loggedOutMenu }
                         </MenuDropdown>
                     </li>
                 </ul>
             </div>
 
-            <Login show={showLogin} close={() => setShowLogin(false)} setUser={setUser} />
+            <Login show={showLogin} close={() => setShowLogin(false)} setUser={UserState.setUser} />
         </>
     )
 }
