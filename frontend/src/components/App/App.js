@@ -62,23 +62,6 @@ function App() {
     saveDB: () => putBlob(db),
   }
 
-  // user state 
-  const [user, setUser] = useState({"logged in": false, "username":""});
-  const logout = () => {
-    // save and clear current vault
-    VaultActions.saveDB();
-    setDB(template);
-
-    // log out from server, reset userState
-    authlogout();
-    setUser({"logged in": false, "username":""});
-  }
-  const UserState = {
-    user: user, 
-    setUser: setUser,
-    logout: logout
-  }
-
   // UI state
   const [activeMid, setActiveMid] = useReducer((st, n) => st === n ? null : n, null);
   const [activeFile, setActiveFile] = useState(null);
@@ -90,6 +73,27 @@ function App() {
     setActiveFile: setActiveFile,
     searchString: searchString,
     setSearchString: setSearchString,
+  }
+
+  // user state 
+  const [user, setUser] = useState({"logged in": false, "username":""});
+  const logout = () => {
+    // save and clear current vault
+    VaultActions.saveDB();
+    setDB(template);
+
+    // reset UI
+    UIState.setActiveMid(null);
+    UIState.setActiveFile(null);
+
+    // log out from server, reset userState
+    authlogout();
+    setUser({"logged in": false, "username":""});
+  }
+  const UserState = {
+    user: user, 
+    setUser: setUser,
+    logout: logout
   }
 
 
