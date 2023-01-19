@@ -1,28 +1,26 @@
 import React, { useReducer, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
-import { login } from '../../services/auth';
-import './Login.css';
+import { register } from '../../services/auth';
+import './Register.css';
 
 
-export default function Login({ show, close, UserState, switchTo }) {
+export default function Register({ show, close, switchTo }) {
 
-    const [loginData, setLoginData] = useReducer( (st, ev) => { 
+    const [registerData, setRegisterData] = useReducer( (st, ev) => { 
         return {...st, [ev.name]:ev.value}
     }, {});
     const messageRef = useRef();
 
     const handleChange = ev => {
         messageRef.current.innerText = '';
-        setLoginData({name: ev.target.name, value: ev.target.value});
+        setRegisterData({name: ev.target.name, value: ev.target.value});
     }
     const handleSubmit = ev => {
         ev.preventDefault();
-        login(loginData?.username, loginData?.password)
+        register(registerData?.username, registerData?.password)
         .then(resp => {
             if (resp?.success === true){
-                UserState.setUser({"logged in": true, username: loginData.username});
-                UserState.loginActions();
-                close();
+                messageRef.current.innerText = "Registered successfully! Logging you in...";
             } else {
                 messageRef.current.innerText = resp["message"];
             }
@@ -35,12 +33,12 @@ export default function Login({ show, close, UserState, switchTo }) {
             show={show} 
             onHide={close} 
             centered
-            dialogClassName="login"
+            dialogClassName="register"
         >
-            <form name="Login" onSubmit={handleSubmit}>
+            <form name="Register" onSubmit={handleSubmit}>
 
                 <Modal.Header closeButton>
-                    <Modal.Title>Log in</Modal.Title>
+                    <Modal.Title>Register</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -52,16 +50,17 @@ export default function Login({ show, close, UserState, switchTo }) {
                         <span className="d-block mt-3">Password:</span>
                         <input id="password" name="password" type="password" onChange={handleChange} />
                     </label>
+                    <label>
+                        <span className="d-block mt-3">Repeat password:</span>
+                        <input id="password2" name="password2" type="password" />
+                    </label>
                     <div ref={messageRef} className="text-danger"></div>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <a 
-                        href="#" 
-                        onClick={switchTo}
-                    >Register for account</a>
+                    <a href="#" onClick={switchTo}>Log in instead</a>
                     <button type="button" onClick={close}>Cancel</button>
-                    <button type="submit">Submit</button>
+                    <button type="submit">Register</button>
                 </Modal.Footer>
             
             </form>

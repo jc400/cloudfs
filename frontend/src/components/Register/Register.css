@@ -1,0 +1,4 @@
+.register form {
+    color: var(--white1);
+    background-color: var(--gray3) !important;
+}

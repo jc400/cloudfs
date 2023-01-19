@@ -4,6 +4,7 @@ import IconButton from '../IconButton/IconButton';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
 import MenuOption from '../MenuOption/MenuOption';
 import Login from '../Login/Login';
+import Register from '../Register/Register';
 
 import './Sidebar.css';
 import FolderIcon from '../../assets/folder.svg';
@@ -13,6 +14,17 @@ import SettingsIcon from '../../assets/settings.svg';
 export default function Sidebar({UIState, VaultActions, UserState}) {
 
     const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+
+    const switchTo = () => {
+        if (showLogin){
+            setShowLogin(false);
+            setShowRegister(true);
+        } else if (showRegister){
+            setShowRegister(false);
+            setShowLogin(true);
+        }
+    }
 
     const loggedInMenu = (
         <>
@@ -73,7 +85,18 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
                 </ul>
             </div>
 
-            <Login show={showLogin} close={() => setShowLogin(false)} UserState={UserState} />
+            <Login 
+                show={showLogin} 
+                close={()=>setShowLogin(false)} 
+                UserState={UserState} 
+                switchTo={switchTo}
+            />
+            <Register 
+                show={showRegister} 
+                close={() => setShowRegister(false)} 
+                UserState={UserState} 
+                switchTo={switchTo}
+            />
         </>
     )
 }
