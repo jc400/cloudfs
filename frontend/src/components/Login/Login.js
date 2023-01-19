@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import { login } from '../../services/auth';
 import './Login.css';
@@ -9,17 +9,21 @@ export default function Login({ show, close, setUser }) {
     const [loginData, setLoginData] = useReducer( (st, ev) => { 
         return {...st, [ev.name]:ev.value}
     }, {});
+    const messageRef = useRef();
 
     const handleChange = ev => {
+        messageRef.current.innerText = '';
         setLoginData({name: ev.target.name, value: ev.target.value});
     }
     const handleSubmit = ev => {
         ev.preventDefault();
         login(loginData?.username, loginData?.password)
         .then(resp => {
-            if (resp["logged in"] === true){
+            if (resp?.success === true){
                 setUser({"logged in": true, username: loginData.username});
                 close();
+            } else {
+                messageRef.current.innerText = resp["message"];
             }
         })
     }
@@ -47,6 +51,7 @@ export default function Login({ show, close, setUser }) {
                         <span className="d-block mt-3">Password:</span>
                         <input id="password" name="password" type="password" onChange={handleChange} />
                     </label>
+                    <div ref={messageRef} className="text-danger"></div>
                 </Modal.Body>
 
                 <Modal.Footer>
