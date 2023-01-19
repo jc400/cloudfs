@@ -6,6 +6,8 @@
     border-radius: var(--round);
     border: 1px var(--gray5) solid;
     background: var(--gray1);
+
+    box-shadow: var(--gray1) 0 3px 8px;
 }
 .Menu > * {
     width: 100%;
