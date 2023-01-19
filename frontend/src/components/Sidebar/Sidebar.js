@@ -34,6 +34,8 @@ export default function Sidebar({UIState, VaultActions}) {
                         tooltip="Search notes"
                     />
                 </li>
+            </ul>
+            <ul>
                 <li>
                     <MenuDropdown 
                         title={<Icon src={SettingsIcon} />}

@@ -1,9 +1,13 @@
 .SB {
+    --bg: var(--gray4);
+
     flex: 0 0 50px;
     height: 100vh;
     background-color: var(--bg);
 
-    --bg: var(--gray4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .SB ul {
