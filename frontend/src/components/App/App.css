@@ -11,7 +11,7 @@ body {
 
 
 /* theme */
-#root {
+:root {
   --gray1: #1d1d1d;
   --gray2: #222222;
   --gray3: #272727;
