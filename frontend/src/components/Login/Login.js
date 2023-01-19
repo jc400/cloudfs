@@ -13,7 +13,8 @@ export default function Login({ show, close, setUser }) {
     const handleChange = ev => {
         setLoginData({name: ev.target.name, value: ev.target.value});
     }
-    const handleSubmit = () => {
+    const handleSubmit = ev => {
+        ev.preventDefault();
         login(loginData?.username, loginData?.password)
         .then(resp => {
             if (resp["logged in"] === true){
