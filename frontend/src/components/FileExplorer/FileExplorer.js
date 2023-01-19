@@ -201,7 +201,7 @@ export default function FileExplorer({ UIState }) {
                 <div className="FE">
 
                     <div className="FE-header-search">
-                        <label for="search"><h2>SEARCH</h2></label>
+                        <label htmlFor="search"><h2>SEARCH</h2></label>
                         <input 
                             name="search files"
                             type="search"
