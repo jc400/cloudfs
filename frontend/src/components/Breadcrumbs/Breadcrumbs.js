@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { DBContext } from '../App/App';
-import MenuOption from '../MenuOption/MenuOption';
 import './Breadcrumbs.css';
 
 
@@ -11,7 +10,7 @@ export default function Breadcrumbs({ file_key }) {
     let cursor = file_key;
     while (cursor && (cursor !== "home")) {
         pathFiles.push(cursor);
-        cursor = db.files[cursor].parent;
+        cursor = db.files[cursor]?.parent;
     }
 
     return (
@@ -20,7 +19,7 @@ export default function Breadcrumbs({ file_key }) {
                 .reverse()
                 .map(pathFile => (
                     <span key={pathFile}>
-                        {db.files[pathFile].title}
+                        {db.files[pathFile]?.title}
                         {pathFile === file_key ? "" : " > " }
                     </span>
                 ))

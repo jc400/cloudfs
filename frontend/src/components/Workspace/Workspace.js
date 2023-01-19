@@ -20,7 +20,7 @@ export default function TextEditor({ UIState }) {
     const [ document, setDocument ] = useState({});
     const [ tabs, setTabs ] = useState([]);
 
-    
+    // add data from new activeFile
     useEffect( () => {
         // clone file from db
         const doc = structuredClone(db.files[UIState.activeFile]);
@@ -31,6 +31,15 @@ export default function TextEditor({ UIState }) {
             addTab(UIState.activeFile);
         }
     }, [UIState.activeFile]);
+
+    // clear tabs if DB disappears (eg from logout)
+    useEffect( () => {
+        tabs.forEach(tab => {
+            if (!Object.keys(db.files).includes(tab)){
+                setTabs([]);
+            }
+        });
+    }, [db.files]);
 
 
     // callbacks
@@ -94,10 +103,10 @@ export default function TextEditor({ UIState }) {
                         <Nav.Link
                             key={file_key}
                             eventKey={file_key}
-                            title={db.files[file_key].title}
+                            title={db.files[file_key]?.title}
                             className="WS-tab-item text-reset"
                         >
-                            {db.files[file_key].title}
+                            {db.files[file_key]?.title}
                             &nbsp;
                             <IconButton 
                                 src={CloseIcon}
