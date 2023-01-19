@@ -14,6 +14,10 @@ import SettingsIcon from '../../assets/settings.svg';
 export default function Sidebar({UIState, VaultActions, user, setUser}) {
 
     const [showLogin, setShowLogin] = useState(false);
+    const logoutUser = () => {
+        logout();
+        setUser({"logged in": false, "username":""})
+    }
 
     const loggedInMenu = (
         <>
@@ -37,11 +41,6 @@ export default function Sidebar({UIState, VaultActions, user, setUser}) {
             <MenuOption name="Create local vault" onClick={VaultActions.createDB} />
         </>
     )
-
-    const logoutUser = () => {
-        loutout();
-        setUser({"logged in": false, "username":""})
-    }
 
 
     return (
