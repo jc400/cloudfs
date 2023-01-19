@@ -45,7 +45,7 @@ export default function Login({ show, close, setUser }) {
                 <Modal.Body>
                     <label>
                         <span className="d-block mt-3">Username:</span>
-                        <input id="username" name="username" type="text" onChange={handleChange} />
+                        <input id="username" name="username" type="text" onChange={handleChange} autoFocus />
                     </label>
                     <label>
                         <span className="d-block mt-3">Password:</span>
