@@ -110,7 +110,7 @@ export default function TextEditor({ UIState }) {
 
                 <Tab.Content className="overflow-hidden">
                     {tabs.map(file_key => (
-                        <Tab.Pane eventKey={file_key}>
+                        <Tab.Pane eventKey={file_key} key={file_key}>
                             <div className="WS-fileinfo">
                                 <span className="WS-fileinfo-breadcrumbs">
                                     <Breadcrumbs 
