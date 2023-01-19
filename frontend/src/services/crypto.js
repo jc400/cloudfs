@@ -57,7 +57,7 @@ export function getKey(keyMaterial, salt) {
 }
 
 export async function encrypt(plaintext, key) {
-    // encrypts string plaintext
+    // encrypts string plaintext, returns JSON with string-encoded ciphertext
     const ivBytes = window.crypto.getRandomValues(new Uint8Array(12));
     const ciphertextBuffer = await window.crypto.subtle.encrypt(
         {
@@ -68,15 +68,14 @@ export async function encrypt(plaintext, key) {
         _encode(plaintext),
     );
 
-    const out = JSON.stringify({
+    return JSON.stringify({
         ciphertext: _arrayBufferToString(ciphertextBuffer),
         iv: _arrayBufferToString(ivBytes),
     });
-    console.log(out);
-    return out;
 }
 
 export async function decrypt(ciphertextString, key) {
+    // pulls string encoded ciphertext from JSON, converts to arrayBuffer, decrypts
     const ciphertextJSON = JSON.parse(ciphertextString);
     const ivBytes = _stringToArrayBuffer(ciphertextJSON.iv);
     const ciphertextBuffer = _stringToArrayBuffer(ciphertextJSON.ciphertext);
