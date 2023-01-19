@@ -29,6 +29,8 @@ body {
   --border1: 1px var(--gray1) solid;
   --border2: 1px var(--gray2) solid;
 
+  --shadow: #0f0f0f;
+
   --round: 10px;
   --toolbar-height: 60px;
   --button-height: 30px;
