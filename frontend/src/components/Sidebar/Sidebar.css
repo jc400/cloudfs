@@ -31,3 +31,8 @@
 .SB-selector-active {
     background-color: var(--accent); 
 }
+
+.SB-dropdown-header {
+    border-bottom: var(--border2);
+    padding: 5px;
+}

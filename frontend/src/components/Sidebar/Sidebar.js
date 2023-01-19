@@ -17,7 +17,7 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
 
     const loggedInMenu = (
         <>
-            <div>
+            <div className="SB-dropdown-header">
                 Logged in as {UserState.user?.username}.
                 (<a href="#" onClick={UserState?.logout}>log out</a>)
             </div>
@@ -28,7 +28,7 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
     );
     const loggedOutMenu = (
         <>
-            <div>
+            <div className="SB-dropdown-header">
                 Logged out.
                 (<a href="#" onClick={() => setShowLogin(true)}>log in</a>)
             </div>
