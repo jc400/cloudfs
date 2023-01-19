@@ -38,7 +38,7 @@ export default function Sidebar({UIState, VaultActions}) {
             <ul>
                 <li>
                     <MenuDropdown 
-                        title={<Icon src={SettingsIcon} />}
+                        icon={SettingsIcon}
                         tooltip="Show settings"
                     >
                         <MenuOption name="Login" onClick={() => login(prompt("Username: "), prompt("Password: "))} />

@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import getPositionStyle from '../../services/getPositionStyle';
 
 import Menu from '../Menu/Menu';
-import Button from '../Button/Button';
+import IconButton from '../IconButton/IconButton';
 
 import './MenuDropdown.css';
 
-export default function MenuDropdown({ children, title, tooltip }) {
+export default function MenuDropdown({ children, icon, tooltip }) {
     const [show, setShow] = useState(false);
     const [style, setStyle] = useState({});
     const dropdownRef = useRef();
@@ -36,11 +36,12 @@ export default function MenuDropdown({ children, title, tooltip }) {
 
     return (
         <div className="MenuDropdown" ref={dropdownRef}>
-            <Button
+            <IconButton
+                src={icon}
                 onClick={toggle}
-                tooltip={show ? '' : tooltip}
+                tooltip={tooltip}
                 style={show ? { backgroundColor: 'var(--gray1)' } : {}}
-            >{title}</Button>
+            />
             {show &&
                 <Menu style={style}>
                     {children}
