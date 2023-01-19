@@ -61,6 +61,9 @@ function App() {
     saveDB: () => putBlob(db),
   }
 
+  // user state 
+  const [user, setUser] = useState({"logged in": false, "username":""});
+
   // UI state
   const [activeMid, setActiveMid] = useReducer((st, n) => st === n ? null : n, null);
   const [activeFile, setActiveFile] = useState(null);
@@ -80,7 +83,7 @@ function App() {
     <DBContext.Provider value={{ db, changeDB }}>
       <div style={{ display: "flex", height: "100vh" }}>
 
-        <Sidebar UIState={UIState} VaultActions={VaultActions} />
+        <Sidebar UIState={UIState} VaultActions={VaultActions} setUser={setUser} />
 
         <FileExplorer UIState={UIState} />
 
