@@ -1,8 +1,10 @@
 import React, { useState, useReducer, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
 import { template } from '../../config/config';
-import { getBlob, putBlob } from '../../services/api';
 import { logout } from '../../services/auth';
+import loadDB from '../../services/loadDB';
+import saveDB from '../../services/saveDB';
 
 import Sidebar from '../Sidebar/Sidebar';
 import FileExplorer from '../FileExplorer/FileExplorer';
@@ -58,8 +60,19 @@ function App() {
   }
   const VaultActions = {
     createDB: () => setDB(template),
-    loadDB: () => getBlob().then(n => setDB(n)),
-    saveDB: () => putBlob(db),
+    loadDB: () => {
+      loadDB(UserState?.username, UserState?.password)
+      .then(resp => {
+        if (resp?.success){
+          setDB(resp?.db)
+        } else {
+          prompt(resp?.message);
+        }
+      })
+    },
+    saveDB: () => {
+      return saveDB(db, UserState?.username, UserState?.password);
+    }
   }
 
   // UI state
@@ -78,17 +91,18 @@ function App() {
   // user state 
   const [user, setUser] = useState({"logged in": false, "username":""});
   const logoutActions = () => {
-    // save and clear current vault
-    VaultActions.saveDB();
-    setDB(template);
-
+    // save current vault, then clear current data
+    VaultActions.saveDB()
+    .then( resp => {
+      console.log(resp);
+      setDB(template);
+      logout();
+      setUser({"logged in": false, "username":""});
+    })
+    
     // reset UI
     UIState.setActiveMid(null);
     UIState.setActiveFile(null);
-
-    // reset userState
-    logout();
-    setUser({"logged in": false, "username":""});
   }
   const loginActions = () => {
     VaultActions.loadDB();

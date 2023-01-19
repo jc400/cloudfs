@@ -20,7 +20,11 @@ export default function Login({ show, close, UserState, switchTo }) {
         login(loginData?.username, loginData?.password)
         .then(resp => {
             if (resp?.success === true){
-                UserState.setUser({"logged in": true, username: loginData.username});
+                UserState.setUser({
+                    "logged in": true, 
+                    username: loginData.username,
+                    password: loginData.password,
+                });
                 UserState.loginActions();
                 close();
             } else {
