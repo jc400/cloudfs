@@ -83,7 +83,7 @@ function App() {
     <DBContext.Provider value={{ db, changeDB }}>
       <div style={{ display: "flex", height: "100vh" }}>
 
-        <Sidebar UIState={UIState} VaultActions={VaultActions} setUser={setUser} />
+        <Sidebar UIState={UIState} VaultActions={VaultActions} user={user} setUser={setUser} />
 
         <FileExplorer UIState={UIState} />
 

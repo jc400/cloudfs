@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { login, logout } from '../../services/auth';
+import { logout } from '../../services/auth';
 
 import IconButton from '../IconButton/IconButton';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
@@ -11,9 +11,38 @@ import FolderIcon from '../../assets/folder.svg';
 import SearchIcon from '../../assets/search.svg';
 import SettingsIcon from '../../assets/settings.svg';
 
-export default function Sidebar({UIState, VaultActions, setUser}) {
+export default function Sidebar({UIState, VaultActions, user, setUser}) {
 
     const [showLogin, setShowLogin] = useState(false);
+
+    const loggedInMenu = (
+        <>
+            <div>
+                Logged in as {user?.username}.
+                (<a href="#" onClick={logoutUser}>log out</a>)
+            </div>
+            <MenuOption name="Load vault" onClick={VaultActions.loadDB} />
+            <MenuOption name="Save vault" onClick={VaultActions.saveDB} />
+            <MenuOption name="Purge and re-create vault" onClick={VaultActions.createDB} />
+        </>
+    );
+    const loggedOutMenu = (
+        <>
+            <div>
+                Logged out.
+                (<a href="#" onClick={() => setShowLogin(true)}>log in</a>)
+            </div>
+            <MenuOption name="Load vault" onClick={VaultActions.loadDB} disabled={true} />
+            <MenuOption name="Save vault" onClick={VaultActions.saveDB} disabled={true} />
+            <MenuOption name="Create local vault" onClick={VaultActions.createDB} />
+        </>
+    )
+
+    const logoutUser = () => {
+        loutout();
+        setUser({"logged in": false, "username":""})
+    }
+
 
     return (
         <>
@@ -44,11 +73,7 @@ export default function Sidebar({UIState, VaultActions, setUser}) {
                             icon={SettingsIcon}
                             tooltip="Show settings"
                         >
-                            <MenuOption name="Login" onClick={() => setShowLogin(true)} />
-                            <MenuOption name="Logout" onClick={()=>logout()} />
-                            <MenuOption name="Create DB" onClick={VaultActions.createDB} />
-                            <MenuOption name="Save DB" onClick={VaultActions.saveDB} />
-                            <MenuOption name="Load DB" onClick={VaultActions.loadDB} />
+                            {user["logged in"] ? loggedInMenu : loggedOutMenu }
                         </MenuDropdown>
                     </li>
                 </ul>
