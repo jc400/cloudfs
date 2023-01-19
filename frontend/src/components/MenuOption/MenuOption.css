@@ -11,3 +11,10 @@
 .MenuOption:hover {
     background-color: var(--gray4);
 }
+.MenuOption:disabled {
+    color: var(--white5);
+}
+.MenuOption:disabled:hover {
+    background-color: inherit;
+    cursor: default;
+}
