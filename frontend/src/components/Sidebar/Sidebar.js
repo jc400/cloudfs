@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { logout } from '../../services/auth';
 
 import IconButton from '../IconButton/IconButton';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
@@ -19,7 +18,7 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
         <>
             <div className="SB-dropdown-header">
                 Logged in as {UserState.user?.username}.
-                (<a href="#" onClick={UserState?.logout}>log out</a>)
+                (<a href="#" onClick={UserState?.logoutActions}>log out</a>)
             </div>
             <MenuOption name="Load vault" onClick={VaultActions.loadDB} />
             <MenuOption name="Save vault" onClick={VaultActions.saveDB} />
@@ -74,7 +73,7 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
                 </ul>
             </div>
 
-            <Login show={showLogin} close={() => setShowLogin(false)} setUser={UserState.setUser} />
+            <Login show={showLogin} close={() => setShowLogin(false)} UserState={UserState} />
         </>
     )
 }

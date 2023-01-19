@@ -4,7 +4,7 @@ import { login } from '../../services/auth';
 import './Login.css';
 
 
-export default function Login({ show, close, setUser }) {
+export default function Login({ show, close, UserState }) {
 
     const [loginData, setLoginData] = useReducer( (st, ev) => { 
         return {...st, [ev.name]:ev.value}
@@ -20,7 +20,8 @@ export default function Login({ show, close, setUser }) {
         login(loginData?.username, loginData?.password)
         .then(resp => {
             if (resp?.success === true){
-                setUser({"logged in": true, username: loginData.username});
+                UserState.setUser({"logged in": true, username: loginData.username});
+                UserState.loginActions();
                 close();
             } else {
                 messageRef.current.innerText = resp["message"];

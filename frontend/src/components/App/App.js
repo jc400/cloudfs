@@ -2,7 +2,7 @@ import React, { useState, useReducer, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { template } from '../../config/config';
 import { getBlob, putBlob } from '../../services/api';
-import { logout as authlogout } from '../../services/auth';
+import { logout } from '../../services/auth';
 
 import Sidebar from '../Sidebar/Sidebar';
 import FileExplorer from '../FileExplorer/FileExplorer';
@@ -77,7 +77,7 @@ function App() {
 
   // user state 
   const [user, setUser] = useState({"logged in": false, "username":""});
-  const logout = () => {
+  const logoutActions = () => {
     // save and clear current vault
     VaultActions.saveDB();
     setDB(template);
@@ -86,14 +86,18 @@ function App() {
     UIState.setActiveMid(null);
     UIState.setActiveFile(null);
 
-    // log out from server, reset userState
-    authlogout();
+    // reset userState
+    logout();
     setUser({"logged in": false, "username":""});
+  }
+  const loginActions = () => {
+    VaultActions.loadDB();
   }
   const UserState = {
     user: user, 
     setUser: setUser,
-    logout: logout
+    logoutActions: logoutActions,
+    loginActions: loginActions
   }
 
 
