@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { DBContext } from '../App/App';
+import { KEYBOARD_SHORTCUTS } from '../../config/config';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
 import IconButton from '../IconButton/IconButton';
@@ -100,9 +101,11 @@ export default function FileExplorer({ UIState }) {
             }
         }
 
-        window.addEventListener("keydown", ctrlKeyDown);
-        window.addEventListener("keyup", ctrlKeyUp);
-        window.addEventListener("keydown", keyboardListener);
+        if (KEYBOARD_SHORTCUTS){
+            window.addEventListener("keydown", ctrlKeyDown);
+            window.addEventListener("keyup", ctrlKeyUp);
+            window.addEventListener("keydown", keyboardListener);
+        }
 
         return () => {
             window.removeEventListener("keydown", ctrlKeyDown);

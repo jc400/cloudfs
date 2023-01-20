@@ -15,3 +15,5 @@ export const template = {
         }
     }
 }
+
+export const KEYBOARD_SHORTCUTS = true;
