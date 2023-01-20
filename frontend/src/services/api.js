@@ -1,9 +1,10 @@
 import hit from './hit';
 
-export async function register(username, password){
+export async function register(username, password, vault){
     return hit("POST", "auth/register", {
         username: username,
         password: password,
+        vault: vault,
     });
 } 
 
@@ -23,17 +24,13 @@ export async function check_login(){
 }
 
 
-export async function getBlob() {
-    const response = await hit("GET", "blob");
-    const encrypted = response?.blob;
-    const data = encrypted; // add decryption later
-    return JSON.parse(data);
+export async function getVault() {
+    return hit("GET", "vault")
+    .then(resp => resp.vault);
 }
 
-export async function putBlob(db) {
-    const data = JSON.stringify(db);
-    const encrypted = data; // add encryption later
-    return hit("PUT", "blob", {
-        blob: encrypted
+export async function putVault(vault) {
+    return hit("PUT", "vault", {
+        vault: vault
     });
 }
