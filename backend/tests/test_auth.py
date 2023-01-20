@@ -26,7 +26,7 @@ def test_logout(client, auth):
 
 
 def test_register(app, client):
-    creds = {"username":"Jimmy", "password":"beans"}
+    creds = {"username":"Jimmy", "password":"beans", "vault":"vault"}
     response = client.post("/api/auth/register", json=creds)
     assert response.status_code == 200
     assert response.json['success'] == True

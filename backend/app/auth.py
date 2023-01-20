@@ -29,7 +29,7 @@ def register():
     if message is None:
         try:
             dbh.execute(
-                "INSERT INTO users (username, password, blob) VALUES (?, ?, ?)",
+                "INSERT INTO users (username, password, vault) VALUES (?, ?, ?)",
                 (username, generate_password_hash(password), vault),
             )
             dbh.commit()

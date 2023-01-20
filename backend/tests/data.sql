@@ -1,4 +1,4 @@
-INSERT INTO users (user_id, username, password, blob)
+INSERT INTO users (user_id, username, password, vault)
 VALUES (
     1, 
     "test", 
