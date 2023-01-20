@@ -4,26 +4,19 @@ import { getKeyMaterial, getEncryptionKey, getLoginKey } from './crypto';
 
 export default async function loginFlow(username, password){
 
-    try {
+    // derive key 
+    const keyMaterial = await getKeyMaterial(password);
+    const encryptionKey = await getEncryptionKey(keyMaterial, username);
+    const loginKey = await getLoginKey(keyMaterial, username);
 
-        // derive key 
-        const keyMaterial = await getKeyMaterial(password);
-        const encryptionKey = await getEncryptionKey(keyMaterial, username);
-        const loginKey = await getLoginKey(keyMaterial, username);
+    // hit api to login
+    const resp = await login(username, loginKey);
 
-        // hit api to login
-        const resp = await login(username, loginKey);
-
-        // if success, return valid username/key. Else return message.
-        if (resp?.success){
-            return {success: true, username: username, encryptionKey: encryptionKey};
-        } else {
-            return {success: false, message: resp?.message}
-        }
-
-
-    } catch {
-        return {success: false, message: "Error logging in"};
+    // if success, return valid username/key. Else return message.
+    if (resp?.success){
+        return {success: true, username: username, encryptionKey: encryptionKey};
+    } else {
+        throw resp?.message;
     }
 
 }

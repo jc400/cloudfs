@@ -1,6 +1,7 @@
 import React, { useReducer, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import loginFlow from '../../services/loginFlow';
+import loadVaultFlow from '../../services/loadVaultFlow';
 import './Login.css';
 
 
@@ -21,16 +22,18 @@ export default function Login({ show, close, UserState, switchTo }) {
 
         loginFlow(loginData?.username, loginData?.password)
         .then(resp => {
-            if (resp?.success === true){
-                UserState.setUser({
-                    username: resp.username,
-                    encryptionKey: resp.encryptionKey,
-                });
-                close();
-            } else {
-                messageRef.current.innerText = resp["message"];
-            }
-        });
+            UserState.setUser({
+                username: resp.username,
+                encryptionKey: resp.encryptionKey,
+            });
+            return resp;
+        })
+        .then(resp => loadVaultFlow(resp.encryptionKey))
+        .then(resp => console.log("set db here"))
+        .then(() => close())
+        .catch(err => {
+            messageRef.current.innerText = err;
+        })
     }
 
 
