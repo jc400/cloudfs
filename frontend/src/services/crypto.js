@@ -40,7 +40,7 @@ export function getKeyMaterial(password) {
     );
 }
 
-export function getKey(keyMaterial, salt) {
+export function getEncryptionKey(keyMaterial, salt) {
     // derive AES encryption/decryption key from pw keymaterial +salt
     return window.crypto.subtle.deriveKey(
         {
@@ -54,6 +54,21 @@ export function getKey(keyMaterial, salt) {
         true,
         ["encrypt", "decrypt"],
     );
+}
+
+export async function getLoginKey(keyMaterial, salt) {
+    // use same pw + salt for login key, but use more PBKDF2 iterations and convert to string
+    const bitsBuffer = await window.crypto.subtle.deriveBits(
+        {
+            name: "PBKDF2",
+            salt: _encode(salt),
+            iterations: 200000,
+            hash: "SHA-256",
+        },
+        keyMaterial,
+        256
+    );
+    return _arrayBufferToString(bitsBuffer);
 }
 
 export async function encrypt(plaintext, key) {
@@ -79,6 +94,8 @@ export async function decrypt(ciphertextString, key) {
     const ciphertextJSON = JSON.parse(ciphertextString);
     const ivBytes = _stringToArrayBuffer(ciphertextJSON.iv);
     const ciphertextBuffer = _stringToArrayBuffer(ciphertextJSON.ciphertext);
+
+    console.log(key);
 
     const decrypted = await window.crypto.subtle.decrypt(
         {
