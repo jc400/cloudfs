@@ -1,4 +1,4 @@
-import React, { useState, useReducer, createContext } from 'react';
+import React, { useState, useReducer, useEffect, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { template } from '../../config/config';
@@ -9,6 +9,8 @@ import saveVaultFlow from '../../services/saveVaultFlow';
 import Sidebar from '../Sidebar/Sidebar';
 import FileExplorer from '../FileExplorer/FileExplorer';
 import Workspace from '../Workspace/Workspace';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
 
 import './App.css';
 
@@ -44,7 +46,7 @@ function App() {
       setDB(prev => {
         let newFiles = structuredClone(prev.files);
         newFiles[file_key] = { ...newFiles[file_key], ...kwargs };
-        if (kwargs.content){
+        if (kwargs.content) {
           newFiles[file_key].updated = new Date().toUTCString();
         }
         return { ...prev, "files": newFiles };
@@ -62,13 +64,13 @@ function App() {
     create: () => setDB(template),
     load: () => {
       loadVaultFlow(UserState.user.encryptionKey)
-      .then(resp => {
-        if (resp?.success){
-          setDB(resp?.db)
-        } else {
-          alert(resp?.message);
-        }
-      })
+        .then(resp => {
+          if (resp?.success) {
+            setDB(resp?.db)
+          } else {
+            alert(resp?.message);
+          }
+        })
     },
     save: () => {
       return saveVaultFlow(db, UserState.user.encryptionKey);
@@ -89,17 +91,17 @@ function App() {
   }
 
   // user state 
-  const [user, setUser] = useState({username: null, encryptionKey: null});
+  const [user, setUser] = useState({ username: null, encryptionKey: null });
   const logoutActions = () => {
     // save current vault, then clear current data
     VaultActions.save()
-    .then( resp => {
-      console.log(resp);
-      setDB(template);
-      logout();
-      setUser({"logged in": false, "username":""});
-    })
-    
+      .then(resp => {
+        setDB(template);
+        logout();
+        setUser({ "logged in": false, "username": "" });
+        setShowLogin(true);
+      })
+
     // reset UI
     UIState.setActiveMid(null);
     UIState.setActiveFile(null);
@@ -108,12 +110,31 @@ function App() {
     VaultActions.load();
   }
   const UserState = {
-    user: user, 
+    user: user,
     setUser: setUser,
     logoutActions: logoutActions,
     loginActions: loginActions
   }
 
+  // login stuff
+  const [showLogin, setShowLogin] = useState(true);
+  const [showRegister, setShowRegister] = useState(false);
+
+  const switchTo = () => {
+    if (showLogin) {
+      setShowLogin(false);
+      setShowRegister(true);
+    } else if (showRegister) {
+      setShowRegister(false);
+      setShowLogin(true);
+    }
+  }
+
+  useEffect(() => {
+    if (user.username){
+      setShowLogin(false);
+    }
+  }, [user]);
 
 
   return (
@@ -125,6 +146,19 @@ function App() {
         <FileExplorer UIState={UIState} />
 
         <Workspace UIState={UIState} />
+
+        <Login
+          show={showLogin}
+          close={() => setShowLogin(false)}
+          UserState={UserState}
+          switchTo={switchTo}
+        />
+        <Register
+          show={showRegister}
+          close={() => setShowRegister(false)}
+          UserState={UserState}
+          switchTo={switchTo}
+        />
 
       </div>
     </DBContext.Provider>
