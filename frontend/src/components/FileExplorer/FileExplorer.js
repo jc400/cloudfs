@@ -177,6 +177,8 @@ export default function FileExplorer({ UIState }) {
         cut: () => cut(selectedFile),
         copy: () => copy(selectedFile),
         paste: () => paste(selectedFile),
+        create_dir: create_dir,
+        create_file: create_file,
         rename: () => rename(selectedFile),
         remove: () => remove(selectedFile),
     }
