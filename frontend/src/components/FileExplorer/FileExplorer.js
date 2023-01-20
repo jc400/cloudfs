@@ -23,11 +23,16 @@ export default function FileExplorer({ UIState }) {
     const [CMshow, setCMshow] = useState(false);
     const [CMpos, setCMpos] = useState({});
 
+    // utils
+    const isDirectory = file_key => {
+        return file_key ? db.files[file_key].file_type === 'd' : false;
+    }
+    const getParent = file_key => {
+        return file_key ? db.files[file_key].parent : null;
+    }
+
 
     // Internal updates to FileExplorer state
-    const isDirectory = file_key => {
-        return db.files[file_key].file_type === 'd';
-    }
     const open = file_key => {
         if (!isDirectory(file_key)) {
             UIState.setActiveFile(file_key);
@@ -126,11 +131,11 @@ export default function FileExplorer({ UIState }) {
         setCopyFile(file_key);
     }
     const create_file = () => {
-        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : null;
+        const dest = isDirectory(selectedFile) ? selectedFile : getParent(selectedFile);
         changeDB.add({ file_type: "f", parent: dest });
     }
     const create_dir = () => {
-        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : null;
+        const dest = isDirectory(selectedFile) ? selectedFile : getParent(selectedFile);
         changeDB.add({ file_type: "d", parent: dest });
     }
     const rename = file_key => {
