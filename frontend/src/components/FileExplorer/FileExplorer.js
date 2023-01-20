@@ -130,6 +130,7 @@ export default function FileExplorer({ UIState }) {
         if (cutFile){       
             // cut = move whole file
             changeDB.edit(cutFile, { parent: destFile });
+            setCutFile(null);
         } else if (copyFile){
             // copy = create duplicate
             changeDB.add({
@@ -139,6 +140,7 @@ export default function FileExplorer({ UIState }) {
                 "content": db.files[copyFile].content,
                 "tags": db.files[copyFile].tags
             });
+            setCopyFile(null);
         }
     }
 
