@@ -18,6 +18,7 @@ export default function FileExplorer({ UIState }) {
     const { db, changeDB } = useContext(DBContext);
     const [selectedFile, setSelectedFile] = useState(null); // file key
     const [cutFile, setCutFile] = useState(null); // file key
+    const [copyFile, setCopyFile] = useState(null);
     const [CMshow, setCMshow] = useState(false);
     const [CMpos, setCMpos] = useState({});
 
@@ -39,7 +40,12 @@ export default function FileExplorer({ UIState }) {
         }
     }
     const cut = file_key => {
+        setCopyFile(null);
         setCutFile(file_key);
+    }
+    const copy = file_key => {
+        setCutFile(null);
+        setCopyFile(file_key);
     }
     const openContextMenu = (ev, file_key) => {
         ev.preventDefault();
@@ -73,9 +79,22 @@ export default function FileExplorer({ UIState }) {
     const remove = file_key => {
         changeDB.remove(file_key);
     }
-    const move = (target, dest) => {
-        if (db.files[dest].file_type === 'd') {
-            changeDB.edit(target, { parent: dest });
+    const paste = file_key => {
+        // calculate destination dir based on input, either selected file or its parent
+        const destFile = (db.files[file_key].file_type === 'd') ? file_key : db.files[file_key].parent;
+
+        if (cutFile){       
+            // cut = move whole file
+            changeDB.edit(cutFile, { parent: destFile });
+        } else if (copyFile){
+            // copy = create duplicate
+            changeDB.add({
+                "parent": destFile,
+                "file_type": db.files[copyFile].file_type,
+                "title": `${db.files[copyFile].title} (copy)`,
+                "content": db.files[copyFile].content,
+                "tags": db.files[copyFile].tags
+            });
         }
     }
 
@@ -88,7 +107,8 @@ export default function FileExplorer({ UIState }) {
     const CMactions = {
         open: () => open(selectedFile),
         cut: () => cut(selectedFile),
-        paste: () => move(cutFile, selectedFile),
+        copy: () => copy(selectedFile),
+        paste: () => paste(selectedFile),
         rename: () => rename(selectedFile),
         remove: () => remove(selectedFile),
     }

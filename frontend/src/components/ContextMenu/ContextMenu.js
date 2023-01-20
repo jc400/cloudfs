@@ -20,6 +20,7 @@ export default function ContextMenu({show, setShow, pos, callbacks}){
                 <Menu style={pos.style}>
                     <MenuOption onClick={callbacks.open} name='Open' />
                     <MenuOption onClick={callbacks.cut} name='Cut' />
+                    <MenuOption onClick={callbacks.copy} name='Copy' />
                     <MenuOption onClick={callbacks.paste} name='Paste' />
                     <MenuOption onClick={callbacks.rename} name='Rename' />
                     <MenuOption onClick={callbacks.remove} name='Delete' />
