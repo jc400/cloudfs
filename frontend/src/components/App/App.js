@@ -157,8 +157,9 @@ function App() {
         <Register
           show={showRegister}
           close={() => setShowRegister(false)}
-          UserState={UserState}
           switchTo={switchTo}
+          setUser={setUser}
+          setDB={setDB}
         />
 
       </div>

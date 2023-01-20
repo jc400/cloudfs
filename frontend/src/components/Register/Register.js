@@ -1,10 +1,12 @@
 import React, { useReducer, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import registerFlow from '../../services/registerFlow';
+import loginFlow from '../../services/loginFlow';
+import loadVaultFlow from '../../services/loadVaultFlow';
 import './Register.css';
 
 
-export default function Register({ show, close, switchTo }) {
+export default function Register({ show, close, switchTo, setUser, setDB }) {
 
     const [registerData, setRegisterData] = useReducer( (st, ev) => { 
         return {...st, [ev.name]:ev.value}
@@ -18,14 +20,31 @@ export default function Register({ show, close, switchTo }) {
     const handleSubmit = ev => {
         ev.preventDefault();
 
+        // register with username/pass
         registerFlow(registerData?.username, registerData?.password)
+
+        // if no error is thrown, we should be able to login
+        .then(() => loginFlow(registerData?.username, registerData?.password))
         .then(resp => {
-            if (resp?.success === true){
-                messageRef.current.innerText = "Registered successfully! Logging you in...";
-            } else {
-                messageRef.current.innerText = resp["message"];
-            }
+            setUser({
+                username: resp.username,
+                encryptionKey: resp.encryptionKey,
+            });
+            return resp;
         })
+
+        // load vault, set DB state
+        .then(resp => loadVaultFlow(resp.encryptionKey))
+        .then(resp => {
+            setDB(resp.db);
+        })
+
+        // close modal
+        .then(() => close())
+        .catch(err => {
+            messageRef.current.innerText = err;
+        });
+
     }
 
 
