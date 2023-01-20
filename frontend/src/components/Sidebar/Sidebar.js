@@ -9,7 +9,7 @@ import FolderIcon from '../../assets/folder.svg';
 import SearchIcon from '../../assets/search.svg';
 import SettingsIcon from '../../assets/settings.svg';
 
-export default function Sidebar({ UIState, VaultActions, UserState }) {
+export default function Sidebar({ UIState, VaultActions, username }) {
 
     return (
         <>
@@ -41,8 +41,8 @@ export default function Sidebar({ UIState, VaultActions, UserState }) {
                             tooltip="Show settings"
                         >
                             <div className="SB-dropdown-header">
-                                Logged in as {UserState.user?.username}.
-                                (<a href="#" onClick={UserState?.logoutActions}>log out</a>)
+                                Logged in as {username}.
+                                (<a href="#" onClick={VaultActions.logout}>log out</a>)
                             </div>
                             <MenuOption name="Load vault" onClick={VaultActions.load} />
                             <MenuOption name="Save vault" onClick={VaultActions.save} />

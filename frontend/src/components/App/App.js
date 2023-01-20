@@ -19,8 +19,10 @@ import './App.css';
 export const DBContext = createContext();
 
 function App() {
-  // db state
+  // db + user state
   const [db, setDB] = useState(template);
+  const [user, setUser] = useState({ username: null, encryptionKey: null });
+
   const changeDB = {
     // consolidates logic for making changes to data store. Wrapper 
     // around setDB() method
@@ -60,10 +62,11 @@ function App() {
       })
     }
   }
+
   const VaultActions = {
     create: () => setDB(template),
     load: () => {
-      loadVaultFlow(UserState.user.encryptionKey)
+      loadVaultFlow(user.encryptionKey)
         .then(resp => {
           if (resp?.success) {
             setDB(resp?.db)
@@ -73,7 +76,19 @@ function App() {
         })
     },
     save: () => {
-      return saveVaultFlow(db, UserState.user.encryptionKey);
+      return saveVaultFlow(db, user.encryptionKey);
+    },
+    logout: () => {
+      // save current vault, then clear current data
+      saveVaultFlow(db, user.encryptionKey);
+      setDB(template);
+      logout();
+      setUser({ username: null, encryptionKey: null });
+      setShowLogin(true);
+
+      // reset UI
+      UIState.setActiveMid(null);
+      UIState.setActiveFile(null);
     }
   }
 
@@ -88,32 +103,6 @@ function App() {
     setActiveFile: setActiveFile,
     searchString: searchString,
     setSearchString: setSearchString,
-  }
-
-  // user state 
-  const [user, setUser] = useState({ username: null, encryptionKey: null });
-  const logoutActions = () => {
-    // save current vault, then clear current data
-    VaultActions.save()
-      .then(resp => {
-        setDB(template);
-        logout();
-        setUser({ "logged in": false, "username": "" });
-        setShowLogin(true);
-      })
-
-    // reset UI
-    UIState.setActiveMid(null);
-    UIState.setActiveFile(null);
-  }
-  const loginActions = () => {
-    VaultActions.load();
-  }
-  const UserState = {
-    user: user,
-    setUser: setUser,
-    logoutActions: logoutActions,
-    loginActions: loginActions
   }
 
   // login stuff
@@ -141,7 +130,7 @@ function App() {
     <DBContext.Provider value={{ db, changeDB }}>
       <div style={{ display: "flex", height: "100vh" }}>
 
-        <Sidebar UIState={UIState} VaultActions={VaultActions} UserState={UserState} />
+        <Sidebar UIState={UIState} VaultActions={VaultActions} username={user?.username} />
 
         <FileExplorer UIState={UIState} />
 
