@@ -65,6 +65,7 @@ export default function FileExplorer({ UIState }) {
         const vKey = 86;        // paste
         const rKey = 82;        // rename
         const f2Key = 113;      // rename
+        const dKey = 68;        // delete
         const deleteKey = 46;   // delete
 
         const ctrlKeyDown = ev => {
@@ -92,7 +93,9 @@ export default function FileExplorer({ UIState }) {
                 && selectedFile) {
                 rename(selectedFile);
             }
-            if (ev.keyCode === deleteKey && selectedFile) {
+            if (((localCtrlKey && ev.keyCode === dKey)
+                || (ev.keyCode === deleteKey))
+                && selectedFile) {
                 remove(selectedFile);
             }
         }
