@@ -14,6 +14,7 @@ def register():
     post_data = request.get_json(cache=False)
     username = post_data['username']
     password = post_data['password']
+    vault = post_data['vault']
     now = time.time()
     dbh = get_db()
     message = None
@@ -22,12 +23,14 @@ def register():
         message = 'Username is required.'
     elif not password:
         message = 'Password is required.'
+    elif not vault: 
+        message = 'Vault is required.'
 
     if message is None:
         try:
             dbh.execute(
                 "INSERT INTO users (username, password, blob) VALUES (?, ?, ?)",
-                (username, generate_password_hash(password), ""),
+                (username, generate_password_hash(password), vault),
             )
             dbh.commit()
         except dbh.IntegrityError:
