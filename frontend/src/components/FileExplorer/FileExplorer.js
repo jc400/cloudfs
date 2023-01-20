@@ -28,7 +28,7 @@ export default function FileExplorer({ UIState }) {
         return db.files[file_key].file_type === 'd';
     }
     const open = file_key => {
-        if (!isDirectory(file_key)){
+        if (!isDirectory(file_key)) {
             UIState.setActiveFile(file_key);
         }
     }
@@ -60,9 +60,12 @@ export default function FileExplorer({ UIState }) {
         let localCtrlKey = false;
         const ctrl = 17;
         const cmd = 91;
-        const xKey = 88;
-        const cKey = 67;
-        const vKey = 86;
+        const xKey = 88;        // cut
+        const cKey = 67;        // copy
+        const vKey = 86;        // paste
+        const rKey = 82;        // rename
+        const f2Key = 113;      // rename
+        const deleteKey = 46;   // delete
 
         const ctrlKeyDown = ev => {
             if (ev.keyCode === ctrl || ev.keyCode === cmd) {
@@ -75,14 +78,22 @@ export default function FileExplorer({ UIState }) {
             }
         }
         const keyboardListener = ev => {
-            if (localCtrlKey && ev.keyCode === xKey && selectedFile){
+            if (localCtrlKey && ev.keyCode === xKey && selectedFile) {
                 cut(selectedFile);
             }
-            if (localCtrlKey && ev.keyCode === cKey && selectedFile){
+            if (localCtrlKey && ev.keyCode === cKey && selectedFile) {
                 copy(selectedFile);
             }
-            if (localCtrlKey && ev.keyCode === vKey && selectedFile){
+            if (localCtrlKey && ev.keyCode === vKey && selectedFile) {
                 paste(selectedFile);
+            }
+            if (((localCtrlKey && ev.keyCode === rKey)
+                || (ev.keyCode === f2Key))
+                && selectedFile) {
+                rename(selectedFile);
+            }
+            if (ev.keyCode === deleteKey && selectedFile) {
+                remove(selectedFile);
             }
         }
 
@@ -97,7 +108,7 @@ export default function FileExplorer({ UIState }) {
         }
 
     }, [selectedFile]);
-    
+
 
     // Pass CRUD changes up to db
     const cut = file_key => {
@@ -127,11 +138,11 @@ export default function FileExplorer({ UIState }) {
         // calculate destination dir based on input, either selected file or its parent
         const destFile = (db.files[file_key].file_type === 'd') ? file_key : db.files[file_key].parent;
 
-        if (cutFile){       
+        if (cutFile) {
             // cut = move whole file
             changeDB.edit(cutFile, { parent: destFile });
             setCutFile(null);
-        } else if (copyFile){
+        } else if (copyFile) {
             // copy = create duplicate
             changeDB.add({
                 "parent": destFile,
@@ -192,35 +203,35 @@ export default function FileExplorer({ UIState }) {
     }
     const getSearch = () => {
         return Object.entries(db.files)
-        .filter(([k, v]) => {
-            if (v.title?.includes(UIState.searchString)) return true;
-            if (v.content?.includes(UIState.searchString)) return true;
-            if (v.tags?.includes(UIState.searchString)) return true;
-        })
-        .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
-        .map(([k, v]) => {
-            if (v.file_type === 'f') {
-                return (
-                    <File
-                        key={k}
-                        file_key={k}
-                        file={v}
-                        callbacks={FileCallbacks}
-                        style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
-                    />
-                )
-            } else {
-                return (
-                    <Directory
-                        key={k}
-                        file_key={k}
-                        file={v}
-                        callbacks={FileCallbacks}
-                        style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
-                    >
-                        {getChildren(k)}
-                    </Directory>
-                )
+            .filter(([k, v]) => {
+                if (v.title?.includes(UIState.searchString)) return true;
+                if (v.content?.includes(UIState.searchString)) return true;
+                if (v.tags?.includes(UIState.searchString)) return true;
+            })
+            .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
+            .map(([k, v]) => {
+                if (v.file_type === 'f') {
+                    return (
+                        <File
+                            key={k}
+                            file_key={k}
+                            file={v}
+                            callbacks={FileCallbacks}
+                            style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                        />
+                    )
+                } else {
+                    return (
+                        <Directory
+                            key={k}
+                            file_key={k}
+                            file={v}
+                            callbacks={FileCallbacks}
+                            style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                        >
+                            {getChildren(k)}
+                        </Directory>
+                    )
                 }
             });
     }
@@ -268,10 +279,10 @@ export default function FileExplorer({ UIState }) {
 
                     <div className="FE-header-search">
                         <label htmlFor="search"><h2>SEARCH</h2></label>
-                        <input 
+                        <input
                             name="search files"
                             type="search"
-                            value={UIState.searchString || ''} 
+                            value={UIState.searchString || ''}
                             onChange={handleQueryChange} />
                         <div>{getSearch().length} results</div>
                     </div>
