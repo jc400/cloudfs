@@ -1,6 +1,6 @@
 import React, { useReducer, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
-import { login } from '../../services/api';
+import loginFlow from '../../services/loginFlow';
 import './Login.css';
 
 
@@ -15,22 +15,22 @@ export default function Login({ show, close, UserState, switchTo }) {
         messageRef.current.innerText = '';
         setLoginData({name: ev.target.name, value: ev.target.value});
     }
+
     const handleSubmit = ev => {
         ev.preventDefault();
-        login(loginData?.username, loginData?.password)
+
+        loginFlow(loginData?.username, loginData?.password)
         .then(resp => {
             if (resp?.success === true){
                 UserState.setUser({
-                    "logged in": true, 
-                    username: loginData.username,
-                    password: loginData.password,
+                    username: resp.username,
+                    encryptionKey: resp.encryptionKey,
                 });
-                UserState.loginActions();
                 close();
             } else {
                 messageRef.current.innerText = resp["message"];
             }
-        })
+        });
     }
 
 

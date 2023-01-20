@@ -32,9 +32,9 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
                 Logged in as {UserState.user?.username}.
                 (<a href="#" onClick={UserState?.logoutActions}>log out</a>)
             </div>
-            <MenuOption name="Load vault" onClick={VaultActions.loadDB} />
-            <MenuOption name="Save vault" onClick={VaultActions.saveDB} />
-            <MenuOption name="Purge and re-create vault" onClick={VaultActions.createDB} />
+            <MenuOption name="Load vault" onClick={VaultActions.load} />
+            <MenuOption name="Save vault" onClick={VaultActions.save} />
+            <MenuOption name="Purge and re-create vault" onClick={VaultActions.create} />
         </>
     );
     const loggedOutMenu = (
@@ -42,6 +42,7 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
             <div className="SB-dropdown-header">
                 Logged out.
                 (<a href="#" onClick={() => setShowLogin(true)}>log in</a>)
+                (<a href="#" onClick={() => setShowRegister(true)}>register</a>)
             </div>
             <MenuOption name="Load vault" onClick={VaultActions.loadDB} disabled={true} />
             <MenuOption name="Save vault" onClick={VaultActions.saveDB} disabled={true} />
@@ -79,7 +80,7 @@ export default function Sidebar({UIState, VaultActions, UserState}) {
                             icon={SettingsIcon}
                             tooltip="Show settings"
                         >
-                            {UserState.user["logged in"] ? loggedInMenu : loggedOutMenu }
+                            {UserState.user.username ? loggedInMenu : loggedOutMenu }
                         </MenuDropdown>
                     </li>
                 </ul>

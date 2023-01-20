@@ -1,6 +1,6 @@
 import React, { useReducer, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
-import { register } from '../../services/api';
+import registerFlow from '../../services/registerFlow';
 import './Register.css';
 
 
@@ -17,7 +17,8 @@ export default function Register({ show, close, switchTo }) {
     }
     const handleSubmit = ev => {
         ev.preventDefault();
-        register(registerData?.username, registerData?.password)
+
+        registerFlow(registerData?.username, registerData?.password)
         .then(resp => {
             if (resp?.success === true){
                 messageRef.current.innerText = "Registered successfully! Logging you in...";

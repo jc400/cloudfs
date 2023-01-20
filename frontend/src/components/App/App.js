@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { template } from '../../config/config';
 import { logout } from '../../services/api';
-import loadDB from '../../services/loadVaultFlow';
-import saveDB from '../../services/saveDB';
+import loadVaultFlow from '../../services/loadVaultFlow';
+import saveVaultFlow from '../../services/saveVaultFlow';
 
 import Sidebar from '../Sidebar/Sidebar';
 import FileExplorer from '../FileExplorer/FileExplorer';
@@ -59,19 +59,19 @@ function App() {
     }
   }
   const VaultActions = {
-    createDB: () => setDB(template),
-    loadDB: () => {
-      loadDB(UserState?.username, UserState?.password)
+    create: () => setDB(template),
+    load: () => {
+      loadVaultFlow(UserState.user.encryptionKey)
       .then(resp => {
         if (resp?.success){
           setDB(resp?.db)
         } else {
-          prompt(resp?.message);
+          alert(resp?.message);
         }
       })
     },
-    saveDB: () => {
-      return saveDB(db, UserState?.username, UserState?.password);
+    save: () => {
+      return saveVaultFlow(db, UserState.user.encryptionKey);
     }
   }
 
@@ -89,10 +89,10 @@ function App() {
   }
 
   // user state 
-  const [user, setUser] = useState({"logged in": false, "username":""});
+  const [user, setUser] = useState({username: null, encryptionKey: null});
   const logoutActions = () => {
     // save current vault, then clear current data
-    VaultActions.saveDB()
+    VaultActions.save()
     .then( resp => {
       console.log(resp);
       setDB(template);
@@ -105,7 +105,7 @@ function App() {
     UIState.setActiveFile(null);
   }
   const loginActions = () => {
-    VaultActions.loadDB();
+    VaultActions.load();
   }
   const UserState = {
     user: user, 
