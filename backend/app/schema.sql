@@ -4,5 +4,5 @@ CREATE TABLE users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR UNIQUE NOT NULL,
     password VARCHAR NOT NULL,
-    blob VARCHAR
+    vault VARCHAR
 );
