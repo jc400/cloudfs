@@ -132,11 +132,13 @@ export default function FileExplorer({ UIState }) {
     }
     const create_file = () => {
         const dest = isDirectory(selectedFile) ? selectedFile : getParent(selectedFile);
-        changeDB.add({ file_type: "f", parent: dest });
+        const newFile = changeDB.add({ file_type: "f", parent: dest });
+        select(newFile);
     }
     const create_dir = () => {
         const dest = isDirectory(selectedFile) ? selectedFile : getParent(selectedFile);
-        changeDB.add({ file_type: "d", parent: dest });
+        const newFile = changeDB.add({ file_type: "d", parent: dest });
+        select(newFile);
     }
     const rename = file_key => {
         let newTitle = window.prompt('Enter new name: ');
