@@ -47,13 +47,12 @@ export default function Login({ show, close, switchTo, setUser, setDB }) {
     return (
         <Modal 
             show={show} 
-            onHide={close} 
             centered
             dialogClassName="login"
         >
             <form name="Login" onSubmit={handleSubmit}>
 
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title>Log in</Modal.Title>
                 </Modal.Header>
 
@@ -69,13 +68,12 @@ export default function Login({ show, close, switchTo, setUser, setDB }) {
                     <div ref={messageRef} className="text-danger"></div>
                 </Modal.Body>
 
-                <Modal.Footer>
+                <Modal.Footer className="justify-content-between">
                     <a 
                         href="#" 
                         onClick={switchTo}
                     >Register for account</a>
-                    <button type="button" onClick={close}>Cancel</button>
-                    <button type="submit">Submit</button>
+                    <button type="submit">Log in</button>
                 </Modal.Footer>
             
             </form>

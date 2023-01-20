@@ -51,13 +51,12 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
     return (
         <Modal 
             show={show} 
-            onHide={close} 
             centered
             dialogClassName="register"
         >
             <form name="Register" onSubmit={handleSubmit}>
 
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title>Register</Modal.Title>
                 </Modal.Header>
 
@@ -77,9 +76,8 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
                     <div ref={messageRef} className="text-danger"></div>
                 </Modal.Body>
 
-                <Modal.Footer>
+                <Modal.Footer className="justify-content-between">
                     <a href="#" onClick={switchTo}>Log in instead</a>
-                    <button type="button" onClick={close}>Cancel</button>
                     <button type="submit">Register</button>
                 </Modal.Footer>
             
