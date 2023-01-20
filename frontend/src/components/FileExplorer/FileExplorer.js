@@ -39,14 +39,6 @@ export default function FileExplorer({ UIState }) {
             setSelectedFile(null);
         }
     }
-    const cut = file_key => {
-        setCopyFile(null);
-        setCutFile(file_key);
-    }
-    const copy = file_key => {
-        setCutFile(null);
-        setCopyFile(file_key);
-    }
     const openContextMenu = (ev, file_key) => {
         ev.preventDefault();
 
@@ -108,6 +100,14 @@ export default function FileExplorer({ UIState }) {
     
 
     // Pass CRUD changes up to db
+    const cut = file_key => {
+        setCopyFile(null);
+        setCutFile(file_key);
+    }
+    const copy = file_key => {
+        setCutFile(null);
+        setCopyFile(file_key);
+    }
     const create_file = () => {
         const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : null;
         changeDB.add({ file_type: "f", parent: dest });
