@@ -11,21 +11,18 @@ import chevDown from '../../assets/chevron-down.svg';
 export default function Directory({ children, file, file_key, callbacks, style }) {
     const [expand, setExpand] = useState(false);
 
-    const handleClick = () => {
-        setExpand(!expand);
-        callbacks.select(file_key);
-    }
-
     return (
         <div>
             <div 
                 className="Directory"
-                onClick={handleClick}
+                onClick={() => callbacks.select(file_key)}
+                onDoubleClick={() => setExpand(!expand)}
                 onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
                 style={style}
             >
                 <IconButton
                     src={expand ? chevDown : chevRight}
+                    onClick={ev => {ev.stopPropagation(); setExpand(!expand);}}
                     size="19px"
                 />
                 <span>{file?.title}</span>
