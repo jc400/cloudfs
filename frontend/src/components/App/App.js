@@ -150,8 +150,9 @@ function App() {
         <Login
           show={showLogin}
           close={() => setShowLogin(false)}
-          UserState={UserState}
           switchTo={switchTo}
+          setUser={setUser}
+          setDB={setDB}
         />
         <Register
           show={showRegister}

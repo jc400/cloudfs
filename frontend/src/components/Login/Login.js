@@ -5,7 +5,7 @@ import loadVaultFlow from '../../services/loadVaultFlow';
 import './Login.css';
 
 
-export default function Login({ show, close, UserState, switchTo }) {
+export default function Login({ show, close, switchTo, setUser, setDB }) {
 
     const [loginData, setLoginData] = useReducer( (st, ev) => { 
         return {...st, [ev.name]:ev.value}
@@ -20,16 +20,23 @@ export default function Login({ show, close, UserState, switchTo }) {
     const handleSubmit = ev => {
         ev.preventDefault();
 
+        // login, save username and key
         loginFlow(loginData?.username, loginData?.password)
         .then(resp => {
-            UserState.setUser({
+            setUser({
                 username: resp.username,
                 encryptionKey: resp.encryptionKey,
             });
             return resp;
         })
+
+        // load vault, set DB state
         .then(resp => loadVaultFlow(resp.encryptionKey))
-        .then(resp => console.log("set db here"))
+        .then(resp => {
+            setDB(resp.db);
+        })
+
+        // close login modal
         .then(() => close())
         .catch(err => {
             messageRef.current.innerText = err;
