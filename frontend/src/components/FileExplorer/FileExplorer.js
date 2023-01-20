@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { DBContext } from '../App/App';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
@@ -61,6 +61,50 @@ export default function FileExplorer({ UIState }) {
     const handleQueryChange = ev => {
         UIState.setSearchString(ev.target.value);
     }
+
+    // keyboard listener
+    useEffect(() => {
+
+        let localCtrlKey = false;
+        const ctrl = 17;
+        const cmd = 91;
+        const xKey = 88;
+        const cKey = 67;
+        const vKey = 86;
+
+        const ctrlKeyDown = ev => {
+            if (ev.keyCode === ctrl || ev.keyCode === cmd) {
+                localCtrlKey = true;
+            }
+        }
+        const ctrlKeyUp = ev => {
+            if (ev.keyCode === ctrl || ev.keyCode === cmd) {
+                localCtrlKey = false;
+            }
+        }
+        const keyboardListener = ev => {
+            if (localCtrlKey && ev.keyCode === xKey && selectedFile){
+                cut(selectedFile);
+            }
+            if (localCtrlKey && ev.keyCode === cKey && selectedFile){
+                copy(selectedFile);
+            }
+            if (localCtrlKey && ev.keyCode === vKey && selectedFile){
+                paste(selectedFile);
+            }
+        }
+
+        window.addEventListener("keydown", ctrlKeyDown);
+        window.addEventListener("keyup", ctrlKeyUp);
+        window.addEventListener("keydown", keyboardListener);
+
+        return () => {
+            window.removeEventListener("keydown", ctrlKeyDown);
+            window.removeEventListener("keyup", ctrlKeyUp);
+            window.removeEventListener("keydown", keyboardListener);
+        }
+
+    }, [selectedFile]);
     
 
     // Pass CRUD changes up to db
