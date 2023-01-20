@@ -109,11 +109,11 @@ export default function FileExplorer({ UIState }) {
 
     // Pass CRUD changes up to db
     const create_file = () => {
-        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : "home";
+        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : null;
         changeDB.add({ file_type: "f", parent: dest });
     }
     const create_dir = () => {
-        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : "home";
+        const dest = selectedFile && isDirectory(selectedFile) ? selectedFile : null;
         changeDB.add({ file_type: "d", parent: dest });
     }
     const rename = file_key => {
@@ -252,7 +252,7 @@ export default function FileExplorer({ UIState }) {
 
 
                     <ScrollArea bgColor="var(--gray3)">
-                        {getChildren("home")}
+                        {getChildren(null)}
                     </ScrollArea>
 
                     <ContextMenu

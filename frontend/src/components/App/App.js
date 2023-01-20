@@ -24,7 +24,7 @@ function App() {
     // around setDB() method
     add: kwargs => {
       let file = {
-        "parent": kwargs.parent ?? "home",
+        "parent": kwargs.parent ?? null,
         "file_type": kwargs.file_type ?? "f",
         "title": kwargs.title ?? "Untitled",
         "content": kwargs.content ?? "",

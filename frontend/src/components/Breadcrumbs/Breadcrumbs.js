@@ -8,7 +8,7 @@ export default function Breadcrumbs({ file_key }) {
 
     let pathFiles = [];
     let cursor = file_key;
-    while (cursor && (cursor !== "home")) {
+    while (cursor) {
         pathFiles.push(cursor);
         cursor = db.files[cursor]?.parent;
     }
