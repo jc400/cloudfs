@@ -95,8 +95,6 @@ export async function decrypt(ciphertextString, key) {
     const ivBytes = _stringToArrayBuffer(ciphertextJSON.iv);
     const ciphertextBuffer = _stringToArrayBuffer(ciphertextJSON.ciphertext);
 
-    console.log(key);
-
     const decrypted = await window.crypto.subtle.decrypt(
         {
             name: "AES-GCM",
