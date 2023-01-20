@@ -1,6 +1,6 @@
 import React, { useReducer, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
-import { login } from '../../services/auth';
+import { login } from '../../services/api';
 import './Login.css';
 
 

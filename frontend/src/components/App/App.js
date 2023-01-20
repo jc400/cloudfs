@@ -2,8 +2,8 @@ import React, { useState, useReducer, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { template } from '../../config/config';
-import { logout } from '../../services/auth';
-import loadDB from '../../services/loadDB';
+import { logout } from '../../services/api';
+import loadDB from '../../services/loadVaultFlow';
 import saveDB from '../../services/saveDB';
 
 import Sidebar from '../Sidebar/Sidebar';
