@@ -7,6 +7,7 @@ import IconButton from '../IconButton/IconButton';
 import File from '../File/File';
 import Directory from '../Directory/Directory';
 import ScrollArea from '../ScrollArea/ScrollArea';
+import ExplorerList from '../ExplorerList/ExplorerList';
 
 import './Explorer.css';
 import FileAdd from '../../assets/file-plus.svg';
@@ -254,34 +255,12 @@ export default function Explorer({ UIState }) {
     return (
         <>
             {UIState.activeMid === "Explorer" &&
-                <div className="FE">
-
-
-                    <div className="FE-header-notes">
-                        <h2>NOTES</h2>
-                        <span className="FE-header-buttons">
-                            <IconButton
-                                src={FileAdd}
-                                size="18px"
-                                onClick={create_file}
-                                tooltip="New note"
-                            />
-                            &nbsp;
-                            <IconButton
-                                src={DirAdd}
-                                size="18px"
-                                onClick={create_dir}
-                                tooltip="New directory"
-                            />
-                        </span>
-                    </div>
-
-
-                    <ScrollArea bgColor="var(--gray3)">
-                        {getChildren(null)}
-                    </ScrollArea>
-
-                </div>
+                <ExplorerList 
+                    create_file={create_file}
+                    create_dir={create_dir}
+                    FileCallbacks={FileCallbacks}
+                    selectedFile={selectedFile}
+                />
             }
             {UIState.activeMid === "Search" &&
                 <div className="FE">
