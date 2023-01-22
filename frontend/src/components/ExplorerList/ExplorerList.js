@@ -4,6 +4,7 @@ import { DBContext } from '../App/App';
 import FileListing from '../FileListing/FileListing';
 import IconButton from '../IconButton/IconButton';
 
+import './ExplorerList.css';
 import FileAdd from '../../assets/file-plus.svg';
 import DirAdd from '../../assets/folder-plus.svg';
 
@@ -18,9 +19,9 @@ export default function ExplorerList({ create_file, create_dir, ...props }) {
     return (
         <div className="FE">
 
-            <div className="FE-header-notes">
+            <div className="EL-header">
                 <h2>NOTES</h2>
-                <span className="FE-header-buttons">
+                <span className="EL-header-buttons">
                     <IconButton
                         src={FileAdd}
                         size="18px"
