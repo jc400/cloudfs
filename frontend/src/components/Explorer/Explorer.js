@@ -3,16 +3,10 @@ import { DBContext } from '../App/App';
 import { KEYBOARD_SHORTCUTS } from '../../config/config';
 
 import ContextMenu from '../ContextMenu/ContextMenu';
-import IconButton from '../IconButton/IconButton';
-import File from '../File/File';
-import Directory from '../Directory/Directory';
-import ScrollArea from '../ScrollArea/ScrollArea';
 import ExplorerList from '../ExplorerList/ExplorerList';
+import ExplorerSearch from '../ExplorerSearch/ExplorerSearch';
 
 import './Explorer.css';
-import FileAdd from '../../assets/file-plus.svg';
-import DirAdd from '../../assets/folder-plus.svg';
-import SearchIcon from '../../assets/search.svg';
 
 
 export default function Explorer({ UIState }) {
@@ -57,9 +51,7 @@ export default function Explorer({ UIState }) {
         setSelectedFile(file_key);
         setCMshow(true);
     }
-    const handleQueryChange = ev => {
-        UIState.setSearchString(ev.target.value);
-    }
+
 
     // keyboard listener
     useEffect(() => {
@@ -186,71 +178,6 @@ export default function Explorer({ UIState }) {
         remove: () => remove(selectedFile),
     }
 
-    // calculate results
-    const getChildren = file_key => {
-        return Object.entries(db.files)
-            .filter(([k, v]) => v.parent === file_key)
-            .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
-            .map(([k, v]) => {
-                if (v.file_type === 'f') {
-                    return (
-                        <File
-                            key={k}
-                            file_key={k}
-                            file={v}
-                            callbacks={FileCallbacks}
-                            style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
-                        />
-                    )
-                } else {
-                    return (
-                        <Directory
-                            key={k}
-                            file_key={k}
-                            file={v}
-                            callbacks={FileCallbacks}
-                            style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
-                        >
-                            {getChildren(k)}
-                        </Directory>
-                    )
-                }
-            });
-    }
-    const getSearch = () => {
-        return Object.entries(db.files)
-            .filter(([k, v]) => {
-                if (v.title?.includes(UIState.searchString)) return true;
-                if (v.content?.includes(UIState.searchString)) return true;
-                if (v.tags?.includes(UIState.searchString)) return true;
-            })
-            .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
-            .map(([k, v]) => {
-                if (v.file_type === 'f') {
-                    return (
-                        <File
-                            key={k}
-                            file_key={k}
-                            file={v}
-                            callbacks={FileCallbacks}
-                            style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
-                        />
-                    )
-                } else {
-                    return (
-                        <Directory
-                            key={k}
-                            file_key={k}
-                            file={v}
-                            callbacks={FileCallbacks}
-                            style={k === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
-                        >
-                            {getChildren(k)}
-                        </Directory>
-                    )
-                }
-            });
-    }
 
     return (
         <>
@@ -263,23 +190,11 @@ export default function Explorer({ UIState }) {
                 />
             }
             {UIState.activeMid === "Search" &&
-                <div className="FE">
-
-                    <div className="FE-header-search">
-                        <label htmlFor="search"><h2>SEARCH</h2></label>
-                        <input
-                            name="search files"
-                            type="search"
-                            value={UIState.searchString || ''}
-                            onChange={handleQueryChange} />
-                        <div>{getSearch().length} results</div>
-                    </div>
-
-                    <ScrollArea bgColor="var(--gray3)">
-                        {getSearch()}
-                    </ScrollArea>
-
-                </div>
+                <ExplorerSearch 
+                    UIState={UIState}
+                    FileCallbacks={FileCallbacks}
+                    selectedFile={selectedFile}
+                />
             }
             <ContextMenu
                 show={CMshow}
