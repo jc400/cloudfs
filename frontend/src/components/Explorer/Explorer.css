@@ -38,21 +38,3 @@
     display: inline;
 }
 
-
-/* for Search */
-.FE-header-search {
-    padding: 15px;
-    border-bottom: var(--border2);
-} 
-.FE-header-search > input {
-    width: 100%;
-    margin-top: 15px;
-    display: block;
-    text-align: right;
-    margin-left: auto;
-}
-.FE-header-search > div {
-    text-align: right;
-    color: var(--white5);
-    margin-top: 5px;
-}
