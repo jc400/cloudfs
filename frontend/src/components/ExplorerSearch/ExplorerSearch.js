@@ -1,13 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { DBContext } from '../App/App';
 
 import FileListing from '../FileListing/FileListing';
 import IconButton from '../IconButton/IconButton';
 
+import chevRight from '../../assets/chevron-right.svg';
+import chevDown from '../../assets/chevron-down.svg';
+
 
 
 export default function ExplorerSearch({ UIState, ...props }) {
     const { db } = useContext(DBContext);
+    const [expand, setExpand] = useState(false);
+    const [title, setTitle] = useState(false);
+    const [content, setContent] = useState(true);
+    const [tags, setTags] = useState(true);
 
     const handleQueryChange = ev => {
         UIState.setSearchString(ev.target.value);
@@ -15,9 +22,9 @@ export default function ExplorerSearch({ UIState, ...props }) {
 
     const files = Object.entries(db.files)
         .filter(([k, v]) => {
-            if (v.title?.includes(UIState.searchString)) return true;
-            if (v.content?.includes(UIState.searchString)) return true;
-            if (v.tags?.includes(UIState.searchString)) return true;
+            if (title   && v.title?.includes(UIState.searchString)) return true;
+            if (content && v.content?.includes(UIState.searchString)) return true;
+            if (tags    && v.tags?.includes(UIState.searchString)) return true;
         })
         .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
         .map(([k, v]) => k);
@@ -27,12 +34,59 @@ export default function ExplorerSearch({ UIState, ...props }) {
         <div className="FE">
 
             <div className="FE-header-search">
-                <label htmlFor="search"><h2>SEARCH</h2></label>
-                <input
-                    name="search files"
-                    type="search"
-                    value={UIState.searchString || ''}
-                    onChange={handleQueryChange} />
+
+                <label htmlFor="search">
+                    <h2>SEARCH</h2>
+                </label>
+
+                <span>
+                    <IconButton
+                        src={expand ? chevDown : chevRight}
+                        onClick={ev => {ev.stopPropagation(); setExpand(!expand);}}
+                        size="19px"
+                    />
+                    <input
+                        name="search files"
+                        type="search"
+                        value={UIState.searchString || ''}
+                        onChange={handleQueryChange} />
+                </span>
+
+                {expand && 
+                    <div>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                name="title" 
+                                id="title" 
+                                checked={title} 
+                                onChange={ev => setTitle(ev.target.checked)}
+                            />
+                            <span>Title</span>
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                name="content" 
+                                id="content" 
+                                checked={content} 
+                                onChange={ev => setContent(ev.target.checked)}
+                            />
+                            <span>Content</span>
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                name="tags" 
+                                id="tags" 
+                                checked={tags} 
+                                onChange={ev => setTags(ev.target.checked)}
+                            />
+                            <span>Tags</span>
+                        </label>
+                    </div>
+                }
+
                 <div>{files.length} results</div>
             </div>
 
