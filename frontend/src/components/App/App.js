@@ -7,7 +7,7 @@ import loadVaultFlow from '../../services/loadVaultFlow';
 import saveVaultFlow from '../../services/saveVaultFlow';
 
 import Sidebar from '../Sidebar/Sidebar';
-import FileExplorer from '../FileExplorer/FileExplorer';
+import Explorer from '../Explorer/Explorer';
 import Workspace from '../Workspace/Workspace';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
@@ -132,7 +132,7 @@ function App() {
 
         <Sidebar UIState={UIState} VaultActions={VaultActions} username={user?.username} />
 
-        <FileExplorer UIState={UIState} />
+        <Explorer UIState={UIState} />
 
         <Workspace UIState={UIState} />
 

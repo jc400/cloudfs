@@ -16,11 +16,11 @@ export default function Sidebar({ UIState, VaultActions, username }) {
             <div className="SB">
                 <ul>
                     <li>
-                        <div className={UIState.activeMid === "FileExplorer" ? "SB-selector SB-selector-active" : "SB-selector"} />
+                        <div className={UIState.activeMid === "Explorer" ? "SB-selector SB-selector-active" : "SB-selector"} />
                         <IconButton
                             src={FolderIcon}
                             size="25px"
-                            onClick={() => UIState.setActiveMid("FileExplorer")}
+                            onClick={() => UIState.setActiveMid("Explorer")}
                             tooltip="View notes"
                         />
                     </li>

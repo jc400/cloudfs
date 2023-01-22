@@ -8,14 +8,14 @@ import File from '../File/File';
 import Directory from '../Directory/Directory';
 import ScrollArea from '../ScrollArea/ScrollArea';
 
-import './FileExplorer.css';
+import './Explorer.css';
 import FileAdd from '../../assets/file-plus.svg';
 import DirAdd from '../../assets/folder-plus.svg';
 import SearchIcon from '../../assets/search.svg';
 
 
-export default function FileExplorer({ UIState }) {
-    // FileExplorer's internal state
+export default function Explorer({ UIState }) {
+    // internal state
     const { db, changeDB } = useContext(DBContext);
     const [selectedFile, setSelectedFile] = useState(null); // file key
     const [cutFile, setCutFile] = useState(null); // file key
@@ -32,7 +32,7 @@ export default function FileExplorer({ UIState }) {
     }
 
 
-    // Internal updates to FileExplorer state
+    // updates to internal state
     const open = file_key => {
         if (!isDirectory(file_key)) {
             UIState.setActiveFile(file_key);
@@ -253,7 +253,7 @@ export default function FileExplorer({ UIState }) {
 
     return (
         <>
-            {UIState.activeMid === "FileExplorer" &&
+            {UIState.activeMid === "Explorer" &&
                 <div className="FE">
 
 
