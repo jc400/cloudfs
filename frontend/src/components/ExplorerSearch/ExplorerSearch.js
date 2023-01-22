@@ -44,6 +44,7 @@ export default function ExplorerSearch({ UIState, ...props }) {
                         src={expand ? chevDown : chevRight}
                         onClick={ev => {ev.stopPropagation(); setExpand(!expand);}}
                         size="19px"
+                        tooltip="Show additional search options"
                     />
                     <input
                         name="search files"
