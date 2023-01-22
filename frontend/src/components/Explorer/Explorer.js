@@ -281,12 +281,6 @@ export default function Explorer({ UIState }) {
                         {getChildren(null)}
                     </ScrollArea>
 
-                    <ContextMenu
-                        show={CMshow}
-                        setShow={setCMshow}
-                        pos={CMpos}
-                        callbacks={CMactions}
-                    />
                 </div>
             }
             {UIState.activeMid === "Search" &&
@@ -306,14 +300,14 @@ export default function Explorer({ UIState }) {
                         {getSearch()}
                     </ScrollArea>
 
-                    <ContextMenu
-                        show={CMshow}
-                        setShow={setCMshow}
-                        pos={CMpos}
-                        callbacks={CMactions}
-                    />
                 </div>
             }
+            <ContextMenu
+                show={CMshow}
+                setShow={setCMshow}
+                pos={CMpos}
+                callbacks={CMactions}
+            />
         </>
     )
 
