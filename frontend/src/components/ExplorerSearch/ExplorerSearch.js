@@ -12,7 +12,7 @@ import chevDown from '../../assets/chevron-down.svg';
 export default function ExplorerSearch({ UIState, ...props }) {
     const { db } = useContext(DBContext);
     const [expand, setExpand] = useState(false);
-    const [title, setTitle] = useState(false);
+    const [title, setTitle] = useState(true);
     const [content, setContent] = useState(true);
     const [tags, setTags] = useState(true);
 
