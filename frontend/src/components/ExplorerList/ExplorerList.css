@@ -2,7 +2,7 @@
 .EL-header {
     min-height: var(--toolbar-height);
     border-bottom: var(--border2);
-    padding: 0px 15px;
+    padding: 0px 25px;
 
     display: flex;
     justify-content: space-between;
@@ -13,5 +13,7 @@
     display: none;
 }
 .EL-header:hover > span.EL-header-buttons {
-    display: inline;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
