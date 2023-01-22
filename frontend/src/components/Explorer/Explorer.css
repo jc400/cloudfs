@@ -1,4 +1,4 @@
-.FE {
+.Explorer {
     --bg: var(--gray3);
 
     flex: 0 0 200px;
@@ -11,30 +11,10 @@
 
     background-color: var(--bg);
 }
-.FE h2 {
+.Explorer h2 {
     color: var(--white5);
     font-family: Ubuntu-Bold;
     font-weight: bold;
     font-size: 1.25em;
     margin: 0px;
 }
-
-
-/* for Notes */
-.FE-header-notes {
-    min-height: var(--toolbar-height);
-    border-bottom: var(--border2);
-    padding: 0px 15px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.FE-header-buttons {
-    display: none;
-}
-.FE-header-notes:hover > span.FE-header-buttons {
-    display: inline;
-}
-

@@ -180,7 +180,7 @@ export default function Explorer({ UIState }) {
 
 
     return (
-        <>
+        <div className="Explorer">
             {UIState.activeMid === "Explorer" &&
                 <ExplorerList 
                     create_file={create_file}
@@ -202,7 +202,7 @@ export default function Explorer({ UIState }) {
                 pos={CMpos}
                 callbacks={CMactions}
             />
-        </>
+        </div>
     )
 
 }

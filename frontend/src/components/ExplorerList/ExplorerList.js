@@ -17,8 +17,7 @@ export default function ExplorerList({ create_file, create_dir, ...props }) {
 
 
     return (
-        <div className="FE">
-
+        <>
             <div className="EL-header">
                 <h2>NOTES</h2>
                 <span className="EL-header-buttons">
@@ -42,7 +41,6 @@ export default function ExplorerList({ create_file, create_dir, ...props }) {
                 file_keys={files}
                 {...props}
             />
-
-        </div>
+        </>
     )
 }

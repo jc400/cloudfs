@@ -31,8 +31,7 @@ export default function ExplorerSearch({ UIState, ...props }) {
 
 
     return (
-        <div className="FE">
-
+        <>
             <div className="FE-header-search">
 
                 <label htmlFor="search">
@@ -95,6 +94,6 @@ export default function ExplorerSearch({ UIState, ...props }) {
                 {...props}
             />
 
-        </div>
+        </>
     )
 }
