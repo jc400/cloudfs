@@ -8,7 +8,7 @@ import saveVaultFlow from '../../services/saveVaultFlow';
 
 import Sidebar from '../Sidebar/Sidebar';
 import Explorer from '../Explorer/Explorer';
-import Workspace from '../Workspace/Workspace';
+import Editor from '../Editor/Editor';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 
@@ -134,7 +134,7 @@ function App() {
 
         <Explorer UIState={UIState} />
 
-        <Workspace UIState={UIState} />
+        <Editor UIState={UIState} />
 
         <Login
           show={showLogin}

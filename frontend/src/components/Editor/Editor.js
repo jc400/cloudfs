@@ -11,11 +11,11 @@ import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import IconButton from '../IconButton/IconButton';
 import ScrollArea from '../ScrollArea/ScrollArea';
 
-import './Workspace.css';
+import './Editor.css';
 import CloseIcon from '../../assets/x.svg';
 
 
-export default function TextEditor({ UIState }) {
+export default function Editor({ UIState }) {
     const {db, changeDB} = useContext(DBContext);
     const [ document, setDocument ] = useState({});
     const [ tabs, setTabs ] = useState([]);
