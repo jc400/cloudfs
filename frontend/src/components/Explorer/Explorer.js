@@ -180,21 +180,25 @@ export default function Explorer({ UIState }) {
 
 
     return (
-        <div className="Explorer">
+        <>
             {UIState.activeMid === "Explorer" &&
-                <ExplorerList 
-                    create_file={create_file}
-                    create_dir={create_dir}
-                    FileCallbacks={FileCallbacks}
-                    selectedFile={selectedFile}
-                />
+                <div className="Explorer">
+                    <ExplorerList 
+                        create_file={create_file}
+                        create_dir={create_dir}
+                        FileCallbacks={FileCallbacks}
+                        selectedFile={selectedFile}
+                    />
+                </div>
             }
             {UIState.activeMid === "Search" &&
-                <ExplorerSearch 
-                    UIState={UIState}
-                    FileCallbacks={FileCallbacks}
-                    selectedFile={selectedFile}
-                />
+                <div className="Explorer">
+                    <ExplorerSearch 
+                        UIState={UIState}
+                        FileCallbacks={FileCallbacks}
+                        selectedFile={selectedFile}
+                    />
+                </div>
             }
             <ContextMenu
                 show={CMshow}
@@ -202,7 +206,7 @@ export default function Explorer({ UIState }) {
                 pos={CMpos}
                 callbacks={CMactions}
             />
-        </div>
+        </>
     )
 
 }
