@@ -1,17 +1,36 @@
 /* for Search */
-.FE-header-search {
-    padding: 15px;
+.ES-header {
+    padding: 25px;
     border-bottom: var(--border2);
 } 
-.FE-header-search > input {
-    width: 100%;
-    margin-top: 15px;
-    display: block;
-    text-align: right;
-    margin-left: auto;
+
+.ES-searchbar {
+    max-width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0px;
 }
-.FE-header-search > div {
+.ES-searchbar > input {
+    flex: 0 1 auto;
+    min-width: 0px;
+}
+.ES-searchbar > button {
+    position: absolute;
+    right: 100%;
+    top: 5px;
+}
+
+.ES-checkboxes > label {
+    display: block;
+    text-align: left;
+    margin: 5px 0px;
+}
+.ES-checkboxes input {
+    margin-right: 10px;
+}
+
+.ES-results {
     text-align: right;
     color: var(--white5);
-    margin-top: 5px;
 }

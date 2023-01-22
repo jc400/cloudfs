@@ -7,6 +7,7 @@ import IconButton from '../IconButton/IconButton';
 import chevRight from '../../assets/chevron-right.svg';
 import chevDown from '../../assets/chevron-down.svg';
 
+import './ExplorerSearch.css';
 
 
 export default function ExplorerSearch({ UIState, ...props }) {
@@ -32,13 +33,13 @@ export default function ExplorerSearch({ UIState, ...props }) {
 
     return (
         <>
-            <div className="FE-header-search">
+            <div className="ES-header">
 
                 <label htmlFor="search">
                     <h2>SEARCH</h2>
                 </label>
 
-                <span>
+                <span className="ES-searchbar">
                     <IconButton
                         src={expand ? chevDown : chevRight}
                         onClick={ev => {ev.stopPropagation(); setExpand(!expand);}}
@@ -48,11 +49,12 @@ export default function ExplorerSearch({ UIState, ...props }) {
                         name="search files"
                         type="search"
                         value={UIState.searchString || ''}
-                        onChange={handleQueryChange} />
+                        onChange={handleQueryChange} 
+                    />
                 </span>
 
                 {expand && 
-                    <div>
+                    <div className="ES-checkboxes">
                         <label>
                             <input 
                                 type="checkbox" 
@@ -86,7 +88,7 @@ export default function ExplorerSearch({ UIState, ...props }) {
                     </div>
                 }
 
-                <div>{files.length} results</div>
+                <div className="ES-results">{files.length} results</div>
             </div>
 
             <FileListing 
