@@ -34,8 +34,8 @@
 }
 
 .WS-fileinfo {
+    flex: 1 0 25px;
     padding: 0px 5px;
-    min-height: 25px;
 
     display: flex;
     justify-content: space-between;
