@@ -6,18 +6,18 @@
     align-items: center;
     justify-content: left;
 
-    color: var(--white1);
+    color: var(--text1);
     background-color: inherit;
 
     font-size: inherit;
     text-align: left;
 }
 .Directory:hover {
-    background-color: var(--gray4);
+    background-color: var(--bg4);
     cursor: pointer;
 }
 
 .Directory-children {
     margin-left: 9px;
-    border-left: 1px var(--gray5) solid;
+    border-left: 1px var(--bg5) solid;
 }

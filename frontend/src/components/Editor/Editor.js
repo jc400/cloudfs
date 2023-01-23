@@ -139,7 +139,7 @@ export default function Editor({ UIState }) {
                                 </span>
                             </div>
                             
-                            <ScrollArea bgColor="var(--gray2)">
+                            <ScrollArea bgColor="var(--bg2)">
                                 <textarea
                                     className="WS-content"
                                     name="WS-content"

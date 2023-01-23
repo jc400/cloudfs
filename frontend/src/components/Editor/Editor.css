@@ -6,11 +6,11 @@
     display: flex;
     flex-direction: column;
 
-    background-color: var(--gray2);
+    background-color: var(--bg2);
 }
 
 .WS-tabs {
-    background-color: var(--gray3);
+    background-color: var(--bg3);
 }
 .WS-tab-item {
     margin: 0px;
@@ -21,14 +21,14 @@
     align-items: center;
     justify-content: center;
 
-    color: var(--white5);
-    background-color: var(--gray4);
+    color: var(--text5);
+    background-color: var(--bg4);
     border-left: var(--border1);
     border-right: var(--border1);
 }
 .WS-tab-item.active {
-    color: var(--white1);
-    background-color: var(--gray2);
+    color: var(--text1);
+    background-color: var(--bg2);
 }
 
 .WS-fileinfo {

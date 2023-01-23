@@ -1,5 +1,5 @@
 .Explorer {
-    --bg: var(--gray3);
+    --bg: var(--bg3);
 
     flex: 0 0 200px;
     max-width: 200px;
@@ -12,7 +12,7 @@
     background-color: var(--bg);
 }
 .Explorer h2 {
-    color: var(--white5);
+    color: var(--text5);
     font-family: Ubuntu-Bold;
     font-weight: bold;
     font-size: 1.25em;

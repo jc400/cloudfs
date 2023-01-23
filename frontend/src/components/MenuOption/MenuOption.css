@@ -9,10 +9,10 @@
     font: inherit;
 }
 .MenuOption:hover {
-    background-color: var(--gray4);
+    background-color: var(--bg4);
 }
 .MenuOption:disabled {
-    color: var(--white5);
+    color: var(--text5);
 }
 .MenuOption:disabled:hover {
     background-color: inherit;

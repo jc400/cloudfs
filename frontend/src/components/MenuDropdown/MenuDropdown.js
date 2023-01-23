@@ -40,7 +40,7 @@ export default function MenuDropdown({ children, icon, tooltip }) {
                 src={icon}
                 onClick={toggle}
                 tooltip={tooltip}
-                style={show ? { backgroundColor: 'var(--gray1)' } : {}}
+                style={show ? { backgroundColor: 'var(--bg1)' } : {}}
             />
             {show &&
                 <Menu style={style}>

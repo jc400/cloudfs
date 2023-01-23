@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: left;
 
-    color: var(--white1);
+    color: var(--text1);
     background-color: inherit;
 
     font-size: inherit;
@@ -14,6 +14,6 @@
 }
 
 .File:hover {
-    background-color: var(--gray4);
+    background-color: var(--bg4);
     cursor: pointer;
 }

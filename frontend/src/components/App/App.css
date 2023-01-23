@@ -12,24 +12,24 @@ body {
 
 /* theme */
 :root {
-  --gray1: rgb(236, 236, 236);
-  --gray2: rgb(216, 216, 216);
-  --gray3: rgb(200, 200, 200);
-  --gray4: rgb(185, 185, 185);
-  --gray5: rgb(170, 170, 170);
+  --bg1: rgb(236, 236, 236);
+  --bg2: rgb(216, 216, 216);
+  --bg3: rgb(200, 200, 200);
+  --bg4: rgb(185, 185, 185);
+  --bg5: rgb(170, 170, 170);
 
-  --white1: rgb(22, 22, 22);
-  --white2: rgb(37, 37, 37);
-  --white3: rgb(50, 50, 50);
-  --white4: rgb(64, 64, 64);
-  --white5: rgb(78, 78, 78);
+  --text1: rgb(22, 22, 22);
+  --text2: rgb(37, 37, 37);
+  --text3: rgb(50, 50, 50);
+  --text4: rgb(64, 64, 64);
+  --text5: rgb(78, 78, 78);
 
   --accent: rgb(218, 62, 0);
 
-  --border1: 1px var(--gray5) solid;
-  --border2: 1px var(--gray5) solid;
+  --border1: 1px var(--bg5) solid;
+  --border2: 1px var(--bg5) solid;
 
-  --shadow: var(--white5);
+  --shadow: var(--text5);
 
   --round: 10px;
   --toolbar-height: 60px;
@@ -51,7 +51,7 @@ body {
 }
 
 #root {
-  background-color: var(--gray3);
-  color: var(--white1);
+  background-color: var(--bg3);
+  color: var(--text1);
   font-family: Ubuntu-Regular;
 }

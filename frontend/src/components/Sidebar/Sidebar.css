@@ -1,5 +1,5 @@
 .SB {
-    --bg: var(--gray4);
+    --bg: var(--bg4);
 
     flex: 0 0 50px;
     height: 100vh;

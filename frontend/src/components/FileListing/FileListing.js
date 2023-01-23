@@ -45,7 +45,7 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile }) 
     }
 
     return (
-        <ScrollArea bgColor="var(--gray3)">
+        <ScrollArea bgColor="var(--bg3)">
             {file_keys.map(k => renderFile(k))}
         </ScrollArea>
     )

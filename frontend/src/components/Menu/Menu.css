@@ -4,8 +4,8 @@
     width: 250px;
     padding: 8px 0;
     border-radius: var(--round);
-    border: 1px var(--gray5) solid;
-    background: var(--gray1);
+    border: 1px var(--bg5) solid;
+    background: var(--bg1);
 
     box-shadow: var(--shadow) 0 3px 8px;
 }
