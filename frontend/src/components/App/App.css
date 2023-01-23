@@ -12,28 +12,33 @@ body {
 
 /* theme */
 :root {
-  --gray1: #1d1d1d;
-  --gray2: #222222;
-  --gray3: #272727;
-  --gray4: #2c2c2c;
-  --gray5: #373737;
+  --gray1: rgb(236, 236, 236);
+  --gray2: rgb(216, 216, 216);
+  --gray3: rgb(200, 200, 200);
+  --gray4: rgb(185, 185, 185);
+  --gray5: rgb(170, 170, 170);
 
-  --white1: #f5f4f3;
-  --white2: rgb(220,220,220);
-  --white3: rgb(190,190,190);
-  --white4: rgb(170, 170, 170);
-  --white5: rgb(150, 150, 150);
+  --white1: rgb(22, 22, 22);
+  --white2: rgb(37, 37, 37);
+  --white3: rgb(50, 50, 50);
+  --white4: rgb(64, 64, 64);
+  --white5: rgb(78, 78, 78);
 
   --accent: rgb(218, 62, 0);
 
-  --border1: 1px var(--gray1) solid;
-  --border2: 1px var(--gray2) solid;
+  --border1: 1px var(--gray5) solid;
+  --border2: 1px var(--gray5) solid;
 
-  --shadow: #0f0f0f;
+  --shadow: var(--white5);
 
   --round: 10px;
   --toolbar-height: 60px;
   --button-height: 30px;
+
+  --gray-filter: invert(64%) sepia(3%) saturate(29%) hue-rotate(324deg) brightness(94%) contrast(85%);
+  --dark-filter: invert(31%) sepia(0%) saturate(484%) hue-rotate(154deg) brightness(89%) contrast(85%);
+  --white-filter: invert(100%) sepia(100%) saturate(2%) hue-rotate(219deg) brightness(103%) contrast(100%);
+  --black-filter: invert(0%) sepia(0%) saturate(6995%) hue-rotate(190deg) brightness(88%) contrast(83%);
 }
 
 @font-face {
