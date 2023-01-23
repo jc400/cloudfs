@@ -40,7 +40,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: var(--border1);
 }
 
 .WS-fileinfo-breadcrumbs {
