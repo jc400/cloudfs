@@ -26,6 +26,8 @@ body {
 
   --filter1: invert(0%) sepia(0%) saturate(6995%) hue-rotate(190deg) brightness(88%) contrast(83%);
   --filter2: invert(31%) sepia(0%) saturate(484%) hue-rotate(154deg) brightness(89%) contrast(85%);
+
+  --shadow: var(--text5);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -44,6 +46,8 @@ body {
 
     --filter1: invert(100%) sepia(100%) saturate(2%) hue-rotate(219deg) brightness(103%) contrast(100%);
     --filter2: invert(64%) sepia(3%) saturate(29%) hue-rotate(324deg) brightness(94%) contrast(85%);
+
+    --shadow: var(--bg1);
   }
 }
 
@@ -53,8 +57,6 @@ body {
 
   --border1: 1px var(--bg5) solid;
   --border2: 1px var(--bg5) solid;
-
-  --shadow: var(--text5);
 
   --round: 10px;
   --toolbar-height: 60px;
