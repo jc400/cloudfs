@@ -13,6 +13,7 @@ export default function ExplorerList({ create_file, create_dir, ...props }) {
     const { db } = useContext(DBContext);
     const files = Object.entries(db.files)
         .filter(([k, v]) => v.parent === null)
+        .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
         .map(([k, v]) => k);
 
 
