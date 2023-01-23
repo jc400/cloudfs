@@ -10,7 +10,7 @@ body {
 }
 
 
-/* theme */
+/* color theme */
 :root {
   --bg1: rgb(236, 236, 236);
   --bg2: rgb(216, 216, 216);
@@ -24,6 +24,31 @@ body {
   --text4: rgb(64, 64, 64);
   --text5: rgb(78, 78, 78);
 
+  --filter1: invert(0%) sepia(0%) saturate(6995%) hue-rotate(190deg) brightness(88%) contrast(83%);
+  --filter2: invert(31%) sepia(0%) saturate(484%) hue-rotate(154deg) brightness(89%) contrast(85%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg1: rgb(29, 29, 29);
+    --bg2: rgb(34, 34, 34);
+    --bg3: rgb(39, 39, 39);
+    --bg4: rgb(44, 44, 44);
+    --bg5: rgb(55, 55, 55);
+
+    --text1: rgb(245, 244, 243);
+    --text2: rgb(220, 220, 220);
+    --text3: rgb(190, 190, 190);
+    --text4: rgb(170, 170, 170);
+    --text5: rgb(150, 150, 150);
+
+    --filter1: invert(100%) sepia(100%) saturate(2%) hue-rotate(219deg) brightness(103%) contrast(100%);
+    --filter2: invert(64%) sepia(3%) saturate(29%) hue-rotate(324deg) brightness(94%) contrast(85%);
+  }
+}
+
+/* global theme */
+:root {
   --accent: rgb(218, 62, 0);
 
   --border1: 1px var(--bg5) solid;
@@ -34,17 +59,13 @@ body {
   --round: 10px;
   --toolbar-height: 60px;
   --button-height: 30px;
-
-  --gray-filter: invert(64%) sepia(3%) saturate(29%) hue-rotate(324deg) brightness(94%) contrast(85%);
-  --dark-filter: invert(31%) sepia(0%) saturate(484%) hue-rotate(154deg) brightness(89%) contrast(85%);
-  --white-filter: invert(100%) sepia(100%) saturate(2%) hue-rotate(219deg) brightness(103%) contrast(100%);
-  --black-filter: invert(0%) sepia(0%) saturate(6995%) hue-rotate(190deg) brightness(88%) contrast(83%);
 }
 
 @font-face {
   font-family: Ubuntu-Regular;
   src: url('../../assets/Ubuntu-Regular.ttf') format('truetype');
 }
+
 @font-face {
   font-family: Ubuntu-Bold;
   src: url('../../assets/Ubuntu-Bold.ttf') format('truetype');

@@ -15,9 +15,9 @@
 
 
 .IconButton > img {
-    filter: var(--dark-filter);
+    filter: var(--filter2);
 }
 .IconButton > img:hover {
     cursor: pointer;
-    filter: var(--black-filter);
+    filter: var(--filter1);
 }
