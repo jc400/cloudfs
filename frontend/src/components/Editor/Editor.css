@@ -24,11 +24,13 @@
     color: var(--text5);
     background-color: var(--bg4);
     border-left: var(--border1);
-    border-right: var(--border1);
 }
 .WS-tab-item.active {
     color: var(--text1);
     background-color: var(--bg2);
+}
+.WS-tab-item:first-child {
+    border-left: none;
 }
 
 .WS-fileinfo {
