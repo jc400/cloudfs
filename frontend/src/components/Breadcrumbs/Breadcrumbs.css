@@ -1,6 +1,7 @@
 .breadcrumbs {
     margin-left: 10px;
     color: var(--text5);
+    font-size: 0.9em;
 }
 .breadcrumbs > span:last-child {
     color: var(--text1);
