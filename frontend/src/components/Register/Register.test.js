@@ -4,7 +4,7 @@ import Register from './Register';
 const mockFunction = () => { };
 
 
-it('renders login form with username/password/submit', () => {
+it('renders registration form with username/password/repeat password/submit', () => {
     render(<Register
         show={mockFunction}
         close={mockFunction}
