@@ -50,7 +50,7 @@ export default function Login({ show, close, switchTo, setUser, setDB }) {
             centered
             dialogClassName="login"
         >
-            <form name="Login" onSubmit={handleSubmit}>
+            <form name="Login" title="Login" onSubmit={handleSubmit}>
 
                 <Modal.Header>
                     <Modal.Title>Log in</Modal.Title>
