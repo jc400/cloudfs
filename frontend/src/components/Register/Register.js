@@ -54,7 +54,7 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
             centered
             dialogClassName="register"
         >
-            <form name="Register" onSubmit={handleSubmit}>
+            <form name="Register" title="Register" onSubmit={handleSubmit}>
 
                 <Modal.Header>
                     <Modal.Title>Register</Modal.Title>
