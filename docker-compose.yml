@@ -42,6 +42,7 @@ services:
         target: /app
     environment:
       - NODE_ENV=development
+      - PORT=5001
 
 
   frontend:
