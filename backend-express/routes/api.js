@@ -1,15 +1,10 @@
 const express = require('express');
-const session = require('express-session');
 const { login_required } = require('../auth_utils');
 const { get_db } = require('../db.js');
 
 
 const router = express.Router();
-router.use(session({
-    resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-    secret: 'shhhh, very secret'
-}));
+
 
 router.get('/vault', login_required, function (req, res, next){
     const user_id = req.session.user_id;

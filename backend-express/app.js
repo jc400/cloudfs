@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('express-session');
 var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -8,6 +9,12 @@ var authRouter = require('./routes/auth');
 
 
 var app = express();
+
+app.use(session({
+  resave: false, // don't save session if unmodified
+  saveUninitialized: false, // don't create session until something stored
+  secret: 'shhhh, very secret'
+}));
 
 app.use(logger('dev'));
 app.use(express.json());

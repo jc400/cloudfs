@@ -1,15 +1,9 @@
 const express = require('express');
-const session = require('express-session');
 const { get_hashed_password, check_hashed_password } = require('../auth_utils');
 const { get_db } = require('../db.js');
 
-// init router, configure session
+
 const router = express.Router();
-router.use(session({
-    resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-    secret: 'shhhh, very secret'
-}));
 
 
 router.post('/register', function (req, res, next) {
