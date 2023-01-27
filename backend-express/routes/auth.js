@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const session = require('express-session');
 const path = require('path');
 const hash = require('pbkdf2-password')({
@@ -11,7 +10,8 @@ const hash = require('pbkdf2-password')({
 const { get_db } = require('../db.js');
 
 
-// session config
+// init router, configure session
+const router = express.Router();
 router.use(session({
     resave: false, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
@@ -19,46 +19,7 @@ router.use(session({
 }));
 
 
-function _get_hashed_password(password) {
-    // we're imitating werkzeug.security.get_password_hash, which returns
-    // a string including algorithm:iterations$salt$hash
-    //'pbkdf2:sha256:260000$ILEmY6640NoY2yx0$f519a5567ba3a09949257d02f791bb877790f6a1c7636795768321ae5f6046a8'
-
-    /*
-    hash({ password: password }, function (err, pass, salt, hash) {
-        if (err) throw err;
-        
-        // format output to match werkzeug's
-        return `pbkdf2:sha256:260000$${salt}$${hash}`;
-      });
-    */
-    return password;
-}
-
-function _check_hashed_password(password_attempt, hash_from_db) {
-    /*
-    const salt = hash_from_db.split('$')[1];
-
-    hash({ password: password_attempt, salt: salt}, function (err, pass, salt, hash) {
-        if (err) throw err;
-
-        return assert.deepEqual(hash, hash_from_db.split('$')[2]);
-    });
-    */
-    return password_attempt === hash_from_db;
-}
-
-function login_required(req, res, next) {
-    // kind of like Flask wrapper. Attach to endpoint, gets called before callback
-    // router.get('/example', login_required, function (req, res){//code})
-    if (req.session.user_id) {
-        next();
-    } else {
-        res.status(401);
-        res.send('Access denied');
-    }
-}
-
+// routes
 router.post('/register', function (req, res, next) {
     const username = req?.body?.username;
     const password = req?.body?.password;
@@ -124,6 +85,48 @@ router.get('/check_login', function (req, res, next) {
         res.send({ "logged in": false })
     }
 })
+
+
+// utils
+function _get_hashed_password(password) {
+    // we're imitating werkzeug.security.get_password_hash, which returns
+    // a string including algorithm:iterations$salt$hash
+    //'pbkdf2:sha256:260000$ILEmY6640NoY2yx0$f519a5567ba3a09949257d02f791bb877790f6a1c7636795768321ae5f6046a8'
+
+    /*
+    hash({ password: password }, function (err, pass, salt, hash) {
+        if (err) throw err;
+        
+        // format output to match werkzeug's
+        return `pbkdf2:sha256:260000$${salt}$${hash}`;
+      });
+    */
+    return password;
+}
+
+function _check_hashed_password(password_attempt, hash_from_db) {
+    /*
+    const salt = hash_from_db.split('$')[1];
+
+    hash({ password: password_attempt, salt: salt}, function (err, pass, salt, hash) {
+        if (err) throw err;
+
+        return assert.deepEqual(hash, hash_from_db.split('$')[2]);
+    });
+    */
+    return password_attempt === hash_from_db;
+}
+
+function login_required(req, res, next) {
+    // kind of like Flask wrapper. Attach to endpoint, gets called before callback
+    // router.get('/example', login_required, function (req, res){//code})
+    if (req.session.user_id) {
+        next();
+    } else {
+        res.status(401);
+        res.send('Access denied');
+    }
+}
 
 
 exports.login_required = login_required;
