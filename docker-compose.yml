@@ -9,12 +9,12 @@ services:
     ports:
       - 8000:80
     depends_on:
-      - backend
+      - backend-flask 
       - frontend
 
-  backend:
+  backend-flask:
     build:
-      context: backend
+      context: backend-flask
       dockerfile: Dockerfile
     command: flask --debug --app app.wsgi run --port 5000 --host 0.0.0.0
     ports:
@@ -22,7 +22,7 @@ services:
     tty: true
     volumes:
       - type: bind
-        source: ./backend
+        source: ./backend-flask
         target: /app/
     environment:
       PYTHONPATH: .
