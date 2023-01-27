@@ -8,15 +8,15 @@ async function init_db() {
     const db = get_db();
 
     db.serialize(() => {
-        db.run(schema);
-    })
-    .close();
+        db.exec(schema, function(e){console.log(e)});
+    });
+    db.close();
 
     console.log('initialized database');
 }
 
 function get_db() {
-    const db = new sqlite3.Database(path.join(__dirname, 'instance', 'db.sqlite'));
+    const db = new sqlite3.Database(path.join(__dirname, 'instance', 'db.sqlite'), sqlite3.OPEN_READWRITE);
     return db;
 }
 
