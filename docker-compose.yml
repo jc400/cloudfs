@@ -10,6 +10,7 @@ services:
       - 8000:80
     depends_on:
       - backend-flask 
+      - backend-express
       - frontend
 
   backend-flask:
@@ -26,6 +27,22 @@ services:
         target: /app/
     environment:
       PYTHONPATH: .
+  
+  backend-express:
+    build:
+      context: backend-express
+      dockerfile: Dockerfile
+    command: npm start 
+    stdin_open: true
+    ports:
+      - 5001:5001
+    volumes:
+      - type: bind 
+        source: ./backend-express
+        target: /app
+    environment:
+      - NODE_ENV=development
+
 
   frontend:
     build:
