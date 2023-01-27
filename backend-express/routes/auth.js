@@ -48,6 +48,16 @@ function _check_hashed_password(password_attempt, hash_from_db) {
     return password_attempt === hash_from_db;
 }
 
+function login_required(req, res, next) {
+    // kind of like Flask wrapper. Attach to endpoint, gets called before callback
+    // router.get('/example', login_required, function (req, res){//code})
+    if (req.session.user_id) {
+        next();
+    } else {
+        res.status(401);
+        res.send('Access denied');
+    }
+}
 
 router.post('/register', function (req, res, next) {
     const username = req?.body?.username;
@@ -101,5 +111,20 @@ router.post('/login', function (req, res, next) {
     }
 });
 
+router.get('/logout', function (req, res, next) {
+    req.session.destroy(function () {
+        res.send({ success: true, message: "Logged out" });
+    });
+})
 
+router.get('/check_login', function (req, res, next) {
+    if (req.session.user_id) {
+        res.send({ "logged in": true })
+    } else {
+        res.send({ "logged in": false })
+    }
+})
+
+
+exports.login_required = login_required;
 module.exports = router;
