@@ -15,6 +15,7 @@ import ScrollArea from '../ScrollArea/ScrollArea';
 
 import './Editor.css';
 import CloseIcon from '../../assets/x.svg';
+import MDIcon from '../../assets/monitor.svg';
 
 
 export default function Editor({ UIState }) {
@@ -142,11 +143,14 @@ export default function Editor({ UIState }) {
                                 </span>
                             </div>
 
-                            <button
-                                name="Toggle markdown"
-                                title="Toggle markdown"
-                                onClick={() => setShowMD(!showMD)}
-                            >Toggle Markdown</button>
+                            <div id="MD-toggle">
+                                <IconButton 
+                                    src={MDIcon}
+                                    size={30}
+                                    onClick={() => setShowMD(!showMD)}
+                                    tooltip="Toggle markdown"
+                                />
+                            </div>
                             
                             {!showMD && 
                                 <ScrollArea bgColor="var(--bg2)">

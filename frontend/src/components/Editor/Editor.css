@@ -69,3 +69,10 @@ textarea.WS-content {
     font-family: monospace;
 }
 
+#MD-toggle {
+    position: fixed;
+    margin: 5px;
+    bottom: 0px;
+    right: 0px;
+}
+
