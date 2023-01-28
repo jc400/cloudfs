@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { DBContext } from '../App/App';
-import 'bootstrap/dist/css/bootstrap.css';
 
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
