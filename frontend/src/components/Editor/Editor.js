@@ -3,9 +3,7 @@ import { DBContext } from '../App/App';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import Nav from 'react-bootstrap/Nav';
-
 import ReactMarkdown from 'react-markdown';
 
 import Tag from '../Tag/Tag';
