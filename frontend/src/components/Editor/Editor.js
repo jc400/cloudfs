@@ -6,6 +6,8 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Nav from 'react-bootstrap/Nav';
 
+import ReactMarkdown from 'react-markdown';
+
 import Tag from '../Tag/Tag';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import IconButton from '../IconButton/IconButton';
@@ -19,6 +21,7 @@ export default function Editor({ UIState }) {
     const {db, changeDB} = useContext(DBContext);
     const [ document, setDocument ] = useState({});
     const [ tabs, setTabs ] = useState([]);
+    const [ showMD, setShowMD ] = useState(false);
 
     // add data from new activeFile
     useEffect( () => {
@@ -138,17 +141,35 @@ export default function Editor({ UIState }) {
                                     <Tag onClick={addTag} name="+New" />
                                 </span>
                             </div>
+
+                            <button
+                                name="Toggle markdown"
+                                title="Toggle markdown"
+                                onClick={() => setShowMD(!showMD)}
+                            >Toggle Markdown</button>
                             
-                            <ScrollArea bgColor="var(--bg2)">
-                                <textarea
-                                    className="WS-content"
-                                    name="WS-content"
-                                    cols="50"
-                                    rows={document?.content.split('').filter(c => c === '\n').length + 10}
-                                    value={document?.content || ''}
-                                    onChange={handleContentChange}
-                                ></textarea>
-                            </ScrollArea>
+                            {!showMD && 
+                                <ScrollArea bgColor="var(--bg2)">
+                                    <textarea
+                                        className="WS-content"
+                                        name="WS-content"
+                                        cols="50"
+                                        rows={document?.content.split('').filter(c => c === '\n').length + 10}
+                                        value={document?.content || ''}
+                                        onChange={handleContentChange}
+                                    ></textarea>
+                                </ScrollArea>
+                            }
+
+                            {showMD &&
+                                <ScrollArea bgColor="var(--bg2)">
+                                    <div className="WS-content">
+                                        <ReactMarkdown>
+                                            {document?.content}
+                                        </ReactMarkdown>
+                                    </div>
+                                </ScrollArea>
+                            }
                         </Tab.Pane>
                     ))}
                 </Tab.Content>
