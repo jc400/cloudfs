@@ -61,9 +61,11 @@
 
     border: none;
     outline: none;
-    font-family: monospace;
     color: inherit;
     background-color: inherit;
     resize: none;
+}
+textarea.WS-content {
+    font-family: monospace;
 }
 
