@@ -55,7 +55,7 @@
 
 .WS-content {
     display: block;
-    width: 80%;
+    width: 100%;
     padding: 10px 30px;
     overflow-y: visible;
 
@@ -64,6 +64,9 @@
     color: inherit;
     background-color: inherit;
     resize: none;
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 textarea.WS-content {
     font-family: monospace;
