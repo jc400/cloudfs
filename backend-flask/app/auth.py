@@ -3,8 +3,10 @@ from flask import (
     Blueprint, g, request, session, abort
 )
 from werkzeug.security import check_password_hash, generate_password_hash
+
 import time
 from .db import get_db
+from .auth_utils import get_hashed_password, check_hashed_password
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -15,7 +17,6 @@ def register():
     username = post_data['username']
     password = post_data['password']
     vault = post_data['vault']
-    now = time.time()
     dbh = get_db()
     message = None
 
@@ -28,9 +29,10 @@ def register():
 
     if message is None:
         try:
+            hashed_password, salt = get_hashed_password(password)
             dbh.execute(
-                "INSERT INTO users (username, password, vault) VALUES (?, ?, ?)",
-                (username, generate_password_hash(password), vault),
+                "INSERT INTO users (username, hashed_password, salt, vault) VALUES (?, ?, ?, ?)",
+                (username, hashed_password, salt, vault),
             )
             dbh.commit()
         except dbh.IntegrityError:
@@ -48,14 +50,14 @@ def login():
     password = post_data['password']
     dbh = get_db()
     message = None
-    home = None
+
     user = dbh.execute(
         'SELECT * FROM users WHERE username = ?', (username,)
     ).fetchone()
 
     if user is None:
         message = 'Incorrect username.'
-    elif not check_password_hash(user['password'], password):
+    elif not check_hashed_password(password, user['hashed_password'], user['salt']):
         message = 'Incorrect password.'
 
     if message is None:
