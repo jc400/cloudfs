@@ -13,15 +13,15 @@ router.post('/register', function (req, res, next) {
     const dbh = get_db();
 
     if (username && password && vault) {
-        // https://github.com/TryGhost/node-sqlite3/wiki/API#runsql--param---callback
+        const {hashed_password, salt} = get_hashed_password(password);
         dbh.run(
-            "INSERT INTO users (username, password, vault) VALUES (?, ?, ?)",
-            [username, get_hashed_password(password), vault],
-            function (e) {
-                if (e === null) {
+            "INSERT INTO users (username, hashed_password, salt, vault) VALUES (?, ?, ?, ?)",
+            [username, hashed_password, salt, vault],
+            function (err) {
+                if (err === null) {
                     res.send({ success: true, message: "Registered" });
                 } else {
-                    res.send({ success: false, message: e.message });
+                    res.send({ success: false, message: err.message });
                 }
             }
         )
@@ -36,17 +36,22 @@ router.post('/login', function (req, res, next) {
     const dbh = get_db();
     if (username && password) {
         dbh.get(
-            "SELECT user_id, username, password, vault FROM users WHERE username = ?",
+            "SELECT * FROM users WHERE username = ?",
             [username],
             function (err, row) {
                 if (err === null) {
-                    if (check_hashed_password(password, row.password)) {
-                        req.session.regenerate(function () {
-                            req.session.user_id = row.user_id;
-                            res.send({ success: true, message: "Logged in" });
-                        });
+                    if (row?.user_id){
+                        if (check_hashed_password(password, row.hashed_password, row.salt)) {
+                            req.session.regenerate(function () {
+                                // if everything checks out, generate a session
+                                req.session.user_id = row.user_id;
+                                res.send({ success: true, message: "Logged in" });
+                            });
+                        } else {
+                            res.send({ success: false, message: "Incorrect credentials"})
+                        }
                     } else {
-                        res.send({ success: false, message: "Password issue" });
+                        res.send({ success: false, message: "Incorrect credentials"});
                     }
                 } else {
                     res.send({ success: false, message: err.message });

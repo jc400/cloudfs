@@ -1,39 +1,32 @@
-const path = require('path');
-const hash = require('pbkdf2-password')({
-    saltLength: 16,
-    iterations: 260000,
-    // keyLength (length of generated key)
-    digest: 'sha256'
-})
+const crypto = require('crypto');
+
+
+const PBKDF2_ITERATIONS = 500000;
+const PASSWORD_KEY_LENGTH = 64;
+const PBKDF2_DIGEST_ALGO = 'sha256';
 
 
 function get_hashed_password(password) {
-    // we're imitating werkzeug.security.get_password_hash, which returns
-    // a string including algorithm:iterations$salt$hash
-    //'pbkdf2:sha256:260000$ILEmY6640NoY2yx0$f519a5567ba3a09949257d02f791bb877790f6a1c7636795768321ae5f6046a8'
-
-    /*
-    hash({ password: password }, function (err, pass, salt, hash) {
-        if (err) throw err;
-        
-        // format output to match werkzeug's
-        return `pbkdf2:sha256:260000$${salt}$${hash}`;
-      });
-    */
-    return password;
+    const salt = crypto.randomBytes(16);
+    const hashed_password = crypto.pbkdf2Sync(
+        password,
+        salt,
+        PBKDF2_ITERATIONS,
+        PASSWORD_KEY_LENGTH,
+        PBKDF2_DIGEST_ALGO
+    );
+    return {hashed_password: hashed_password, salt: salt};
 }
 
-function check_hashed_password(password_attempt, hash_from_db) {
-    /*
-    const salt = hash_from_db.split('$')[1];
-
-    hash({ password: password_attempt, salt: salt}, function (err, pass, salt, hash) {
-        if (err) throw err;
-
-        return assert.deepEqual(hash, hash_from_db.split('$')[2]);
-    });
-    */
-    return password_attempt === hash_from_db;
+function check_hashed_password(password_attempt, hashed_password_from_db, salt_from_db) {
+    const hashed_attempt = crypto.pbkdf2Sync(
+        password_attempt,
+        salt_from_db,
+        PBKDF2_ITERATIONS,
+        PASSWORD_KEY_LENGTH,
+        PBKDF2_DIGEST_ALGO
+    );
+    return crypto.timingSafeEqual(hashed_attempt, hashed_password_from_db);
 }
 
 function login_required(req, res, next) {
