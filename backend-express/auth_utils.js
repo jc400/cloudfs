@@ -1,13 +1,14 @@
 const crypto = require('crypto');
 
 
+const SALT_LENGTH = 16;
 const PBKDF2_ITERATIONS = 500000;
 const PASSWORD_KEY_LENGTH = 64;
 const PBKDF2_DIGEST_ALGO = 'sha256';
 
 
 function get_hashed_password(password) {
-    const salt = crypto.randomBytes(16);
+    const salt = crypto.randomBytes(SALT_LENGTH);
     const hashed_password = crypto.pbkdf2Sync(
         password,
         salt,
