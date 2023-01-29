@@ -2,7 +2,7 @@ import functools
 from flask import (
     Blueprint, g, request, session, abort
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+from psycopg2 import errors
 
 import time
 from .db import get_db
@@ -17,30 +17,23 @@ def register():
     username = post_data['username']
     password = post_data['password']
     vault = post_data['vault']
-    dbh = get_db()
-    message = None
+    conn = get_db()
+    cur = conn.cursor()
 
-    if not username:
-        message = 'Username is required.'
-    elif not password:
-        message = 'Password is required.'
-    elif not vault: 
-        message = 'Vault is required.'
-
-    if message is None:
+    if username and password and vault:
         try:
             hashed_password, salt = get_hashed_password(password)
-            dbh.execute(
-                "INSERT INTO users (username, hashed_password, salt, vault) VALUES (?, ?, ?, ?)",
+            cur.execute(
+                "INSERT INTO users (username, hashed_password, salt, vault) VALUES (%s, %s, %s, %s)",
                 (username, hashed_password, salt, vault),
             )
-            dbh.commit()
-        except dbh.IntegrityError:
-            message = f"User {username} is already registered."
+            conn.commit()
+        except errors.UniqueViolation:
+            return {"success":False, "message":"User exists already"}
         else:
             return {"success":True, "message":"Registered"}
 
-    return {"success":False, "message":message}
+    return {"success":False, "message":"Missing username, password, or vault"}
 
 
 @bp.route('/login', methods=['POST'])
@@ -48,24 +41,27 @@ def login():
     post_data = request.get_json(cache=False)
     username = post_data['username']
     password = post_data['password']
-    dbh = get_db()
-    message = None
+    conn = get_db()
+    cur = conn.cursor()
 
-    user = dbh.execute(
-        'SELECT * FROM users WHERE username = ?', (username,)
-    ).fetchone()
+    if username and password:
+        cur.execute(
+            'SELECT user_id, hashed_password, salt FROM users WHERE username = %s', 
+            (username,)
+        )
+        user = cur.fetchone()
+        if user:
+            if check_hashed_password(password, user[1], user[2]):
+                session.clear()
+                session['user_id'] = user[0]
+                return {"success":True, "message":"Logged in"}
+            else:
+                return {"success":False, "message":"Incorrect credentials"}
+        else:
+            return {"success":False, "message":"Incorrect credentials"}
+    else:
+        return {"success":False, "message":"Incorrect credentials"}
 
-    if user is None:
-        message = 'Incorrect username.'
-    elif not check_hashed_password(password, user['hashed_password'], user['salt']):
-        message = 'Incorrect password.'
-
-    if message is None:
-        session.clear()
-        session['user_id'] = user['user_id']
-        return {"success":True, "message":"Logged in"}
-
-    return {"success":False, "message":message}
 
 
 @bp.route('/logout')
@@ -88,12 +84,9 @@ def load_logged_in_user():
     user_id = session.get('user_id')
 
     if user_id is None:
-        g.user_id = g.user_data = None
+        g.user_id = None
     else:
         g.user_id = user_id
-        g.user_data = get_db().execute(
-            'SELECT * FROM users WHERE user_id = ?', (user_id,)
-        ).fetchone()
 
 
 def login_required(view):
