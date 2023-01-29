@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+const db = require('../db');
+db.init_db();
