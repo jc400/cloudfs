@@ -31,7 +31,6 @@ def create_app(test_config=None):
 
     # set up db
     from . import db
-    app.cli.add_command(db.init_db_command)
     app.teardown_appcontext(db.close_db)
 
     return app
