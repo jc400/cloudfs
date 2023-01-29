@@ -6,28 +6,58 @@ const PBKDF2_ITERATIONS = 500000;
 const PASSWORD_KEY_LENGTH = 64;
 const PBKDF2_DIGEST_ALGO = 'sha256';
 
+function _hex_from_bytes(buffer) {
+    return [...new Uint8Array(buffer)]
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("");
+}
+function _bytes_from_hex(string) {
+    let bytes = [];
+    string.replace(/../g, function (pair) {
+        bytes.push(parseInt(pair, 16));
+    });
+    return new Uint8Array(bytes).buffer;
+}
 
-function get_hashed_password(password) {
-    const salt = crypto.randomBytes(SALT_LENGTH);
-    const hashed_password = crypto.pbkdf2Sync(
+function _hash(password, salt) {
+    return crypto.pbkdf2Sync(
         password,
         salt,
         PBKDF2_ITERATIONS,
         PASSWORD_KEY_LENGTH,
         PBKDF2_DIGEST_ALGO
     );
-    return {hashed_password: hashed_password, salt: salt};
+}
+
+function get_hashed_password(password) {
+
+    const salt_bytes = crypto.randomBytes(SALT_LENGTH);
+
+    // convert password string to byte encoding
+    const password_bytes = new TextEncoder().encode(password);
+
+    // calculate hash from password & salt bytes
+    const hash_bytes = _hash(password_bytes, salt_bytes);
+
+    // convert to hex and return
+    return {
+        hashed_password: _hex_from_bytes(hash_bytes),
+        salt: _hex_from_bytes(salt_bytes)
+    };
 }
 
 function check_hashed_password(password_attempt, hashed_password_from_db, salt_from_db) {
-    const hashed_attempt = crypto.pbkdf2Sync(
-        password_attempt,
-        salt_from_db,
-        PBKDF2_ITERATIONS,
-        PASSWORD_KEY_LENGTH,
-        PBKDF2_DIGEST_ALGO
-    );
-    return crypto.timingSafeEqual(hashed_attempt, hashed_password_from_db);
+    
+    // convert everything to bytes
+    const password_bytes = new TextEncoder().encode(password_attempt);
+    const hash_bytes_from_db = _bytes_from_hex(hashed_password_from_db);
+    const salt_bytes_from_db = _bytes_from_hex(salt_from_db);
+    
+    // calculate hash of attempt with password and salt
+    const hash_bytes = _hash(password_bytes, salt_bytes_from_db);
+
+    // compare
+    return crypto.timingSafeEqual(hash_bytes, hash_bytes_from_db);
 }
 
 function login_required(req, res, next) {
