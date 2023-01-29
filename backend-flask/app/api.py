@@ -1,7 +1,7 @@
 from flask import Blueprint, g, abort, current_app
 from flask_restful import Api, Resource, reqparse, fields, marshal
 from sys import getsizeof
-from . import db
+from .db import get_db
 from . import auth
 
 
@@ -20,18 +20,24 @@ class Vault(Resource):
 
     def get(self):
         """Retrieve vault"""
-        dbh = db.get_db()
-        out = dict(
-            dbh.execute("SELECT vault FROM users WHERE user_id = ?", (g.user_id,)).fetchone()
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT vault FROM users WHERE user_id = %s", 
+            (g.user_id,)
         )
-        return marshal(out, file_fields)
+        return {"vault": cur.fetchone()}
 
     def put(self):
         """put vault"""
         args = self.reqparse.parse_args()
-        dbh = db.get_db()
-        dbh.execute("UPDATE users SET vault = ? WHERE user_id = ?", (args['vault'], g.user_id))
-        dbh.commit()
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            "UPDATE users SET vault = %s WHERE user_id = %s", 
+            (args['vault'], g.user_id)
+        )
+        conn.commit()
         return {"success": True, "message": ""}
 
 
