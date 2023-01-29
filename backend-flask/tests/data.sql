@@ -1,8 +1,9 @@
-INSERT INTO users (user_id, username, password, vault)
+INSERT INTO users (user_id, username, hashed_password, salt, vault)
 VALUES (
     1, 
     "test", 
-    "pbkdf2:sha256:260000$koBl2gDdyT2Uscza$2eeacb8215f2781d351a4790ba9e8b0f1238993b0cfc728ee33d1dd7bfbad10c",
+    "bc7060506bfbea3f59116fbcf503a93195df9505c6a357054ac96bb24de8cef689a2521abc94685435f8de1d90d28a077356d0c6cea93ede558ff7e7ff455a26",
+    "4d9621dcf62abc6d860e3554eef37e38",
     "testblob"
 );
 

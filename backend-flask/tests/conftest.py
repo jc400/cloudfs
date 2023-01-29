@@ -48,7 +48,8 @@ class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self, username='test', password='test'):
+    def login(self, username='test', password="âsD§\x97ÿ1\x10uñð=R=\x82\x8f·\x1c{~\x9b;\x93\xa0íL\x10ß½Î\xa0\x92"):
+                                                
         return self._client.post(
             '/api/auth/login',
             json={'username': username, 'password': password}
