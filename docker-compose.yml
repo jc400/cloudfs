@@ -40,7 +40,8 @@ services:
         source: ./backend-flask
         target: /app/
     environment:
-      PYTHONPATH: .
+      - PYTHONPATH=.
+      - POSTGRES_DSN=postgres://postgres:password@db/app
 
   backend-express:
     build:
@@ -57,6 +58,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=5001
+      - POSTGRES_DSN=${POSTGRES_DSN}
     depends_on:
       - db
 

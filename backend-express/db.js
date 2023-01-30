@@ -1,4 +1,4 @@
 const pgp = require('pg-promise')(/* options */)
-const db = pgp('postgres://postgres:password@db/app')
+const db = pgp(process.env.POSTGRES_DSN)
 
 module.exports = db;
