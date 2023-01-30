@@ -7,6 +7,4 @@ CloudFS is yet another note-taking app. The architecture is based on password ma
 
 ## Setup
 
-You can run `docker compose build` to get CloudFS running inside Docker. 
-
-Alternatively, you can run the frontend and backend development servers manually. Add the line `"proxy":"http://localhost:5000/"` to package.json to proxy requests from the client to the API server, then use `npm start` to run the frontend and `flask run` to run the backend.
+You can run `docker compose build` to get CloudFS running inside Docker. After the containers are up, run `docker exec cloudfs-db-1 sh /opt/setup_db.sh` to initialize the database tables.
