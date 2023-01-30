@@ -9,8 +9,8 @@ def create_app(test_config=None):
 
     # config
     app.config.from_mapping(
-        SECRET_KEY="dev",
-        DATABASE=os.path.join(app.instance_path, "db.sqlite"),
+        SECRET_KEY=os.environ['BACKEND_FLASK_SECRET'],
+        DATABASE=os.environ['POSTGRES_DSN'],
     )
     if test_config is None:
         # load the instance config, if it exists, when not testing

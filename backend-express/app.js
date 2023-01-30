@@ -13,7 +13,7 @@ const app = express();
 app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
-  secret: 'shhhh, very secret'
+  secret: process.env.BACKEND_EXPRESS_SECRET
 }));
 app.use(logger('dev'));
 app.use(express.json());
