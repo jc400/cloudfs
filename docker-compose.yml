@@ -42,6 +42,7 @@ services:
     environment:
       - PYTHONPATH=.
       - POSTGRES_DSN=postgres://postgres:password@db/app
+      - BACKEND_FLASK_SECRET=${BACKEND_FLASK_SECRET}
 
   backend-express:
     build:
@@ -59,6 +60,7 @@ services:
       - NODE_ENV=development
       - PORT=5001
       - POSTGRES_DSN=${POSTGRES_DSN}
+      - BACKEND_EXPRESS_SECRET=${BACKEND_EXPRESS_SECRET}
     depends_on:
       - db
 
