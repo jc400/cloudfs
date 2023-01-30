@@ -41,7 +41,8 @@ services:
         target: /app/
     environment:
       - PYTHONPATH=.
-      - POSTGRES_DSN=postgres://postgres:password@db/app
+      - POSTGRES_DSN=${POSTGRES_DSN}
+      - TEST_DB=${TEST_DB}
       - BACKEND_FLASK_SECRET=${BACKEND_FLASK_SECRET}
 
   backend-express:
