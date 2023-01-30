@@ -79,9 +79,9 @@ function App() {
     save: () => {
       return saveVaultFlow(db, user.encryptionKey);
     },
-    logout: () => {
+    logout: async () => {
       // save current vault, then clear current data
-      saveVaultFlow(db, user.encryptionKey);
+      await saveVaultFlow(db, user.encryptionKey);
       setDB(template);
       logout();
       setUser({ username: null, encryptionKey: null });
