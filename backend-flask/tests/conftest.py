@@ -3,29 +3,36 @@ import tempfile
 
 import pytest
 from app import create_app
-from app.db import get_db, init_db
+from app.db import get_db
 
 with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
     _data_sql = f.read().decode('utf8')
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def app():
-    db_fd, db_path = tempfile.mkstemp()
 
     app = create_app({
         'TESTING': True,
-        'DATABASE': db_path,
+        'DATABASE': os.environ["TEST_DB"],
     })
 
     with app.app_context():
-        init_db()
-        get_db().executescript(_data_sql)
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(_data_sql)
+        conn.commit()
+        conn.close()
 
     yield app
 
-    os.close(db_fd)
-    os.unlink(db_path)
+    # cleanup by removing test_users table
+    with app.app_context():
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("DROP TABLE users")
+        conn.commit()
+        conn.close()
 
 
 @pytest.fixture
@@ -36,6 +43,15 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
+
+@pytest.fixture
+def cur(app):
+    with app.app_context():
+        conn = get_db()
+        cur = conn.cursor()
+        yield cur 
+        conn.close()
 
 
 @pytest.fixture

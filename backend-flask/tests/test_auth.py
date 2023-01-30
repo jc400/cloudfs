@@ -25,15 +25,14 @@ def test_logout(client, auth):
         assert "user_id" not in session
 
 
-def test_register(app, client):
+def test_register(app, client, cur):
     creds = {"username":"Jimmy", "password":"beans", "vault":"vault"}
     response = client.post("/api/auth/register", json=creds)
     assert response.status_code == 200
     assert response.json['success'] == True
 
-    with app.app_context():
-        dbh = get_db()
-        result = dbh.execute(
-            "SELECT * FROM users WHERE username = ?", (creds['username'],)
-        ).fetchone()
-        assert result != None
+    cur.execute(
+        "SELECT * FROM users WHERE username = %s", 
+        (creds['username'],)
+    )
+    assert cur.fetchone() != None

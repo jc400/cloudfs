@@ -5,7 +5,7 @@ def test_get_access(client):
     assert client.get("/api/vault").status_code == 401
 
 
-def test_put_file_unauth(app, client):
+def test_put_file_unauth(app, client, cur):
     """Update a file. Should test different paths (updating
     title, content, starred, parent) as well as validation.
     Ensure no errors, and that change is in DB.
@@ -13,12 +13,6 @@ def test_put_file_unauth(app, client):
     response = client.put("/api/vault", json={"vault":"hello"})
     assert response.status_code == 401
 
-    with app.app_context():
-        dbh = get_db()
-        result = dbh.execute(
-            """
-            SELECT * FROM users WHERE user_id = 1
-            """
-        ).fetchone()
-        assert result['vault'] != "hello"
+    cur.execute("SELECT vault FROM users WHERE user_id = 1")
+    assert cur.fetchone()[0] != "hello"
 
