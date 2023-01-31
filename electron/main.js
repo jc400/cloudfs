@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const url = require('url')
 
 
 const createWindow = () => {
@@ -15,7 +16,11 @@ const createWindow = () => {
     ipcMain.handle('ping', () => 'pong')
 
     // display index in window
-    win.loadFile(path.join('frontend', 'index.html'))
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, 'frontend', 'index.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
 }
 
 app.whenReady().then(() => {
