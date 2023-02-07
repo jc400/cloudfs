@@ -16,7 +16,6 @@ services:
 
   db:
     image: postgres
-    restart: always
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
       - type: bind 
