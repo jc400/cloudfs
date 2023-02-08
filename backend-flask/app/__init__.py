@@ -1,5 +1,7 @@
 import os
 from flask import Flask
+from datetime import timedelta
+from .extensions import jwt
 
 
 def create_app(test_config=None):
@@ -9,7 +11,9 @@ def create_app(test_config=None):
 
     # config
     app.config.from_mapping(
-        SECRET_KEY=os.environ['BACKEND_FLASK_SECRET'],
+        SECRET_KEY = os.environ['BACKEND_FLASK_SECRET'],
+        JWT_SECRET_KEY = os.environ['BACKEND_FLASK_SECRET'],
+        JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1),
         DATABASE=os.environ['POSTGRES_DSN'],
     )
     if test_config is None:
@@ -23,6 +27,9 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    # initialize JWTManager extension
+    jwt.init_app(app)
 
     # set up blueprints
     from . import auth, api
