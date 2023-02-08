@@ -32,6 +32,11 @@ def app():
         cur = conn.cursor()
         cur.execute("DROP TABLE users")
         conn.commit()
+
+        cur = conn.cursor()
+        cur.execute("DROP TABLE token_blocklist")
+        conn.commit()
+
         conn.close()
 
 
@@ -65,11 +70,37 @@ class AuthActions(object):
         self._client = client
 
     def login(self, username='test', password="âsD§\x97ÿ1\x10uñð=R=\x82\x8f·\x1c{~\x9b;\x93\xa0íL\x10ß½Î\xa0\x92"):
-                                                
-        return self._client.post(
+        resp = self._client.post(
             '/api/auth/login',
             json={'username': username, 'password': password}
         )
+        self._jwt = resp.json.get('access_token', None)                                  
+        return resp
+
+    def get(self, *args, **kwargs):
+        return self._client.get(
+            *args,
+            headers={"Authorization": "Bearer {}".format(self._jwt)},
+            **kwargs
+        )
+
+    def post(self, *args, **kwargs):
+        return self._client.post(
+            *args,
+            headers={"Authorization": "Bearer {}".format(self._jwt)},
+            **kwargs
+        )
+    
+    def put(self, *args, **kwargs):
+        return self._client.put(
+            *args,
+            headers={"Authorization": "Bearer {}".format(self._jwt)},
+            **kwargs
+        )
 
     def logout(self):
-        return self._client.get('/api/auth/logout')
+        #self._jwt = None
+        return self._client.delete(
+            '/api/auth/logout', 
+            headers={"Authorization": "Bearer {}".format(self._jwt)}
+        )

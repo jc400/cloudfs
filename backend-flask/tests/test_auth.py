@@ -1,28 +1,30 @@
 import pytest
 from flask import g, session
 from app.db import get_db
+import time
 
 
 def test_login(auth):
     response = auth.login()
     assert response.status_code == 200
     assert response.json["message"] == "Logged in"
+    assert "access_token" in response.json
 
 
-def test_session_cookie(client, auth):
+def test_jwt(client, auth):
     auth.login()
-    with client:
-        response = client.get("/api/auth/check_login")
-        assert response.json["logged in"] == True
-        assert session["user_id"] == 1
+    response = auth.get("/api/auth/check_login")
+    assert response.json["logged in"] == True
 
 
 def test_logout(client, auth):
     with client:
         auth.login()
-        assert "user_id" in session
-        auth.logout()
-        assert "user_id" not in session
+        assert auth.get("/api/auth/check_login").json["logged in"] == True
+        resp = auth.logout()
+        assert resp.status_code == 200
+        assert resp.json['message'] == "Logged out"
+        assert auth.get("/api/auth/check_login").status_code == 401
 
 
 def test_register(app, client, cur):

@@ -12,4 +12,10 @@ VALUES (
     '4d9621dcf62abc6d860e3554eef37e38',
     'testblob'
 );
+CREATE TABLE token_blocklist (
+    token_id BIGSERIAL PRIMARY KEY,
+    jti CHAR(36) NOT NULL,
+    created_at TIMESTAMP NOT NULL
+);
+--CREATE INDEX tok_jti_idx ON token_blocklist (jti);
 

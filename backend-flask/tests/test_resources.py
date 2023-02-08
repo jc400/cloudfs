@@ -8,7 +8,7 @@ def test_get_vault(client, auth):
     matches what is in DB.
     """
     auth.login()
-    response = client.get("/api/vault")
+    response = auth.get("/api/vault")
     assert response.status_code == 200
     assert b"testblob" in response.data
 
@@ -19,7 +19,7 @@ def test_put_file(app, client, auth, cur):
     Ensure no errors, and that change is in DB.
     """
     auth.login()
-    response = client.put("/api/vault", json={"vault":"hello world"})
+    response = auth.put("/api/vault", json={"vault":"hello world"})
     assert response.status_code == 200
 
     cur.execute("SELECT vault FROM users WHERE user_id = 1")
