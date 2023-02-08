@@ -26,12 +26,13 @@ export default function Login({ show, close, switchTo, setUser, setDB }) {
             setUser({
                 username: resp.username,
                 encryptionKey: resp.encryptionKey,
+                token: resp.token
             });
             return resp;
         })
 
         // load vault, set DB state
-        .then(resp => loadVaultFlow(resp.encryptionKey))
+        .then(resp => loadVaultFlow(resp.encryptionKey, resp.token))
         .then(resp => {
             setDB(resp.db);
         })
