@@ -2,10 +2,10 @@ import { getVault } from './api';
 import { decrypt } from './crypto';
 
 
-export default async function loadVaultFlow(encryptionKey){
+export default async function loadVaultFlow(encryptionKey, token){
 
         // retrieve encrypted blob (should have login session)
-        const vault = await getVault();
+        const vault = await getVault(token);
 
         // decrypt blob and deserialize
         const decrypted = await decrypt(vault, encryptionKey);

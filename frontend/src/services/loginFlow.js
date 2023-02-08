@@ -14,7 +14,12 @@ export default async function loginFlow(username, password){
 
     // if success, return valid username/key. Else return message.
     if (resp?.success){
-        return {success: true, username: username, encryptionKey: encryptionKey};
+        return {
+            success: true, 
+            username: username, 
+            encryptionKey: encryptionKey,
+            token: resp.access_token
+        };
     } else {
         throw resp?.message;
     }
