@@ -22,7 +22,7 @@ export const DBContext = createContext();
 function App() {
   // db + user state
   const [db, setDB] = useState(template);
-  const [user, setUser] = useState({ username: null, encryptionKey: null });
+  const [user, setUser] = useState({ username: null, encryptionKey: null, token: null });
 
   const changeDB = {
     // consolidates logic for making changes to data store. Wrapper 
@@ -67,7 +67,7 @@ function App() {
   const VaultActions = {
     create: () => setDB(template),
     load: () => {
-      loadVaultFlow(user.encryptionKey)
+      loadVaultFlow(user.encryptionKey, user.token)
         .then(resp => {
           if (resp?.success) {
             setDB(resp?.db)
@@ -77,14 +77,14 @@ function App() {
         })
     },
     save: () => {
-      return saveVaultFlow(db, user.encryptionKey);
+      return saveVaultFlow(db, user.encryptionKey, user.token);
     },
     logout: async () => {
       // save current vault, then clear current data
-      await saveVaultFlow(db, user.encryptionKey);
+      await saveVaultFlow(db, user.encryptionKey, user.token);
       setDB(template);
-      logout();
-      setUser({ username: null, encryptionKey: null });
+      logout(user.token);
+      setUser({ username: null, encryptionKey: null, token: null });
       setShowLogin(true);
 
       // reset UI
