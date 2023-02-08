@@ -1,5 +1,6 @@
 from flask import Blueprint, g, abort, current_app
 from flask_restful import Api, Resource, reqparse, fields, marshal
+from flask_jwt_extended import jwt_required
 from sys import getsizeof
 from .db import get_db
 from . import auth
@@ -11,7 +12,7 @@ file_fields = {
 }
 
 class Vault(Resource):
-    method_decorators = [auth.login_required]
+    method_decorators = [jwt_required(), auth.load_logged_in_user]
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
