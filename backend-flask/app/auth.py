@@ -1,12 +1,14 @@
 import functools
-from flask import (
-    Blueprint, g, request, session, abort
-)
+from flask import Blueprint, g, request, session, abort
+from flask_jwt_extended import create_access_token, get_jwt, jwt_required, verify_jwt_in_request
 from psycopg2 import errors
 
 import time
+from datetime import datetime, timezone
+
 from .db import get_db
 from .auth_utils import get_hashed_password, check_hashed_password
+from .extensions import jwt
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -52,9 +54,12 @@ def login():
         user = cur.fetchone()
         if user:
             if check_hashed_password(password, user[1], user[2]):
-                session.clear()
-                session['user_id'] = user[0]
-                return {"success":True, "message":"Logged in"}
+                access_token = create_access_token(identity=user[0])
+                return {
+                    "success": True,
+                    "message": "Logged in",
+                    "access_token": access_token,
+                }
             else:
                 return {"success":False, "message":"Incorrect credentials"}
         else:
@@ -63,40 +68,48 @@ def login():
         return {"success":False, "message":"Incorrect credentials"}
 
 
-
-@bp.route('/logout')
+@bp.route('/logout', methods=['DELETE'])
+@jwt_required()
 def logout():
-    session.clear()
+    """Add current JWT to the block list"""
+    jti = get_jwt()["jti"]
+    now = datetime.now(timezone.utc)
+    conn = get_db()
+    conn.cursor().execute(
+        "INSERT INTO token_blocklist (jti, created_at) VALUES (%s, %s)",
+        (jti, now)
+    )
+    conn.commit()
+
     return {"success":True, "message":"Logged out"}
 
 
-@bp.route('/check_login')
+@bp.route('/check_login', methods=['GET'])
+@jwt_required()
 def check_login():
-    if g.user_id is None:
-        return {"logged in": False}
-    else:
-        return {"logged in": True}
+    return {"logged in": True}
         
 
-@bp.before_app_request
-def load_logged_in_user():
-    """Runs before every request, stores user data on g object"""
-    user_id = session.get('user_id')
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(jwt_header, jwt_payload):
+    """JWT callback, returns bool if JWT is in blocklist"""
+    jti = jwt_payload["jti"]
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT token_id FROM token_blocklist WHERE jti = %s",
+        (jti, )
+    )
+    token_id = cur.fetchone()
+    return token_id is not None
 
-    if user_id is None:
-        g.user_id = None
-    else:
-        g.user_id = user_id
 
-
-def login_required(view):
-    """Returns new view function that wraps target view. """
+def load_logged_in_user(view):
+    """Wrapper, adds user_id to g object. Should only run after @jwt_required"""
     @functools.wraps(view)
     def wrapped_view(*args, **kwargs):
-        if g.user_id is None:
-            abort(401)
-
+        verify_jwt_in_request()
+        g.user_id = user_id = get_jwt().get('sub', None)
         return view(*args, **kwargs)
-
     return wrapped_view
 
