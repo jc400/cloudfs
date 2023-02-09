@@ -70,10 +70,7 @@ export default function Login({ show, close, switchTo, setUser, setDB }) {
                 </Modal.Body>
 
                 <Modal.Footer className="justify-content-between">
-                    <a 
-                        href="#" 
-                        onClick={switchTo}
-                    >Register for account</a>
+                    <button className="btn btn-link" onClick={switchTo}>Register for account</button>
                     <button type="submit">Log in</button>
                 </Modal.Footer>
             

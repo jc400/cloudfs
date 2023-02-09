@@ -78,7 +78,7 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
                 </Modal.Body>
 
                 <Modal.Footer className="justify-content-between">
-                    <a href="#" onClick={switchTo}>Log in instead</a>
+                    <button className="btn btn-link" onClick={switchTo}>Log in instead</button>
                     <button type="submit">Register</button>
                 </Modal.Footer>
             
