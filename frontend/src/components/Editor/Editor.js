@@ -155,7 +155,7 @@ export default function Editor({ UIState }) {
                             <div id="MD-toggle">
                                 <IconButton 
                                     src={MDIcon}
-                                    size={30}
+                                    size={"30px"}
                                     onClick={() => setShowMD(!showMD)}
                                     tooltip="Toggle markdown"
                                 />
