@@ -51,9 +51,9 @@ export default function Sidebar({ UIState, VaultActions, username }) {
                             tooltip="Show settings"
                         >
                             <div className="SB-dropdown-header">
-                                Logged in as {username}.
-                                (<a href="#" onClick={VaultActions.logout}>log out</a>)
+                                Logged in as {username}
                             </div>
+                            <MenuOption name="Log out" onClick={VaultActions.logout} />
                             <MenuOption name="Purge and re-create vault" onClick={VaultActions.create} />
                         </MenuDropdown>
                     </li>
