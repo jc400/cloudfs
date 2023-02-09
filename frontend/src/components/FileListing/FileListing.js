@@ -6,7 +6,7 @@ import Directory from '../Directory/Directory';
 import ScrollArea from '../ScrollArea/ScrollArea';
 
 
-export default function FileListing({ file_keys, FileCallbacks, selectedFile }) {
+export default function FileListing({ file_keys, FileCallbacks, selectedFile, renameFile }) {
     const { db } = useContext(DBContext);
 
     // conditionally display <File> or <Directory> component
@@ -19,6 +19,7 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile }) 
                     file={db.files[file_key]}
                     callbacks={FileCallbacks}
                     style={file_key === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                    to_rename={file_key === renameFile}
                 />
             )
         } else {
@@ -29,6 +30,7 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile }) 
                     file={db.files[file_key]}
                     callbacks={FileCallbacks}
                     style={file_key === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                    to_rename={file_key === renameFile}
                 >
                     {getChildren(file_key)}
                 </Directory>

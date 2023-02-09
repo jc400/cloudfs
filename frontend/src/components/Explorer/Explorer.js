@@ -15,6 +15,7 @@ export default function Explorer({ UIState }) {
     const [selectedFile, setSelectedFile] = useState(null); // file key
     const [cutFile, setCutFile] = useState(null); // file key
     const [copyFile, setCopyFile] = useState(null);
+    const [renameFile, setRenameFile] = useState(null);
     const [CMshow, setCMshow] = useState(false);
     const [CMpos, setCMpos] = useState({});
 
@@ -27,7 +28,7 @@ export default function Explorer({ UIState }) {
     }
 
 
-    // updates to internal state
+    // updates to internal state (exposed as File callbacks)
     const open = file_key => {
         if (!isDirectory(file_key)) {
             UIState.setActiveFile(file_key);
@@ -50,6 +51,12 @@ export default function Explorer({ UIState }) {
 
         setSelectedFile(file_key);
         setCMshow(true);
+    }
+    const rename = (file_key, new_name) => {
+        changeDB.edit(file_key, { title: new_name });
+    }
+    const close_rename = () => {
+        setRenameFile(null);
     }
 
 
@@ -90,7 +97,7 @@ export default function Explorer({ UIState }) {
             if (((localCtrlKey && ev.keyCode === rKey)
                 || (ev.keyCode === f2Key))
                 && selectedFile) {
-                rename(selectedFile);
+                rename_prompt(selectedFile);
             }
             if (((localCtrlKey && ev.keyCode === dKey)
                 || (ev.keyCode === deleteKey))
@@ -114,7 +121,7 @@ export default function Explorer({ UIState }) {
     }, [selectedFile]);
 
 
-    // Pass CRUD changes up to db
+    // Pass CRUD changes up to db (exposed as context menu options)
     const cut = file_key => {
         setCopyFile(null);
         setCutFile(file_key);
@@ -133,9 +140,10 @@ export default function Explorer({ UIState }) {
         const newFile = changeDB.add({ file_type: "d", parent: dest });
         select(newFile);
     }
-    const rename = file_key => {
-        let newTitle = window.prompt('Enter new name: ');
-        changeDB.edit(file_key, { title: newTitle });
+    const rename_prompt = file_key => {
+        setRenameFile(file_key);
+        // let newTitle = window.prompt('Enter new name: ');
+        // changeDB.edit(file_key, { title: newTitle });
     }
     const remove = file_key => {
         changeDB.remove(file_key);
@@ -165,7 +173,9 @@ export default function Explorer({ UIState }) {
     const FileCallbacks = {
         select: select,
         open: open,
-        openContextMenu: openContextMenu
+        openContextMenu: openContextMenu,
+        rename: rename,
+        close_rename: close_rename,
     }
     const CMactions = {
         open: () => open(selectedFile),
@@ -174,7 +184,7 @@ export default function Explorer({ UIState }) {
         paste: () => paste(selectedFile),
         create_dir: create_dir,
         create_file: create_file,
-        rename: () => rename(selectedFile),
+        rename: () => rename_prompt(selectedFile),
         remove: () => remove(selectedFile),
     }
 
@@ -188,6 +198,7 @@ export default function Explorer({ UIState }) {
                         create_dir={create_dir}
                         FileCallbacks={FileCallbacks}
                         selectedFile={selectedFile}
+                        renameFile={renameFile}
                     />
                 </div>
             }
@@ -197,6 +208,7 @@ export default function Explorer({ UIState }) {
                         UIState={UIState}
                         FileCallbacks={FileCallbacks}
                         selectedFile={selectedFile}
+                        renameFile={renameFile}
                     />
                 </div>
             }
