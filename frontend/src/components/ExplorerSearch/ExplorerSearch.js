@@ -26,6 +26,7 @@ export default function ExplorerSearch({ UIState, ...props }) {
             if (title   && v.title?.includes(UIState.searchString)) return true;
             if (content && v.content?.includes(UIState.searchString)) return true;
             if (tags    && v.tags?.includes(UIState.searchString)) return true;
+            return false;
         })
         .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
         .map(([k, v]) => k);
