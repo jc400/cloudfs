@@ -12,3 +12,11 @@
     font-size: 0.8em;
     cursor: pointer;
 }
+
+.tag input {
+    min-width: none;
+    color: inherit;
+    background-color: inherit;
+    font: inherit;
+    border: none;
+}

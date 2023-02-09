@@ -6,6 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import ReactMarkdown from 'react-markdown';
 
 import Tag from '../Tag/Tag';
+import TagForm from '../Tag/TagForm';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import IconButton from '../IconButton/IconButton';
 import ScrollArea from '../ScrollArea/ScrollArea';
@@ -20,6 +21,7 @@ export default function Editor({ UIState }) {
     const [ document, setDocument ] = useState({});
     const [ tabs, setTabs ] = useState([]);
     const [ showMD, setShowMD ] = useState(false);
+    const [ showTagFm, setShowTagFm ] = useState(false);
 
     // add data from new activeFile
     useEffect( () => {
@@ -73,8 +75,7 @@ export default function Editor({ UIState }) {
     }
     const openTab = file_key => UIState.setActiveFile(file_key);
 
-    const addTag = () => {
-        const tag = prompt("Enter the new tag: ");
+    const addTag = tag => {
         const newTags = [...db.files[UIState.activeFile].tags, tag];
         changeDB.edit(UIState.activeFile, {tags: newTags});
     }
@@ -136,7 +137,18 @@ export default function Editor({ UIState }) {
                                             remove={()=>removeTag(tag)} 
                                         />
                                     ))}
-                                    <Tag onClick={addTag} name="+New" />
+                                    <TagForm 
+                                        show={showTagFm}
+                                        addTag={addTag}
+                                        cancel={() => setShowTagFm(false)}
+                                    />
+                                    {!showTagFm &&
+                                        <Tag 
+                                            onClick={() => setShowTagFm(true)} 
+                                            name="+New" 
+                                        />
+                                    }
+
                                 </span>
                             </div>
 
