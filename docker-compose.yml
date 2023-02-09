@@ -10,7 +10,6 @@ services:
       - 8000:80
     depends_on:
       - backend-flask 
-      - backend-express
       - frontend
       - db
 
@@ -43,27 +42,6 @@ services:
       - POSTGRES_DSN=${POSTGRES_DSN}
       - TEST_DB=${TEST_DB}
       - BACKEND_FLASK_SECRET=${BACKEND_FLASK_SECRET}
-
-  backend-express:
-    build:
-      context: backend-express
-      dockerfile: Dockerfile
-    command: npm start 
-    stdin_open: true
-    ports:
-      - 5001:5001
-    volumes:
-      - type: bind 
-        source: ./backend-express
-        target: /app
-    environment:
-      - NODE_ENV=development
-      - PORT=5001
-      - POSTGRES_DSN=${POSTGRES_DSN}
-      - BACKEND_EXPRESS_SECRET=${BACKEND_EXPRESS_SECRET}
-    depends_on:
-      - db
-
 
   frontend:
     build:
