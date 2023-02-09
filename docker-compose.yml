@@ -9,7 +9,7 @@ services:
     ports:
       - 8000:80
     depends_on:
-      - backend-flask 
+      - backend 
       - frontend
       - db
 
@@ -25,9 +25,9 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
-  backend-flask:
+  backend:
     build:
-      context: backend-flask
+      context: backend
       dockerfile: Dockerfile
     command: flask --debug --app app.wsgi run --port 5000 --host 0.0.0.0
     ports:
@@ -35,7 +35,7 @@ services:
     tty: true
     volumes:
       - type: bind
-        source: ./backend-flask
+        source: ./backend
         target: /app/
     environment:
       - PYTHONPATH=.
