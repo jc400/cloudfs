@@ -12,6 +12,7 @@ export default function File({ file, file_key, callbacks, style, to_rename }) {
     const inputRef = useRef();
 
     const handleSubmit = ev => {
+        // renames file (if not blank) and closes rename form
         ev.preventDefault();
         if (newName !== '') {
             callbacks.rename(file_key, newName);

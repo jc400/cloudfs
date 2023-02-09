@@ -14,6 +14,7 @@ export default function Directory({ children, file, file_key, callbacks, style, 
     const inputRef = useRef();
 
     const handleSubmit = ev => {
+        // renames dir (if not blank) and closes rename form
         ev.preventDefault();
         if (newName !== '') {
             callbacks.rename(file_key, newName);

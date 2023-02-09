@@ -12,8 +12,8 @@ import './Explorer.css';
 export default function Explorer({ UIState }) {
     // internal state
     const { db, changeDB } = useContext(DBContext);
-    const [selectedFile, setSelectedFile] = useState(null); // file key
-    const [cutFile, setCutFile] = useState(null); // file key
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [cutFile, setCutFile] = useState(null);
     const [copyFile, setCopyFile] = useState(null);
     const [renameFile, setRenameFile] = useState(null);
     const [CMshow, setCMshow] = useState(false);
@@ -27,40 +27,7 @@ export default function Explorer({ UIState }) {
         return file_key ? db.files[file_key].parent : null;
     }
 
-
-    // updates to internal state (exposed as File callbacks)
-    const open = file_key => {
-        if (!isDirectory(file_key)) {
-            UIState.setActiveFile(file_key);
-        }
-    }
-    const select = file_key => {
-        if (file_key !== "" && file_key !== selectedFile) {
-            setSelectedFile(file_key);
-        } else {
-            setSelectedFile(null);
-        }
-    }
-    const openContextMenu = (ev, file_key) => {
-        ev.preventDefault();
-
-        let style = {};
-        if (ev.clientX > window.screen.availWidth / 2) style['right'] = 0;
-        if (ev.clientY > window.screen.availHeight / 2) style['bottom'] = 0;
-        setCMpos({ x: ev.clientX, y: ev.clientY, style: style });
-
-        setSelectedFile(file_key);
-        setCMshow(true);
-    }
-    const rename = (file_key, new_name) => {
-        changeDB.edit(file_key, { title: new_name });
-    }
-    const close_rename = () => {
-        setRenameFile(null);
-    }
-
-
-    // keyboard listener
+    // keyboard listener, exposes similar functions as CM
     useEffect(() => {
 
         let localCtrlKey = false;
@@ -106,7 +73,7 @@ export default function Explorer({ UIState }) {
             }
         }
 
-        if (KEYBOARD_SHORTCUTS){
+        if (KEYBOARD_SHORTCUTS) {
             window.addEventListener("keydown", ctrlKeyDown);
             window.addEventListener("keyup", ctrlKeyUp);
             window.addEventListener("keydown", keyboardListener);
@@ -120,8 +87,45 @@ export default function Explorer({ UIState }) {
 
     }, [selectedFile]);
 
+    // File callbacks, actions passed down for <File> to perform
+    const open = file_key => {
+        if (!isDirectory(file_key)) {
+            UIState.setActiveFile(file_key);
+        }
+    }
+    const select = file_key => {
+        if (file_key !== "" && file_key !== selectedFile) {
+            setSelectedFile(file_key);
+        } else {
+            setSelectedFile(null);
+        }
+    }
+    const openContextMenu = (ev, file_key) => {
+        ev.preventDefault();
 
-    // Pass CRUD changes up to db (exposed as context menu options)
+        let style = {};
+        if (ev.clientX > window.screen.availWidth / 2) style['right'] = 0;
+        if (ev.clientY > window.screen.availHeight / 2) style['bottom'] = 0;
+        setCMpos({ x: ev.clientX, y: ev.clientY, style: style });
+
+        setSelectedFile(file_key);
+        setCMshow(true);
+    }
+    const rename = (file_key, new_name) => {
+        changeDB.edit(file_key, { title: new_name });
+    }
+    const close_rename = () => {
+        setRenameFile(null);
+    }
+    const FileCallbacks = {
+        select: select,
+        open: open,
+        openContextMenu: openContextMenu,
+        rename: rename,
+        close_rename: close_rename,
+    }
+
+    // Context menu callbacks, exposed in CM and act on selectedFile
     const cut = file_key => {
         setCopyFile(null);
         setCutFile(file_key);
@@ -168,15 +172,6 @@ export default function Explorer({ UIState }) {
             setCopyFile(null);
         }
     }
-
-    // callbacks to pass down to children
-    const FileCallbacks = {
-        select: select,
-        open: open,
-        openContextMenu: openContextMenu,
-        rename: rename,
-        close_rename: close_rename,
-    }
     const CMactions = {
         open: () => open(selectedFile),
         cut: () => cut(selectedFile),
@@ -193,7 +188,7 @@ export default function Explorer({ UIState }) {
         <>
             {UIState.activeMid === "Explorer" &&
                 <div className="Explorer">
-                    <ExplorerList 
+                    <ExplorerList
                         create_file={create_file}
                         create_dir={create_dir}
                         FileCallbacks={FileCallbacks}
@@ -204,7 +199,7 @@ export default function Explorer({ UIState }) {
             }
             {UIState.activeMid === "Search" &&
                 <div className="Explorer">
-                    <ExplorerSearch 
+                    <ExplorerSearch
                         UIState={UIState}
                         FileCallbacks={FileCallbacks}
                         selectedFile={selectedFile}
