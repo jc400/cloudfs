@@ -11,7 +11,7 @@ export default function IconButton({src, size, onClick, tooltip}){
             className="IconButton"
             onClick={onClick} 
         >
-            <img src={src} width={size} />
+            <img src={src} width={size} alt=""/>
         </button>
     )
 }
