@@ -11,7 +11,7 @@ export default function ContextMenu({show, setShow, pos, callbacks}){
             window.addEventListener("click", close);
             return () => window.removeEventListener("click", close);
         }
-    }, [show]);
+    }, [show, setShow]);
 
     return (
         <>
