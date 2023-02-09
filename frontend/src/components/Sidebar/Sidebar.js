@@ -8,6 +8,7 @@ import './Sidebar.css';
 import FolderIcon from '../../assets/folder.svg';
 import SearchIcon from '../../assets/search.svg';
 import SettingsIcon from '../../assets/settings.svg';
+import SaveIcon from '../../assets/save.svg';
 
 export default function Sidebar({ UIState, VaultActions, username }) {
 
@@ -33,6 +34,15 @@ export default function Sidebar({ UIState, VaultActions, username }) {
                             tooltip="Search notes"
                         />
                     </li>
+                    <li>
+                        <div className="SB-selector" />
+                        <IconButton
+                            src={SaveIcon}
+                            size="25px"
+                            onClick={VaultActions.save}
+                            tooltip="Save vault to server"
+                        />
+                    </li>
                 </ul>
                 <ul>
                     <li>
@@ -44,8 +54,6 @@ export default function Sidebar({ UIState, VaultActions, username }) {
                                 Logged in as {username}.
                                 (<a href="#" onClick={VaultActions.logout}>log out</a>)
                             </div>
-                            <MenuOption name="Load vault" onClick={VaultActions.load} />
-                            <MenuOption name="Save vault" onClick={VaultActions.save} />
                             <MenuOption name="Purge and re-create vault" onClick={VaultActions.create} />
                         </MenuDropdown>
                     </li>
