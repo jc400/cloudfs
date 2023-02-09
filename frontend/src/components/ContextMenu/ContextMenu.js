@@ -27,7 +27,7 @@ export default function ContextMenu({show, setShow, pos, callbacks}){
                     <MenuOption onClick={callbacks.create_file} name='Create file here' />
                     <MenuOption onClick={callbacks.create_dir} name='Create directory here' />
                     <hr />
-                    <MenuOption onClick={callbacks.rename} name='Rename' />
+                    <MenuOption onClick={callbacks.rename_prompt} name='Rename' />
                     <MenuOption onClick={callbacks.remove} name='Delete' />
                 </Menu>
             </div>

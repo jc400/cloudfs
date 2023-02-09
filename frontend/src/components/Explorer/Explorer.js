@@ -184,7 +184,7 @@ export default function Explorer({ UIState }) {
         paste: () => paste(selectedFile),
         create_dir: create_dir,
         create_file: create_file,
-        rename: () => rename_prompt(selectedFile),
+        rename_prompt: () => rename_prompt(selectedFile),
         remove: () => remove(selectedFile),
     }
 
