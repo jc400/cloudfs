@@ -30,7 +30,7 @@ export default function Directory({ children, file, file_key, callbacks, style, 
     }, [to_rename]);
 
     return (
-        <div>
+        <li role="treeitem" aria-expanded={expand ? "true" : "false"}>
             {to_rename
                 ?
                 <div className="Directory">
@@ -66,8 +66,11 @@ export default function Directory({ children, file, file_key, callbacks, style, 
                     <span>{file?.title}</span>
                 </div>
             }
-            {expand && <div className="Directory-children">{children}</div>}
-        </div>
+            {expand && 
+                <ul className="Directory-children" role="group">
+                    {children}
+                </ul>}
+        </li>
     )
 }
 
