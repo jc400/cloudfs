@@ -7,7 +7,7 @@ import './File.css';
 import FileIcon from '../../assets/file.svg';
 
 
-export default function File({ file, file_key, callbacks, style, to_rename }) {
+export default function File({ file, file_key, callbacks, selected, to_rename }) {
     const [newName, setNewName] = useState(file?.title);
     const inputRef = useRef();
 
@@ -56,7 +56,7 @@ export default function File({ file, file_key, callbacks, style, to_rename }) {
                     onClick={() => callbacks.select(file_key)}
                     onDoubleClick={() => callbacks.open(file_key)}
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
-                    style={style}
+                    style={selected ? { backgroundColor: 'var(--accent)' } : {}}
                 >
                     <Icon src={FileIcon} size="14px" />
                     &nbsp;

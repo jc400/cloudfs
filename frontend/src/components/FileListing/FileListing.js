@@ -20,7 +20,7 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile, re
                     file_key={file_key}
                     file={db.files[file_key]}
                     callbacks={FileCallbacks}
-                    style={file_key === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                    selected={file_key === selectedFile}
                     to_rename={file_key === renameFile}
                 />
             )
@@ -31,7 +31,7 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile, re
                     file_key={file_key}
                     file={db.files[file_key]}
                     callbacks={FileCallbacks}
-                    style={file_key === selectedFile ? { backgroundColor: 'var(--accent)' } : {}}
+                    selected={file_key === selectedFile}
                     to_rename={file_key === renameFile}
                 >
                     {getChildren(file_key)}

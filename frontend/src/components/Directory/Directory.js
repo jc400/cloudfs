@@ -8,7 +8,7 @@ import chevRight from '../../assets/chevron-right.svg';
 import chevDown from '../../assets/chevron-down.svg';
 
 
-export default function Directory({ children, file, file_key, callbacks, style, to_rename }) {
+export default function Directory({ children, file, file_key, callbacks, selected, to_rename }) {
     const [expand, setExpand] = useState(false);
     const [newName, setNewName] = useState(file?.title);
     const inputRef = useRef();
@@ -56,7 +56,7 @@ export default function Directory({ children, file, file_key, callbacks, style, 
                     onClick={() => callbacks.select(file_key)}
                     onDoubleClick={() => setExpand(!expand)}
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
-                    style={style}
+                    style={selected ? { backgroundColor: 'var(--accent)' } : {}}
                 >
                     <IconButton
                         src={expand ? chevDown : chevRight}
