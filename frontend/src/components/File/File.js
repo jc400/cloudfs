@@ -33,7 +33,7 @@ export default function File({ file, file_key, callbacks, style, to_rename }) {
         <>
             {to_rename
                 ? 
-                <div className="File">
+                <li className="File" role="treeitem">
                     <span>
                         <form id="rename" name="rename" onSubmit={handleSubmit}>
                             <input 
@@ -49,10 +49,11 @@ export default function File({ file, file_key, callbacks, style, to_rename }) {
                             />
                         </form>
                     </span>
-                </div> 
+                </li> 
                 : 
-                <div
+                <li
                     className="File"
+                    role="treeitem"
                     onClick={() => callbacks.select(file_key)}
                     onDoubleClick={() => callbacks.open(file_key)}
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
@@ -61,7 +62,7 @@ export default function File({ file, file_key, callbacks, style, to_rename }) {
                     <Icon src={FileIcon} size="14px" />
                     &nbsp;
                     <span>{file?.title}</span>
-                </div>
+                </li>
             }
 
         </>
