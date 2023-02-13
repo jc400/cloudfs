@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from '../IconButton/IconButton';
+import Icon from '../Icon/Icon';
 
 import './File.css';
 import FileIcon from '../../assets/file.svg';
@@ -57,7 +58,7 @@ export default function File({ file, file_key, callbacks, style, to_rename }) {
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
                     style={style}
                 >
-                    <IconButton src={FileIcon} size="14px" />
+                    <Icon src={FileIcon} size="14px" />
                     &nbsp;
                     <span>{file?.title}</span>
                 </div>
