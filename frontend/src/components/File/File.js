@@ -53,6 +53,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
                 <li
                     className="File"
                     role="treeitem"
+                    aria-selected={selected ? "true" : "false"}
                     onClick={() => callbacks.select(file_key)}
                     onDoubleClick={() => callbacks.open(file_key)}
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}

@@ -30,7 +30,11 @@ export default function Directory({ children, file, file_key, callbacks, selecte
     }, [to_rename]);
 
     return (
-        <li role="treeitem" aria-expanded={expand ? "true" : "false"}>
+        <li 
+            role="treeitem" 
+            aria-expanded={expand ? "true" : "false"}
+            aria-selected={selected ? "true" : "false"}
+        >
             {to_rename
                 ?
                 <div className="Directory">
