@@ -5,6 +5,8 @@ import File from '../File/File';
 import Directory from '../Directory/Directory';
 import ScrollArea from '../ScrollArea/ScrollArea';
 
+import './FileListing.css'
+
 
 export default function FileListing({ file_keys, FileCallbacks, selectedFile, renameFile }) {
     const { db } = useContext(DBContext);
@@ -48,7 +50,9 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile, re
 
     return (
         <ScrollArea bgColor="var(--bg3)">
-            {file_keys.map(k => renderFile(k))}
+            <ul role="tree" id="file-listing">
+                {file_keys.map(k => renderFile(k))}
+            </ul>
         </ScrollArea>
     )
 }
