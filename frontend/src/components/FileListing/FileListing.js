@@ -50,7 +50,13 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile, re
 
     return (
         <ScrollArea bgColor="var(--bg3)">
-            <ul role="tree" id="file-listing">
+            <ul 
+                role="tree" 
+                id="file-listing"
+                tabIndex="0"
+                onFocus={() => FileCallbacks.select(file_keys[0])}
+                onBlur={() => FileCallbacks.select("")}
+            >
                 {file_keys.map(k => renderFile(k))}
             </ul>
         </ScrollArea>
