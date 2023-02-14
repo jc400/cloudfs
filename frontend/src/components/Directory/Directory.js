@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from '../IconButton/IconButton';
+import Icon from '../Icon/Icon';
 
 import './Directory.css';
 import chevRight from '../../assets/chevron-right.svg';
@@ -62,9 +63,8 @@ export default function Directory({ children, file, file_key, callbacks, selecte
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
                     style={selected ? { backgroundColor: 'var(--accent)' } : {}}
                 >
-                    <IconButton
+                    <Icon
                         src={expand ? chevDown : chevRight}
-                        onClick={ev => { ev.stopPropagation(); setExpand(!expand); }}
                         size="19px"
                     />
                     <span>{file?.title}</span>
