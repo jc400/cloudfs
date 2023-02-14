@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { DBContext } from '../App/App';
 
 import File from '../File/File';
@@ -47,6 +47,34 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile, re
             .sort((a, b) => (b[1]?.file_type === 'd') - (a[1]?.file_type === 'd'))
             .map(([k, v]) => renderFile(k));
     }
+
+    // arrow event listener
+    useEffect(() => {
+        const left = 37;
+        const up = 38;
+        const right = 39;
+        const down = 40;
+        
+        const arrowListener = ev => {
+            let currentIndex = file_keys.indexOf(selectedFile);
+            switch (ev.keyCode) {
+                case up:
+                    if (currentIndex > 0){
+                        FileCallbacks.select(file_keys[currentIndex-1]);
+                    }
+                    break;
+                case down:
+                    if (currentIndex < file_keys.length - 1){
+                        FileCallbacks.select(file_keys[currentIndex+1]);
+                    }
+                    break;
+            }
+        }
+        window.addEventListener('keydown', arrowListener);
+
+        return () => window.removeEventListener('keydown', arrowListener);
+    }, [selectedFile]);
+
 
     return (
         <ScrollArea bgColor="var(--bg3)">
