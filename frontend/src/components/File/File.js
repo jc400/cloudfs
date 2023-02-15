@@ -19,6 +19,11 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
         }
         callbacks.close_rename();
     }
+    const handleKeydown = ev => {
+        if (ev.key === 'Enter'){
+            callbacks.open(file_key);
+        }
+    }
 
     useEffect(() => {
         // focus() input when form is shown
@@ -32,7 +37,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
         <>
             {to_rename
                 ? 
-                <li className="File" role="treeitem">
+                <li className="File" role="treeitem" tabIndex="0"> 
                     <span>
                         <form id="rename" name="rename" onSubmit={handleSubmit}>
                             <input 
@@ -53,8 +58,10 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
                 <li
                     className="File"
                     role="treeitem"
+                    tabIndex="0"
+                    onFocus={() => callbacks.select(file_key)}
                     aria-selected={selected ? "true" : "false"}
-                    onClick={() => callbacks.select(file_key)}
+                    onKeyDown={handleKeydown}
                     onDoubleClick={() => callbacks.open(file_key)}
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
                     style={selected ? { backgroundColor: 'var(--accent)' } : {}}

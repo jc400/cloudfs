@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '../IconButton/IconButton';
 import Icon from '../Icon/Icon';
 
 import './Directory.css';
@@ -13,14 +12,26 @@ export default function Directory({ children, file, file_key, callbacks, selecte
     const [expand, setExpand] = useState(false);
     const [newName, setNewName] = useState(file?.title);
     const inputRef = useRef();
+    const treeItemRef = useRef();
 
-    const handleSubmit = ev => {
+    const handleRename = ev => {
         // renames dir (if not blank) and closes rename form
         ev.preventDefault();
         if (newName !== '') {
             callbacks.rename(file_key, newName);
         }
         callbacks.close_rename();
+    }
+    const handleKeydown = ev => {
+        if (ev.key === 'Enter'){
+            setExpand(!expand);
+        }
+    }
+    const handleFocus = ev => {
+        if (ev.target === treeItemRef.current){
+            callbacks.select(file_key);
+        }
+
     }
 
     useEffect(() => {
@@ -32,15 +43,19 @@ export default function Directory({ children, file, file_key, callbacks, selecte
 
     return (
         <li 
+            ref={treeItemRef}
             role="treeitem" 
             aria-expanded={expand ? "true" : "false"}
             aria-selected={selected ? "true" : "false"}
+            tabIndex="0"
+            onFocus={handleFocus}
+            onKeyDown={handleKeydown}
         >
             {to_rename
                 ?
                 <div className="Directory">
                     <span>
-                        <form id="rename" name="rename" onSubmit={handleSubmit}>
+                        <form id="rename" name="rename" onSubmit={handleRename}>
                             <input
                                 ref={inputRef}
                                 type="text"
@@ -58,7 +73,6 @@ export default function Directory({ children, file, file_key, callbacks, selecte
                 :
                 <div
                     className="Directory"
-                    onClick={() => callbacks.select(file_key)}
                     onDoubleClick={() => setExpand(!expand)}
                     onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
                     style={selected ? { backgroundColor: 'var(--accent)' } : {}}
@@ -71,7 +85,7 @@ export default function Directory({ children, file, file_key, callbacks, selecte
                 </div>
             }
             {expand && 
-                <ul className="Directory-children" role="group">
+                <ul className="Directory-children" role="group" tabIndex="-1">
                     {children}
                 </ul>}
         </li>
