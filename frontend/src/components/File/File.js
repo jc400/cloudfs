@@ -21,7 +21,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
         callbacks.close_rename();
     }
     const handleKeydown = ev => {
-        if (ev.key === 'Enter') {
+        if (ev.key === 'Enter' && !to_rename) {
             callbacks.open(file_key);
         }
     }
@@ -33,49 +33,45 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
         }
     }, [to_rename]);
 
-    // different HTML if File is being renamed
+    // different inner HTML if File is being renamed
     const renameForm = (
-        <li className="File" role="treeitem" tabIndex="0">
-            <span>
-                <form id="rename" name="rename" onSubmit={handleSubmit}>
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        id="filename"
-                        name="filename"
-                        aria-label="New file name"
-                        size="10"
-                        value={newName}
-                        onChange={ev => setNewName(ev.target.value)}
-                        onBlur={() => { setNewName(''); callbacks.close_rename() }}
-                    />
-                </form>
-            </span>
-        </li>
+        <form id="rename" name="rename" onSubmit={handleSubmit}>
+            <input
+                ref={inputRef}
+                type="text"
+                id="filename"
+                name="filename"
+                aria-label="New file name"
+                size="10"
+                value={newName}
+                onChange={ev => setNewName(ev.target.value)}
+                onBlur={() => { setNewName(''); callbacks.close_rename() }}
+            />
+        </form>
     );
-    const FileHTML = (
+    const filename = (
+        <>
+            <Icon src={FileIcon} size="14px" />
+            &nbsp;
+            <span>{file?.title}</span>
+        </>
+    )
+
+
+    return (
         <li
             className="File"
             role="treeitem"
             tabIndex="0"
-            onFocus={() => callbacks.select(file_key)}
             aria-selected={selected ? "true" : "false"}
+            onFocus={() => callbacks.select(file_key)}
             onKeyDown={handleKeydown}
             onDoubleClick={() => callbacks.open(file_key)}
             onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
             style={selected ? { backgroundColor: 'var(--accent)' } : {}}
         >
-            <Icon src={FileIcon} size="14px" />
-            &nbsp;
-            <span>{file?.title}</span>
+            {to_rename ? renameForm : filename}
         </li>
-    )
-
-
-    return (
-        <>
-            {to_rename ? renameForm : FileHTML}
-        </>
     )
 }
 
