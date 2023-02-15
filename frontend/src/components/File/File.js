@@ -12,7 +12,25 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
     const inputRef = useRef();
 
     // event handlers
-    const handleSubmit = ev => {
+    const handleFocus = ev => {
+        ev.stopPropagation();
+        callbacks.select(file_key);
+    }
+    const handleKeydown = ev => {
+        if (ev.key === 'Enter' && !to_rename) {
+            ev.stopPropagation();
+            callbacks.open(file_key);
+        }
+    }
+    const handleDoubleClick = ev => {
+        ev.stopPropagation();
+        callbacks.open(file_key);
+    }
+    const handleContextMenu = ev => {
+        ev.stopPropagation();
+        callbacks.openContextMenu(ev, file_key);
+    }
+    const handleRename = ev => {
         // renames file (if not blank) and closes rename form
         ev.preventDefault();
         if (newName !== '') {
@@ -20,11 +38,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
         }
         callbacks.close_rename();
     }
-    const handleKeydown = ev => {
-        if (ev.key === 'Enter' && !to_rename) {
-            callbacks.open(file_key);
-        }
-    }
+
 
     // focus rename form immediately
     useEffect(() => {
@@ -35,7 +49,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
 
     // different inner HTML if File is being renamed
     const renameForm = (
-        <form id="rename" name="rename" onSubmit={handleSubmit}>
+        <form id="rename" name="rename" onSubmit={handleRename}>
             <input
                 ref={inputRef}
                 type="text"
@@ -64,10 +78,10 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
             role="treeitem"
             tabIndex="0"
             aria-selected={selected ? "true" : "false"}
-            onFocus={() => callbacks.select(file_key)}
+            onFocus={handleFocus}
             onKeyDown={handleKeydown}
-            onDoubleClick={() => callbacks.open(file_key)}
-            onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
+            onDoubleClick={handleDoubleClick}
+            onContextMenu={handleContextMenu}
             style={selected ? { backgroundColor: 'var(--accent)' } : {}}
         >
             {to_rename ? renameForm : filename}

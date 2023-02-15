@@ -14,6 +14,24 @@ export default function Directory({ children, file, file_key, callbacks, selecte
     const inputRef = useRef();
     const treeItemRef = useRef();
 
+    // event handlers
+    const handleFocus = ev => {
+        if (ev.target === treeItemRef.current) {
+            callbacks.select(file_key);
+        }
+    }
+    const handleKeydown = ev => {
+        if (ev.key === 'Enter') {
+            setExpand(!expand);
+        }
+    }
+    const handleDoubleClick = ev => {
+        setExpand(!expand);
+    }
+    const handleContextMenu = ev => {
+        ev.stopPropagation();
+        callbacks.openContextMenu(ev, file_key);
+    }
     const handleRename = ev => {
         // renames dir (if not blank) and closes rename form
         ev.preventDefault();
@@ -22,72 +40,65 @@ export default function Directory({ children, file, file_key, callbacks, selecte
         }
         callbacks.close_rename();
     }
-    const handleKeydown = ev => {
-        if (ev.key === 'Enter'){
-            setExpand(!expand);
-        }
-    }
-    const handleFocus = ev => {
-        if (ev.target === treeItemRef.current){
-            callbacks.select(file_key);
-        }
 
-    }
 
+    // put focus to input, if renaming
     useEffect(() => {
         // focus() input when form is shown
-        if (to_rename){
+        if (to_rename) {
             inputRef.current.focus();
         }
     }, [to_rename]);
 
+    // HTML inner content
+    const renameForm = (
+        <form id="rename" name="rename" onSubmit={handleRename}>
+            <input
+                ref={inputRef}
+                type="text"
+                id="dirname"
+                name="dirname"
+                aria-label="New directory name"
+                size="10"
+                value={newName}
+                onChange={ev => setNewName(ev.target.value)}
+                onBlur={() => { setNewName(''); callbacks.close_rename() }}
+            />
+        </form>
+    );
+    const dirname = (
+        <>
+            <Icon
+                src={expand ? chevDown : chevRight}
+                size="19px"
+            />
+            <span>{file?.title}</span>
+        </>
+    )
+
     return (
-        <li 
+        <li
             ref={treeItemRef}
-            role="treeitem" 
-            aria-expanded={expand ? "true" : "false"}
-            aria-selected={selected ? "true" : "false"}
+            role="treeitem"
             tabIndex="0"
+            aria-selected={selected ? "true" : "false"}
+            aria-expanded={expand ? "true" : "false"}
             onFocus={handleFocus}
             onKeyDown={handleKeydown}
+            onDoubleClick={handleDoubleClick}
+            onContextMenu={handleContextMenu}
         >
-            {to_rename
-                ?
-                <div className="Directory">
-                    <span>
-                        <form id="rename" name="rename" onSubmit={handleRename}>
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                id="dirname"
-                                name="dirname"
-                                aria-label="New directory name"
-                                size="10"
-                                value={newName}
-                                onChange={ev => setNewName(ev.target.value)}
-                                onBlur={() => { setNewName(''); callbacks.close_rename() }}
-                            />
-                        </form>
-                    </span>
-                </div>
-                :
-                <div
-                    className="Directory"
-                    onDoubleClick={() => setExpand(!expand)}
-                    onContextMenu={ev => callbacks.openContextMenu(ev, file_key)}
-                    style={selected ? { backgroundColor: 'var(--accent)' } : {}}
-                >
-                    <Icon
-                        src={expand ? chevDown : chevRight}
-                        size="19px"
-                    />
-                    <span>{file?.title}</span>
-                </div>
-            }
-            {expand && 
+            <div
+                className="Directory"
+                style={selected ? { backgroundColor: 'var(--accent)' } : {}}
+            >
+                {to_rename ? renameForm : dirname}
+            </div>
+            {expand &&
                 <ul className="Directory-children" role="group" tabIndex="-1">
                     {children}
-                </ul>}
+                </ul>
+            }
         </li>
     )
 }
