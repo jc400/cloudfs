@@ -48,42 +48,11 @@ export default function FileListing({ file_keys, FileCallbacks, selectedFile, re
             .map(([k, v]) => renderFile(k));
     }
 
-    // arrow event listener
-    useEffect(() => {
-        const left = 37;
-        const up = 38;
-        const right = 39;
-        const down = 40;
-        
-        const arrowListener = ev => {
-            let currentIndex = file_keys.indexOf(selectedFile);
-            switch (ev.keyCode) {
-                case up:
-                    if (currentIndex > 0){
-                        FileCallbacks.select(file_keys[currentIndex-1]);
-                    }
-                    break;
-                case down:
-                    if (currentIndex < file_keys.length - 1){
-                        FileCallbacks.select(file_keys[currentIndex+1]);
-                    }
-                    break;
-            }
-        }
-        window.addEventListener('keydown', arrowListener);
-
-        return () => window.removeEventListener('keydown', arrowListener);
-    }, [selectedFile]);
-
-
     return (
         <ScrollArea bgColor="var(--bg3)">
             <ul 
                 role="tree" 
                 id="file-listing"
-                tabIndex="0"
-                onFocus={() => FileCallbacks.select(file_keys[0])}
-                onBlur={() => FileCallbacks.select("")}
             >
                 {file_keys.map(k => renderFile(k))}
             </ul>
