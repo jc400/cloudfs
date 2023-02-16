@@ -1,5 +1,5 @@
 .scroll-area {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 100%;
 
     /* https://css-tricks.com/books/greatest-css-tricks/scroll-shadows/ */
