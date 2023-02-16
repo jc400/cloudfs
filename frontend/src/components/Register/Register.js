@@ -64,13 +64,11 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
             centered
             dialogClassName="register"
         >
-            <form name="Register" title="Register" onSubmit={handleSubmit}>
+            <form id="registerform" name="Register" title="Register" onSubmit={handleSubmit}>
+                <h4>Register</h4>
 
-                <Modal.Header>
-                    <Modal.Title>Register</Modal.Title>
-                </Modal.Header>
+                <hr />
 
-                <Modal.Body>
                     <label>
                         <span className="d-block mt-3">Username:</span>
                         <input id="username" name="username" type="text" onChange={handleChange} autoFocus />
@@ -84,12 +82,13 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
                         <input id="password2" name="password2" type="password" />
                     </label>
                     <div ref={messageRef} className="text-danger"></div>
-                </Modal.Body>
 
-                <Modal.Footer className="justify-content-between">
+                <hr />
+
+                <div className="d-flex justify-content-between">
                     <button className="btn btn-link" onClick={switchTo}>Log in instead</button>
-                    <button type="submit">{buttonContent}</button>
-                </Modal.Footer>
+                    <button id="registerbutton" type="submit">{buttonContent}</button>
+                </div>
             
             </form>
         </Modal>
