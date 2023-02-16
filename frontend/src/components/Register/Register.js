@@ -69,17 +69,17 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
 
                 <hr />
 
-                    <label>
+                    <label className="w-100">
                         <span className="d-block mt-3">Username:</span>
-                        <input id="username" name="username" type="text" onChange={handleChange} autoFocus />
+                        <input className="w-100" id="username" name="username" type="text" onChange={handleChange} autoFocus />
                     </label>
-                    <label>
+                    <label className="w-100">
                         <span className="d-block mt-3">Password:</span>
-                        <input id="password" name="password" type="password" onChange={handleChange} />
+                        <input className="w-100" id="password" name="password" type="password" onChange={handleChange} />
                     </label>
-                    <label>
+                    <label className="w-100">
                         <span className="d-block mt-3">Repeat password:</span>
-                        <input id="password2" name="password2" type="password" />
+                        <input className="w-100" id="password2" name="password2" type="password" />
                     </label>
                     <div ref={messageRef} className="text-danger"></div>
 
