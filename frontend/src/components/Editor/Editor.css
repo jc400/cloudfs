@@ -41,16 +41,9 @@
     justify-content: space-between;
     align-items: center;
 }
-
 .WS-fileinfo-breadcrumbs {
     flex: 0 0 auto;
     margin: 0px 30px 0px 15px;
-}
-
-.tab-pane.active {
-    display: flex;
-    flex-direction: column;
-    max-height: 100%;
 }
 
 .WS-content {

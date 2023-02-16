@@ -119,50 +119,50 @@ export default function Editor({ UIState }) {
                     ))}
                 </Nav>
 
-                <Tab.Content className="overflow-hidden">
-                    {tabs.map(file_key => (
-                        <Tab.Pane eventKey={file_key} key={file_key}>
-                            <div className="WS-fileinfo">
-                                <span className="WS-fileinfo-breadcrumbs">
-                                    <Breadcrumbs 
-                                        file_key={file_key}
-                                    ></Breadcrumbs>
-                                </span>
-                                <span className="WS-fileinfo-tags">
-                                    {db.files[file_key]?.tags.map(tag => (
-                                        <Tag 
-                                            key={tag} 
-                                            name={tag} 
-                                            onClick={() => TagSearch(tag)}
-                                            remove={()=>removeTag(tag)} 
+                <ScrollArea bgColor="var(--bg2)">
+                    <Tab.Content>
+                        {tabs.map(file_key => (
+                            <Tab.Pane eventKey={file_key} key={file_key}>
+                                <div className="WS-fileinfo">
+                                    <span className="WS-fileinfo-breadcrumbs">
+                                        <Breadcrumbs 
+                                            file_key={file_key}
+                                        ></Breadcrumbs>
+                                    </span>
+                                    <span className="WS-fileinfo-tags">
+                                        {db.files[file_key]?.tags.map(tag => (
+                                            <Tag 
+                                                key={tag} 
+                                                name={tag} 
+                                                onClick={() => TagSearch(tag)}
+                                                remove={()=>removeTag(tag)} 
+                                            />
+                                        ))}
+                                        <TagForm 
+                                            show={showTagFm}
+                                            addTag={addTag}
+                                            cancel={() => setShowTagFm(false)}
                                         />
-                                    ))}
-                                    <TagForm 
-                                        show={showTagFm}
-                                        addTag={addTag}
-                                        cancel={() => setShowTagFm(false)}
+                                        {!showTagFm &&
+                                            <Tag 
+                                                onClick={() => setShowTagFm(true)} 
+                                                name="+New" 
+                                            />
+                                        }
+
+                                    </span>
+                                </div>
+
+                                <div id="MD-toggle">
+                                    <IconButton 
+                                        src={MDIcon}
+                                        size={"30px"}
+                                        onClick={() => setShowMD(!showMD)}
+                                        tooltip="Toggle markdown"
                                     />
-                                    {!showTagFm &&
-                                        <Tag 
-                                            onClick={() => setShowTagFm(true)} 
-                                            name="+New" 
-                                        />
-                                    }
-
-                                </span>
-                            </div>
-
-                            <div id="MD-toggle">
-                                <IconButton 
-                                    src={MDIcon}
-                                    size={"30px"}
-                                    onClick={() => setShowMD(!showMD)}
-                                    tooltip="Toggle markdown"
-                                />
-                            </div>
-                            
-                            {!showMD && 
-                                <ScrollArea bgColor="var(--bg2)">
+                                </div>
+                                
+                                {!showMD && 
                                     <textarea
                                         className="WS-content"
                                         name="WS-content"
@@ -171,21 +171,19 @@ export default function Editor({ UIState }) {
                                         value={document?.content || ''}
                                         onChange={handleContentChange}
                                     ></textarea>
-                                </ScrollArea>
-                            }
+                                }
 
-                            {showMD &&
-                                <ScrollArea bgColor="var(--bg2)">
+                                {showMD &&
                                     <div className="WS-content">
                                         <ReactMarkdown>
                                             {document?.content}
                                         </ReactMarkdown>
                                     </div>
-                                </ScrollArea>
-                            }
-                        </Tab.Pane>
-                    ))}
-                </Tab.Content>
+                                }
+                            </Tab.Pane>
+                        ))}
+                    </Tab.Content>
+                </ScrollArea>
 
             </Tab.Container>
         </div>
