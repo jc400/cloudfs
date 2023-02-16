@@ -17,9 +17,12 @@ export default function IconButton({src, size, onClick, tooltip}){
 }
 
 IconButton.propTypes = {
+    src: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     size: PropTypes.string,
+    tooltip: PropTypes.string
 }
 IconButton.defaultProps = {
     size: "25px",
+    tooltip: "",
 }
