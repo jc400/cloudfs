@@ -26,3 +26,14 @@
     background-size: 100% 40px, 100% 40px, 100% 5px, 100% 5px;
     background-attachment: local, local, scroll, scroll;
 }
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--bg5);
+    border: transparent;
+}
