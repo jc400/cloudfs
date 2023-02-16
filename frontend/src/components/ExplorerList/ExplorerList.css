@@ -9,10 +9,12 @@
 }
 
 .EL-header-buttons {
-    display: none;
-}
-.EL-header:hover > span.EL-header-buttons {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+}
+.EL-header:hover > span.EL-header-buttons,
+.Explorer:focus-within span.EL-header-buttons {
+    opacity: 100%;
 }
