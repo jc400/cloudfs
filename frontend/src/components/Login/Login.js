@@ -68,11 +68,11 @@ export default function Login({ show, close, switchTo, setUser, setDB }) {
 
                 <label className="w-100">
                     <span className="d-block mt-3">Username:</span>
-                    <input className="w-100" id="username" name="username" type="text" className="w-100" onChange={handleChange} autoFocus />
+                    <input className="w-100" id="username" name="username" type="text" onChange={handleChange} autoFocus />
                 </label>
                 <label className="w-100">
                     <span className="d-block mt-3">Password:</span>
-                    <input className="w-100" id="password" name="password" type="password" className="w-100" onChange={handleChange} />
+                    <input className="w-100" id="password" name="password" type="password" onChange={handleChange} />
                 </label>
                 <div ref={messageRef} className="text-danger"></div>
 
