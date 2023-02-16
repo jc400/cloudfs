@@ -21,4 +21,5 @@
     margin: 0 0 0 9px;
     padding-left: 0;
     border-left: 1px var(--bg5) solid;
+    list-style: none;
 }
