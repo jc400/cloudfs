@@ -103,10 +103,15 @@ export default function Directory({ children, file, file_key, callbacks, selecte
     )
 }
 
-File.propTypes = {
-    file: PropTypes.object,
-    columns: PropTypes.object,
+Directory.propTypes = {
+    children: PropTypes.array,
+    file: PropTypes.object.isRequired,
+    file_key: PropTypes.string.isRequired,
+    callbacks: PropTypes.object,
+    selected: PropTypes.bool,
+    to_rename: PropTypes.bool,
 }
 File.defaultProps = {
-    columns: { name: true, size: true, updated: true, starred: true },
+    selected: false,
+    to_rename: false,
 }

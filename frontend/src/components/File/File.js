@@ -92,9 +92,13 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
 }
 
 File.propTypes = {
-    file: PropTypes.object,
-    columns: PropTypes.object,
+    file: PropTypes.object.isRequired,
+    file_key: PropTypes.string.isRequired,
+    callbacks: PropTypes.object,
+    selected: PropTypes.bool,
+    to_rename: PropTypes.bool,
 }
 File.defaultProps = {
-    columns: { name: true, size: true, updated: true, starred: true },
+    selected: false,
+    to_rename: false,
 }
