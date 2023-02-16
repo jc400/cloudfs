@@ -14,8 +14,8 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
 
     // event handlers
     const handleFocus = ev => {
-        ev.stopPropagation();
         callbacks.select(file_key);
+        ev.stopPropagation();
     }
     const handleKeydown = ev => {
         if (ev.key === 'Enter') {
@@ -32,12 +32,12 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
         }
     }
     const handleDoubleClick = ev => {
-        ev.stopPropagation();
         callbacks.open(file_key);
+        ev.stopPropagation();
     }
     const handleContextMenu = ev => {
-        ev.stopPropagation();
         callbacks.openContextMenu(ev, file_key);
+        ev.stopPropagation();
     }
 
 

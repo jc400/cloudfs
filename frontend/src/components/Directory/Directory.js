@@ -36,10 +36,11 @@ export default function Directory({ children, file, file_key, callbacks, selecte
     }
     const handleDoubleClick = ev => {
         setExpand(!expand);
+        ev.stopPropagation();
     }
     const handleContextMenu = ev => {
-        ev.stopPropagation();
         callbacks.openContextMenu(ev, file_key);
+        ev.stopPropagation();
     }
 
     // put focus to input, if renaming
