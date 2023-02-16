@@ -27,6 +27,7 @@ export default function Directory({ children, file, file_key, callbacks, selecte
                     callbacks.rename(file_key, newName);
                 }
                 callbacks.close_rename();
+                treeItemRef.current.focus();
             } else {
                 setExpand(!expand);
             }

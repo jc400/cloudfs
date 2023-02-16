@@ -10,6 +10,7 @@ import FileIcon from '../../assets/file.svg';
 export default function File({ file, file_key, callbacks, selected, to_rename }) {
     const [newName, setNewName] = useState(file?.title);
     const inputRef = useRef();
+    const treeItemRef = useRef();
 
     // event handlers
     const handleFocus = ev => {
@@ -23,6 +24,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
                     callbacks.rename(file_key, newName);
                 }
                 callbacks.close_rename();
+                treeItemRef.current.focus(); // refocus file component
             } else {
                 callbacks.open(file_key);
             }
@@ -73,6 +75,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
 
     return (
         <li
+            ref={treeItemRef}
             className="File"
             role="treeitem"
             tabIndex="0"
