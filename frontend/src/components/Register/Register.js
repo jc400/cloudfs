@@ -1,5 +1,5 @@
-import React, { useReducer, useRef } from 'react';
-import { Modal } from 'react-bootstrap';
+import React, { useReducer, useRef, useState } from 'react';
+import { Modal, Spinner } from 'react-bootstrap';
 import registerFlow from '../../services/registerFlow';
 import loginFlow from '../../services/loginFlow';
 import loadVaultFlow from '../../services/loadVaultFlow';
@@ -12,6 +12,7 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
         return {...st, [ev.name]:ev.value}
     }, {});
     const messageRef = useRef();
+    const [ buttonContent, setButtonContent ] = useState("Register");
 
     const handleChange = ev => {
         messageRef.current.innerText = '';
@@ -19,6 +20,13 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
     }
     const handleSubmit = ev => {
         ev.preventDefault();
+
+        // set spinner
+        setButtonContent(
+            <Spinner animation="border" size="sm" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
 
         // register with username/pass
         registerFlow(registerData?.username, registerData?.password)
@@ -44,7 +52,8 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
         .then(() => close())
         .catch(err => {
             messageRef.current.innerText = err;
-        });
+        })
+        .finally(() => setButtonContent("Register"));
 
     }
 
@@ -79,7 +88,7 @@ export default function Register({ show, close, switchTo, setUser, setDB }) {
 
                 <Modal.Footer className="justify-content-between">
                     <button className="btn btn-link" onClick={switchTo}>Log in instead</button>
-                    <button type="submit">Register</button>
+                    <button type="submit">{buttonContent}</button>
                 </Modal.Footer>
             
             </form>
