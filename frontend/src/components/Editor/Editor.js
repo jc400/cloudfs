@@ -13,7 +13,7 @@ import ScrollArea from '../ScrollArea/ScrollArea';
 
 import './Editor.css';
 import CloseIcon from '../../assets/x.svg';
-import MDIcon from '../../assets/monitor.svg';
+import MDIcon from '../../assets/markdown-icon.png';
 
 
 export default function Editor({ UIState }) {
