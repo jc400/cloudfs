@@ -76,6 +76,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
     return (
         <li
             ref={treeItemRef}
+            title={file?.title}
             className="File"
             role="treeitem"
             tabIndex="0"

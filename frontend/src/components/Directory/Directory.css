@@ -23,3 +23,9 @@
     border-left: 1px var(--bg5) solid;
     list-style: none;
 }
+
+.Directory > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

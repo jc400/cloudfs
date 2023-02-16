@@ -18,3 +18,9 @@
     background-color: var(--bg4);
     cursor: pointer;
 }
+
+.File > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

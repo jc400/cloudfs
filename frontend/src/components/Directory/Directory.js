@@ -80,6 +80,7 @@ export default function Directory({ children, file, file_key, callbacks, selecte
     return (
         <li
             ref={treeItemRef}
+            title={file?.title}
             role="treeitem"
             tabIndex="0"
             aria-selected={selected ? "true" : "false"}
