@@ -22,7 +22,15 @@ export default function Directory({ children, file, file_key, callbacks, selecte
     }
     const handleKeydown = ev => {
         if (ev.key === 'Enter') {
-            setExpand(!expand);
+            if (to_rename){
+                if (newName !== '') {
+                    callbacks.rename(file_key, newName);
+                }
+                callbacks.close_rename();
+            } else {
+                setExpand(!expand);
+            }
+            ev.stopPropagation();
         }
     }
     const handleDoubleClick = ev => {
@@ -32,15 +40,6 @@ export default function Directory({ children, file, file_key, callbacks, selecte
         ev.stopPropagation();
         callbacks.openContextMenu(ev, file_key);
     }
-    const handleRename = ev => {
-        // renames dir (if not blank) and closes rename form
-        ev.preventDefault();
-        if (newName !== '') {
-            callbacks.rename(file_key, newName);
-        }
-        callbacks.close_rename();
-    }
-
 
     // put focus to input, if renaming
     useEffect(() => {
@@ -52,7 +51,7 @@ export default function Directory({ children, file, file_key, callbacks, selecte
 
     // HTML inner content
     const renameForm = (
-        <form id="rename" name="rename" onSubmit={handleRename}>
+        <form id="rename" name="rename">
             <input
                 ref={inputRef}
                 type="text"

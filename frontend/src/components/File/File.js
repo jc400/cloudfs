@@ -17,9 +17,16 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
         callbacks.select(file_key);
     }
     const handleKeydown = ev => {
-        if (ev.key === 'Enter' && !to_rename) {
+        if (ev.key === 'Enter') {
+            if (to_rename){
+                if (newName !== '') {
+                    callbacks.rename(file_key, newName);
+                }
+                callbacks.close_rename();
+            } else {
+                callbacks.open(file_key);
+            }
             ev.stopPropagation();
-            callbacks.open(file_key);
         }
     }
     const handleDoubleClick = ev => {
@@ -29,14 +36,6 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
     const handleContextMenu = ev => {
         ev.stopPropagation();
         callbacks.openContextMenu(ev, file_key);
-    }
-    const handleRename = ev => {
-        // renames file (if not blank) and closes rename form
-        ev.preventDefault();
-        if (newName !== '') {
-            callbacks.rename(file_key, newName);
-        }
-        callbacks.close_rename();
     }
 
 
@@ -49,7 +48,7 @@ export default function File({ file, file_key, callbacks, selected, to_rename })
 
     // different inner HTML if File is being renamed
     const renameForm = (
-        <form id="rename" name="rename" onSubmit={handleRename}>
+        <form id="rename" name="rename">
             <input
                 ref={inputRef}
                 type="text"
