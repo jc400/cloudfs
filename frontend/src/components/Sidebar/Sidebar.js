@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 
 import IconButton from '../IconButton/IconButton';
 import MenuDropdown from '../MenuDropdown/MenuDropdown';
@@ -11,6 +12,16 @@ import SettingsIcon from '../../assets/settings.svg';
 import SaveIcon from '../../assets/save.svg';
 
 export default function Sidebar({ UIState, VaultActions, username }) {
+    const [ saving, setSaving ] = useState(false);
+    const handleSave = () => {
+        setSaving(true);
+
+        VaultActions.save()
+        .catch(err => {
+            alert(`${err.status}: ${err.statusText}`);
+        })
+        .finally(() => setSaving(false));
+    }
 
     return (
         <>
@@ -36,12 +47,21 @@ export default function Sidebar({ UIState, VaultActions, username }) {
                     </li>
                     <li>
                         <div className="SB-selector" />
-                        <IconButton
-                            src={SaveIcon}
-                            size="25px"
-                            onClick={VaultActions.save}
-                            tooltip="Save vault to server"
-                        />
+                        {saving ? 
+                            <div title="Saving...">
+                                <Spinner animation="border" size="sm" role="status">
+                                    <span className="visually-hidden">Saving...</span>
+                                </Spinner>
+                            </div>
+                            : 
+                            <IconButton
+                                src={SaveIcon}
+                                size="25px"
+                                onClick={handleSave}
+                                tooltip="Save vault to server"
+                            />
+                        }
+
                     </li>
                 </ul>
                 <ul>
