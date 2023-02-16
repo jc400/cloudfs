@@ -1,4 +1,22 @@
-.login form {
+#loginform {
     color: var(--text1);
     background-color: var(--bg3) !important;
+    padding: 20px;
+    border-radius: 20px;
+}
+#loginbutton {
+    border: none;
+    border-radius: 10px;
+    color: var(--text2);
+    background-color: var(--accent);
+    width: 90px;
+}
+#loginbutton:hover {
+    color: var(--text1);
+    font-weight: bold;
+}
+
+
+.modal-content {
+    border-radius: 30px !important;
 }

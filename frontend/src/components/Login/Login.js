@@ -7,15 +7,15 @@ import './Login.css';
 
 export default function Login({ show, close, switchTo, setUser, setDB }) {
 
-    const [loginData, setLoginData] = useReducer( (st, ev) => { 
-        return {...st, [ev.name]:ev.value}
+    const [loginData, setLoginData] = useReducer((st, ev) => {
+        return { ...st, [ev.name]: ev.value }
     }, {});
     const messageRef = useRef();
-    const [ buttonContent, setButtonContent ] = useState("Log in");
+    const [buttonContent, setButtonContent] = useState("Log in");
 
     const handleChange = ev => {
         messageRef.current.innerText = '';
-        setLoginData({name: ev.target.name, value: ev.target.value});
+        setLoginData({ name: ev.target.name, value: ev.target.value });
     }
 
     const handleSubmit = ev => {
@@ -30,63 +30,61 @@ export default function Login({ show, close, switchTo, setUser, setDB }) {
 
         // login, save username and key
         loginFlow(loginData?.username, loginData?.password)
-        .then(resp => {
-            setUser({
-                username: resp.username,
-                encryptionKey: resp.encryptionKey,
-                token: resp.token
-            });
-            return resp;
-        })
+            .then(resp => {
+                setUser({
+                    username: resp.username,
+                    encryptionKey: resp.encryptionKey,
+                    token: resp.token
+                });
+                return resp;
+            })
 
-        // load vault, set DB state
-        .then(resp => loadVaultFlow(resp.encryptionKey, resp.token))
-        .then(resp => {
-            setDB(resp.db);
-        })
+            // load vault, set DB state
+            .then(resp => loadVaultFlow(resp.encryptionKey, resp.token))
+            .then(resp => {
+                setDB(resp.db);
+            })
 
-        // close login modal
-        .then(() => close())
-        .catch(err => {
-            // if error, display message 
-            messageRef.current.innerText = err;
-        })
-        .finally(() => setButtonContent("Log in"));
+            // close login modal
+            .then(() => close())
+            .catch(err => {
+                // if error, display message 
+                messageRef.current.innerText = err;
+            })
+            .finally(() => setButtonContent("Log in"));
     }
 
 
     return (
-        <Modal 
-            show={show} 
+        <Modal
+            show={show}
             centered
             dialogClassName="login"
         >
-            <form name="Login" title="Login" onSubmit={handleSubmit}>
+            <form name="Login" title="Login" id="loginform" onSubmit={handleSubmit}>
+                <h4>Log in</h4>
 
-                <Modal.Header>
-                    <Modal.Title>Log in</Modal.Title>
-                </Modal.Header>
+                <hr />
+                
+                <label>
+                    <span className="d-block mt-3">Username:</span>
+                    <input id="username" name="username" type="text" className="w-100" onChange={handleChange} autoFocus />
+                </label>
+                <label>
+                    <span className="d-block mt-3">Password:</span>
+                    <input id="password" name="password" type="password" className="w-100" onChange={handleChange} />
+                </label>
+                <div ref={messageRef} className="text-danger"></div>
 
-                <Modal.Body>
-                    <label>
-                        <span className="d-block mt-3">Username:</span>
-                        <input id="username" name="username" type="text" onChange={handleChange} autoFocus />
-                    </label>
-                    <label>
-                        <span className="d-block mt-3">Password:</span>
-                        <input id="password" name="password" type="password" onChange={handleChange} />
-                    </label>
-                    <div ref={messageRef} className="text-danger"></div>
-                </Modal.Body>
+                <hr />
 
-                <Modal.Footer className="justify-content-between">
+                <div className="d-flex justify-content-between">
                     <button className="btn btn-link" onClick={switchTo}>Register for account</button>
-                    <button type="submit">{buttonContent}</button>
-                </Modal.Footer>
-            
+                    <button id="loginbutton" type="submit">{buttonContent}</button>
+                </div>
             </form>
         </Modal>
-        
+
     )
 
 
