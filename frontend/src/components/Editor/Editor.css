@@ -46,6 +46,12 @@
     margin: 0px 30px 0px 15px;
 }
 
+.tab-pane.active {
+    display: flex !important;
+    flex-direction: column;
+    max-height: 100%;
+}
+
 .WS-content {
     display: block;
     width: 100%;

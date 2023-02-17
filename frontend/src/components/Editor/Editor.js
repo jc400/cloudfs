@@ -119,71 +119,41 @@ export default function Editor({ UIState }) {
                     ))}
                 </Nav>
 
-                <ScrollArea bgColor="var(--bg2)">
-                    <Tab.Content>
-                        {tabs.map(file_key => (
-                            <Tab.Pane eventKey={file_key} key={file_key}>
-                                <div className="WS-fileinfo">
-                                    <span className="WS-fileinfo-breadcrumbs">
-                                        <Breadcrumbs 
-                                            file_key={file_key}
-                                        ></Breadcrumbs>
-                                    </span>
-                                    <span className="WS-fileinfo-tags">
-                                        {db.files[file_key]?.tags.map(tag => (
-                                            <Tag 
-                                                key={tag} 
-                                                name={tag} 
-                                                onClick={() => TagSearch(tag)}
-                                                remove={()=>removeTag(tag)} 
-                                            />
-                                        ))}
-                                        <TagForm 
-                                            show={showTagFm}
-                                            addTag={addTag}
-                                            cancel={() => setShowTagFm(false)}
+                <Tab.Content className="overflow-hidden">
+                    {tabs.map(file_key => (
+                        <Tab.Pane eventKey={file_key} key={file_key}>
+                            <div className="WS-fileinfo">
+                                <span className="WS-fileinfo-breadcrumbs">
+                                    <Breadcrumbs 
+                                        file_key={file_key}
+                                    ></Breadcrumbs>
+                                </span>
+                                <span className="WS-fileinfo-tags">
+                                    {db.files[file_key]?.tags.map(tag => (
+                                        <Tag 
+                                            key={tag} 
+                                            name={tag} 
+                                            onClick={() => TagSearch(tag)}
+                                            remove={()=>removeTag(tag)} 
                                         />
-                                        {!showTagFm &&
-                                            <Tag 
-                                                onClick={() => setShowTagFm(true)} 
-                                                name="+New" 
-                                            />
-                                        }
-
-                                    </span>
-                                </div>
-
-                                <div id="MD-toggle">
-                                    <IconButton 
-                                        src={MDIcon}
-                                        size={"30px"}
-                                        onClick={() => setShowMD(!showMD)}
-                                        tooltip="Toggle markdown"
-                                    />
-                                </div>
-                                
-                                {!showMD && 
-                                    <textarea
-                                        className="WS-content"
-                                        name="WS-content"
-                                        cols="50"
-                                        rows={document?.content.split('').filter(c => c === '\n').length + 10}
-                                        value={document?.content || ''}
-                                        onChange={handleContentChange}
-                                    ></textarea>
-                                }
-
-                                {showMD &&
-                                    <div className="WS-content">
-                                        <ReactMarkdown>
-                                            {document?.content}
-                                        </ReactMarkdown>
-                                    </div>
-                                }
-                            </Tab.Pane>
-                        ))}
-                    </Tab.Content>
-                </ScrollArea>
+                                    ))}
+                                    <Tag onClick={addTag} name="+New" />
+                                </span>
+                            </div>
+                            
+                            <ScrollArea bgColor="var(--bg2)">
+                                <textarea
+                                    className="WS-content"
+                                    name="WS-content"
+                                    cols="50"
+                                    rows={document?.content.split('').filter(c => c === '\n').length + 10}
+                                    value={document?.content || ''}
+                                    onChange={handleContentChange}
+                                ></textarea>
+                            </ScrollArea>
+                        </Tab.Pane>
+                    ))}
+                </Tab.Content>
 
             </Tab.Container>
         </div>
