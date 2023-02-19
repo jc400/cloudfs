@@ -19,7 +19,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 export const DBContext = createContext();
 
-function App() {
+export default function App() {
   // db + user state
   const [db, setDB] = useState(template);
   const [user, setUser] = useState({ username: null, encryptionKey: null, token: null });
@@ -157,4 +157,92 @@ function App() {
   );
 }
 
-export default App;
+export function DemoApp() {
+  // db + user state
+  const [db, setDB] = useState(template);
+  const [user, setUser] = useState({ username: 'demo', encryptionKey: null, token: null });
+
+  const changeDB = {
+    // consolidates logic for making changes to data store. Wrapper 
+    // around setDB() method
+    add: kwargs => {
+      let file = {
+        "parent": kwargs.parent ?? null,
+        "file_type": kwargs.file_type ?? "f",
+        "title": kwargs.title ?? "Untitled",
+        "content": kwargs.content ?? "",
+        "created": new Date().toUTCString(),
+        "updated": new Date().toUTCString(),
+        "tags": kwargs.tags ?? []
+      };
+      let file_key = uuidv4();
+      setDB(prev => {
+        let newFiles = structuredClone(prev.files);
+        newFiles[file_key] = file;
+        return { ...prev, "files": newFiles }
+      });
+      return file_key;
+    },
+    edit: (file_key, kwargs) => {
+      setDB(prev => {
+        let newFiles = structuredClone(prev.files);
+        newFiles[file_key] = { ...newFiles[file_key], ...kwargs };
+        if (kwargs.content) {
+          newFiles[file_key].updated = new Date().toUTCString();
+        }
+        return { ...prev, "files": newFiles };
+      })
+    },
+    remove: file_key => {
+      setDB(prev => {
+        let newFiles = structuredClone(prev.files);
+        delete (newFiles[file_key]);
+        return { ...prev, "files": newFiles }
+      })
+    }
+  }
+
+  const VaultActions = {
+    create: () => setDB(template),
+    load: async () => {
+      alert("Demo version: can't load vault");
+      return false;
+    },
+    save: async () => {
+      alert("Demo version: no saving");
+      return false;
+    },
+    logout: async () => {
+      alert("Demo version: no log out");
+      return false;
+    }
+  }
+
+  // UI state
+  const [activeMid, setActiveMid] = useReducer((st, n) => st === n ? null : n, null);
+  const [activeFile, setActiveFile] = useState(null);
+  const [searchString, setSearchString] = useState(null);
+  const UIState = {
+    activeMid: activeMid,
+    setActiveMid: setActiveMid,
+    activeFile: activeFile,
+    setActiveFile: setActiveFile,
+    searchString: searchString,
+    setSearchString: setSearchString,
+  }
+
+
+  return (
+    <DBContext.Provider value={{ db, changeDB }}>
+      <div style={{ display: "flex", height: "100vh" }}>
+
+        <Sidebar UIState={UIState} VaultActions={VaultActions} username={user?.username} />
+
+        <Explorer UIState={UIState} />
+
+        <Editor UIState={UIState} />
+
+      </div>
+    </DBContext.Provider>
+  );
+}
