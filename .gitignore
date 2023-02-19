@@ -1,0 +1,9 @@
+.vscode
+
+notes.txt
+features.txt
+crypto.txt
+*.txt
+
+develop.sh
+deploy.sh
