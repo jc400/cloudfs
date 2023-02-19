@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useEffect, createContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { template } from '../../config/config';
+import { template, demoTemplate } from '../../config/config';
 import { logout } from '../../services/api';
 import loadVaultFlow from '../../services/loadVaultFlow';
 import saveVaultFlow from '../../services/saveVaultFlow';
@@ -159,7 +159,7 @@ export default function App() {
 
 export function DemoApp() {
   // db + user state
-  const [db, setDB] = useState(template);
+  const [db, setDB] = useState(demoTemplate);
   const [user, setUser] = useState({ username: 'demo', encryptionKey: null, token: null });
 
   const changeDB = {
